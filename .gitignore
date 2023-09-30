@@ -1,0 +1,15 @@
+.cache
+*-service-account.json
+/coverage
+/build
+.DS_Store
+*.pem
+
+**/*.trace
+**/*.zip
+**/*.tar.gz
+**/*.tgz
+**/*.log
+**/*.bun
+
+.env

@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package lancr.v1;
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
+
+message WorkingHours {
+  int32 start = 1;
+  int32 end = 2;
+  string timezone = 3;
+}
+
+message Location {
+  string city = 1;
+  string country = 2;
+  // TODO coords?
+}
+
+message Name {
+  string first = 1;
+  string second = 2;
+  string last = 3;
+}
+
+message FrequentlyAskedQuestion {
+  string id = 1;
+  string question = 2;
+  string answer = 3;
+  string category = 4;
+}
+
+message Image {
+  string url = 1;
+  string alt = 2;
+  optional uint32 width = 3;
+  optional uint32 height = 4;
+}

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package lancr.v1;
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
+
+import "google/protobuf/timestamp.proto";
+import "proto/lancr/v1/common.proto";
+import "proto/lancr/v1/bid.proto";
+import "proto/lancr/v1/hero.proto";
+
+// the categories are not exhaustive, but are meant to be a starting point
+enum RoleCategory {
+  ROLE_CATEGORY_DESIGNER_UNSPECIFIED = 0;
+  ROLE_CATEGORY_PRODUCT_DESIGNER = 1;
+  ROLE_CATEGORY_SOFTWARE_DEVELOPMENT = 2;
+  ROLE_CATEGORY_PRESENTOR = 3;
+  ROLE_CATEGORY_MANAGER = 4;
+  ROLE_CATEGORY_ENGINEER = 5;
+  ROLE_CATEGORY_UNSPECIFIED = 6;
+}
+
+// same in case of RoleCategory
+enum Industry {
+  INDUSTRY_FINTECH_UNSPECIFIED = 0;
+  INDUSTRY_TECHNOLOGY = 1;
+  INDUSTRY_ACCOUNTING = 2;
+  INDUSTRY_CONSTRUCTION = 3;
+}
+
+message Team {
+  string id = 1;
+  string creator_id = 2;
+  optional string title = 3;
+  optional string description = 4;
+  optional string highlight = 5;
+  optional Industry industry = 6;
+  optional Image image = 7;
+  optional string time_estimate = 8;
+  repeated Bid bidders = 9;
+  repeated Hero members = 10;
+  repeated RoleCategory role_categories = 11;
+  google.protobuf.Timestamp created_at = 12;
+}
+
+message Role {
+  string id = 1;
+  optional string title = 2;
+  optional string description = 3;
+  optional string status = 4;
+  google.protobuf.Timestamp created_at = 5;
+  optional Image image = 6;
+  string member_id = 7;
+}

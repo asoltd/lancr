@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
+
+package lancr.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message Task {
+  string id = 1;
+  uint32 index = 2;
+  string name = 3;
+  optional string description = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+
+  // TODO(oliwierost): the assignees should be migrated to IDs
+  repeated string assignees = 7;
+}
+
+message KanbanCategory {
+  string id = 1;
+  uint32 index = 2;
+  string name = 3;
+  optional string description = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  repeated Task tasks = 7;
+}
+
+message Comment {
+  string id = 1;
+  string creator_id = 2;
+  string text = 3;
+  repeated string edit_histories = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
