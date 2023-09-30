@@ -1,0 +1,18 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: lancr-deployment
+serialPipeline:
+  stages:
+  - targetId: lancr-prod
+    profiles: []
+
+---
+
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: lancr-prod
+description: production cluster
+gke:
+  cluster: projects/asoltd-guilds/locations/europe-central2/clusters/lancr-cluster
