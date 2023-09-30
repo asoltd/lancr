@@ -3,6 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
+  namespace: default
   labels:
     app.kubernetes.io/name: ingress
 spec:
@@ -26,6 +27,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: gateway-service
+  namespace: default
   labels:
     app.kubernetes.io/name: gateway-service
 spec:
@@ -42,6 +44,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gateway
+  namespace: default
   labels:
     app.kubernetes.io/name: gateway
 spec:
@@ -74,6 +77,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: heroes
+  namespace: default
   labels:
     app.kubernetes.io/name: heroes
 spec:
@@ -86,6 +90,9 @@ spec:
       labels:
         app.kubernetes.io/name: heroes
     spec:
+      serviceAccountName: heroes-sa
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
         - name: heroes
           image: lancr
@@ -99,3 +106,36 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "500m"
+
+---
+# service account for gRPC API Service
+apiVersion: v1
+kind: ServiceAccount
+metadata: 
+  name: heroes-sa
+  namespace: default
+  labels:
+    app.kubernetes.io/name: heroes-sa
+
+# --- 
+# workload identity test, feel free to uncomment
+# apiVersion: v1
+# kind: Pod
+# metadata:
+  # name: workload-identity-test
+  # namespace: default
+# spec:
+  # containers:
+  # - image: google/cloud-sdk:slim
+    # name: workload-identity-test
+    # command: ["sleep","infinity"]
+    # resources:
+      # requests:
+        # memory: "64Mi"
+        # cpu: "250m"
+      # limits:
+        # memory: "128Mi"
+        # cpu: "500m"
+  # serviceAccountName: heroes-sa
+  # nodeSelector:
+    # iam.gke.io/gke-metadata-server-enabled: "true"
