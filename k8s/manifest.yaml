@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: lancr
+          image: gcr.io/asoltd-guilds/lancr
           command: ["./lancr", "gateway"]
           ports:
             - containerPort: 4200
@@ -95,7 +95,7 @@ spec:
         iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
         - name: heroes
-          image: lancr
+          image: gcr.io/asoltd-guilds/lancr
           command: ["./lancr", "server"]
           ports:
             - containerPort: 4201
