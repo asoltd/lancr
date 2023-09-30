@@ -20,6 +20,7 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] Ensure idempotency of the application (no double withdrawals),
 // transactional support should be enabled by default in Firestore since it is
 // based in Spanner
+// - [ ] add a .cloudignore file
 
 func main() {
 	cmd.Execute()
