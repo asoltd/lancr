@@ -1,5 +1,9 @@
 ## Backend
 
+In order to deploy, use `./hack/deploy.sh`, the `skaffold run` does not account
+for the swapping of the images in the manifest (`lancr` =>
+`gcr.io/asoltd-guilds/lancr:latest`)
+
 Development of the backend requires buf.build and some plugins
 
 ```sh
