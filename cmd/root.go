@@ -36,12 +36,12 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().String(
 		"gateway-addr",
-		"0.0.0.0:4200",
+		"127.0.0.1:4200",
 		"Address of the gRPC gateway",
 	)
 	rootCmd.PersistentFlags().String(
 		"grpc-server-addr",
-		"0.0.0.0:4201",
+		"127.0.0.1:4201",
 		"Address of the gRPC server",
 	)
 }
