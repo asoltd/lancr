@@ -7,22 +7,21 @@ metadata:
     app.kubernetes.io/name: ingress
 spec:
   rules:
-  - http:
-      paths:
-      - path: /*
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: gateway
-            port:
-              number: 4200
+    - http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 4200
 
 ---
-
-# Gateway service 
-# TODO(piotrostr): 
+# Gateway service
+# TODO(piotrostr):
 # - think about the right spec.ingressClassName
-# - add spec.tls for https 
+# - add spec.tls for https
 apiVersion: v1
 kind: Service
 metadata:
@@ -33,18 +32,17 @@ spec:
   selector:
     app.kubernetes.io/name: gateway
   ports:
-  - protocol: TCP
-    port: 4200
-    targetPort: 4200
+    - protocol: TCP
+      port: 4200
+      targetPort: 4200
 
 ---
-
 # Gateway deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gateway
-  labels: 
+  labels:
     app.kubernetes.io/name: gateway
 spec:
   replicas: 1
@@ -57,27 +55,26 @@ spec:
         app.kubernetes.io/name: gateway
     spec:
       containers:
-      - name: gateway
-        image: lancr
-        command: ["./lancr", "gateway"]
-        ports:
-        - containerPort: 4200
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+        - name: gateway
+          image: lancr
+          command: ["./lancr", "gateway"]
+          ports:
+            - containerPort: 4200
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
 
 ---
-
 # gRPC API Service deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: heroes
-  labels: 
+  labels:
     app.kubernetes.io/name: heroes
 spec:
   replicas: 1
@@ -90,15 +87,15 @@ spec:
         app.kubernetes.io/name: heroes
     spec:
       containers:
-      - name: heroes
-        image: lancr
-        command: ["./lancr", "server"]
-        ports:
-        - containerPort: 4201
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+        - name: heroes
+          image: lancr
+          command: ["./lancr", "server"]
+          ports:
+            - containerPort: 4201
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
