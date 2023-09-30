@@ -21,8 +21,9 @@ import "github.com/asoltd/lancr/cmd"
 // transactional support should be enabled by default in Firestore since it is
 // based in Spanner
 // - [ ] add a .cloudignore file
-// - [ ] Workload Identity is the preferred way to authenticate to GCP services,
+// - [x] Workload Identity is the preferred way to authenticate to GCP services,
 // I will be using Kubernetes secrets for now
+// - [ ] put the gateway + server in a single pod? no no no, they should seperate I think
 
 func main() {
 	cmd.Execute()
