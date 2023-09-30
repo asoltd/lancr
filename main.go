@@ -23,7 +23,8 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] add a .cloudignore file
 // - [x] Workload Identity is the preferred way to authenticate to GCP services,
 // I will be using Kubernetes secrets for now
-// - [ ] put the gateway + server in a single pod? no no no, they should seperate I think
+// - [ ] Make the DNS resolve properly, still putting localhost:4201 in the
+// gateway dialAddress, which is not gonna connect
 
 func main() {
 	cmd.Execute()

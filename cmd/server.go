@@ -27,6 +27,7 @@ var serverCmd = &cobra.Command{
 		grpclog.SetLoggerV2(log)
 
 		grpcServerAddr := cmd.Flags().Lookup("grpc-server-addr").Value.String()
+		runLocally := cmd.Flags().Lookup("local").Value.String() == "true"
 
 		lis, err := net.Listen("tcp", grpcServerAddr)
 		if err != nil {
@@ -34,7 +35,6 @@ var serverCmd = &cobra.Command{
 		}
 
 		s := grpc.NewServer()
-		runLocally := cmd.Flags().Lookup("local").Value.String() == "true"
 		var backend *server.Backend
 		if runLocally {
 			log.Info("Running locally")
@@ -46,10 +46,8 @@ var serverCmd = &cobra.Command{
 			backend, err = server.NewGKE()
 		}
 
-		log.Info("Running locally:", runLocally)
-
 		if err != nil {
-			log.Fatalf("failed to set up backend: %w", err)
+			log.Fatalf("failed to set up backend asdf: %+v", err)
 		}
 
 		lancrv1.RegisterHeroServiceServer(s, backend)

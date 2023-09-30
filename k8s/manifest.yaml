@@ -1,24 +1,3 @@
-# Google Cloud Load Balancer ingress
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress
-  namespace: default
-  labels:
-    app.kubernetes.io/name: ingress
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /*
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: gateway-service
-                port:
-                  number: 4200
-
----
 # Gateway service
 # TODO(piotrostr):
 # - think about the right spec.ingressClassName
@@ -59,7 +38,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: gcr.io/asoltd-guilds/lancr
+          image: gcr.io/asoltd-guilds/lancr:latest
           command: ["./lancr", "gateway"]
           ports:
             - containerPort: 4200
@@ -95,7 +74,7 @@ spec:
         iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
         - name: heroes
-          image: gcr.io/asoltd-guilds/lancr
+          image: gcr.io/asoltd-guilds/lancr:latest
           command: ["./lancr", "server"]
           ports:
             - containerPort: 4201

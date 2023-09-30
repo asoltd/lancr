@@ -11,6 +11,7 @@ build:
 manifests:
   rawYaml:
     - k8s/manifest.yaml
+    - k8s/ingress.yaml
 deploy:
   kubectl:
     defaultNamespace: default

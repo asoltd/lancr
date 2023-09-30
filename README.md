@@ -21,7 +21,7 @@ go mod tidy
 
 After any updates, be sure to
 
-```
+```sh
 SWAGGER_UI_VERSION=v5.0.0 ./hack/generate-swagger-ui.sh
 ```
 
