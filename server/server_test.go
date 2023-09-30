@@ -14,7 +14,7 @@ import (
 func TestBackendNew(t *testing.T) {
 	t.Parallel()
 
-	_, err := server.New("../asoltd-lancr-firebase-admin-service-account.json")
+	_, err := server.NewLocal("../asoltd-lancr-firebase-admin-service-account.json")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -23,7 +23,7 @@ func TestBackendNew(t *testing.T) {
 func TestGetHero(t *testing.T) {
 	t.Parallel()
 
-	b, err := server.New("../asoltd-lancr-firebase-admin-service-account.json")
+	b, err := server.NewLocal("../asoltd-lancr-firebase-admin-service-account.json")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -40,7 +40,7 @@ func TestGetHero(t *testing.T) {
 func TestListHeroes(t *testing.T) {
 	t.Parallel()
 
-	b, err := server.New("../asoltd-lancr-firebase-admin-service-account.json")
+	b, err := server.NewLocal("../asoltd-lancr-firebase-admin-service-account.json")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -61,7 +61,7 @@ func TestListHeroes(t *testing.T) {
 func TestCreateHero(t *testing.T) {
 	t.Skip()
 
-	b, err := server.New("../asoltd-lancr-firebase-admin-service-account.json")
+	b, err := server.NewLocal("../asoltd-lancr-firebase-admin-service-account.json")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -84,7 +84,7 @@ func TestCreateHero(t *testing.T) {
 func TestDeleteHero(t *testing.T) {
 	t.Skip()
 
-	b, err := server.New("../asoltd-lancr-firebase-admin-service-account.json")
+	b, err := server.NewLocal("../asoltd-lancr-firebase-admin-service-account.json")
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -23,17 +23,29 @@ type Backend struct {
 	lancrv1.UnimplementedHeroServiceServer
 }
 
-func New(keypath string) (*Backend, error) {
-	if _, err := os.Stat(keypath); os.IsNotExist(err) {
-		return nil, err
-	}
+// New sets up the backend with authenticated firestore SDK client If keypath
+// parameter is left specified, it authenticates with a given service account
+// JSON, otherwise with application default credentials
+func New(keypath *string) (*Backend, error) {
+	var app *firebase.App
+	var err error
+	if keypath != nil {
+		if _, err := os.Stat(*keypath); os.IsNotExist(err) {
+			return nil, err
+		}
 
-	sa := option.WithCredentialsFile(keypath)
-	app, err := firebase.NewApp(
-		context.Background(),
-		nil,
-		sa,
-	)
+		sa := option.WithCredentialsFile(*keypath)
+		app, err = firebase.NewApp(
+			context.Background(),
+			nil,
+			sa,
+		)
+	} else {
+		app, err = firebase.NewApp(
+			context.Background(),
+			nil,
+		)
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -48,4 +60,12 @@ func New(keypath string) (*Backend, error) {
 		app:       app,
 		firestore: client,
 	}, nil
+}
+
+func NewLocal(keypath string) (*Backend, error) {
+	return New(&keypath)
+}
+
+func NewGKE() (*Backend, error) {
+	return New(nil)
 }

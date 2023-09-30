@@ -34,9 +34,18 @@ var serverCmd = &cobra.Command{
 		}
 
 		s := grpc.NewServer()
-		backend, err := server.New(
-			"./asoltd-lancr-firebase-admin-service-account.json",
-		)
+		runLocally := cmd.Flags().Lookup("local")
+		var backend *server.Backend
+		if runLocally.Value.String() == "true" {
+			log.Info("Running locally")
+			backend, err = server.NewLocal(
+				"./asoltd-lancr-firebase-admin-service-account.json",
+			)
+		} else {
+			log.Info("Running on GKE")
+			backend, err = server.NewGKE()
+		}
+
 		if err != nil {
 			log.Fatalf("failed to set up backend: %w", err)
 		}

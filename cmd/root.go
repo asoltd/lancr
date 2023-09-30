@@ -44,4 +44,9 @@ func init() {
 		"127.0.0.1:4201",
 		"Address of the gRPC server",
 	)
+	rootCmd.PersistentFlags().Bool(
+		"local",
+		false,
+		"Whether to run the server locally or not",
+	)
 }
