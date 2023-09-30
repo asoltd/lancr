@@ -16,6 +16,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
+	"google.golang.org/grpc/reflection"
 
 	"github.com/asoltd/lancr/gen"
 	lancrv1 "github.com/asoltd/lancr/gen/go/proto/lancr/v1"
@@ -23,7 +24,6 @@ import (
 )
 
 // TODO's
-// - [x] don't display additional files that are not *_service.proto
 // - [ ] Add TLS certs for proxy to server
 // - [ ] Move config to environment variables / YAML + viper
 // - [ ] Move command-line flags to cobra
@@ -32,7 +32,6 @@ import (
 // protobufs declarations TODO(oliwierost)
 // - [ ] Add Authentication
 // - [ ] Add Authorization
-// - [x] Add Tests
 // - [ ] Add CI
 // - [ ] Deploy, add CD
 // - [ ] Implement the remainder of the CRUD operations for all of the items
@@ -81,7 +80,7 @@ func runGateway(ctx context.Context, dialAddr string, gatewayAddr string) error 
 	gwServer := &http.Server{
 		Addr: gatewayAddr,
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// could use /api here rather than /v1, I think is smarter to do
+			// could use /api here rather than /v1, I think is smarter to do long-term
 			if strings.HasPrefix(r.URL.Path, "/v1") {
 				gwmux.ServeHTTP(w, r)
 				return
@@ -117,6 +116,9 @@ func run() error {
 		return err
 	}
 	lancrv1.RegisterHeroServiceServer(s, backend)
+
+	// register reflection service on gRPC server
+	reflection.Register(s)
 
 	log.Infof("Serving gRPC on https://%s", grpcServerAddr)
 	go func() {
