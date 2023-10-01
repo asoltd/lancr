@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/asoltd/lancr/gen"
-	lancrv1 "github.com/asoltd/lancr/gen/go/proto/lancr/v1"
+	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 )

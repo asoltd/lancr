@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"cloud.google.com/go/firestore"
-	lancrv1 "github.com/asoltd/lancr/gen/go/proto/lancr/v1"
+	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"

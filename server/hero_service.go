@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	lancrv1 "github.com/asoltd/lancr/gen/go/proto/lancr/v1"
+	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"google.golang.org/api/iterator"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

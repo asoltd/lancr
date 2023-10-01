@@ -10,7 +10,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
-	lancrv1 "github.com/asoltd/lancr/gen/go/proto/lancr/v1"
+	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 )
 
 type Backend struct {

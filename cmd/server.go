@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/reflection"
 
-	lancrv1 "github.com/asoltd/lancr/gen/go/proto/lancr/v1"
+	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 )
 
 // serverCmd represents the server command

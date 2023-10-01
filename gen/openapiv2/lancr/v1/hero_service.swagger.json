@@ -1,0 +1,727 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "lancr/v1/hero_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "HeroService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/heroes": {
+      "get": {
+        "operationId": "HeroService_ListHeroes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListHeroesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      },
+      "post": {
+        "operationId": "HeroService_CreateHero",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateHeroResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateHeroRequest"
+            }
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      }
+    },
+    "/v1/heroes/{id}": {
+      "get": {
+        "operationId": "HeroService_GetHero",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetHeroResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      },
+      "delete": {
+        "operationId": "HeroService_DeleteHero",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteHeroResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      },
+      "put": {
+        "operationId": "HeroService_UpdateHero",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateHeroResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hero": {
+                  "$ref": "#/definitions/v1Hero"
+                },
+                "allowMissing": {
+                  "type": "boolean",
+                  "description": "If set to true, and the hero is not found, a new hero will be created."
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "lancrv1Location": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string",
+          "title": "TODO coords?"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Apprentice": {
+      "type": "object",
+      "properties": {
+        "rate": {
+          "type": "number",
+          "format": "float"
+        },
+        "workingHours": {
+          "$ref": "#/definitions/v1WorkingHours"
+        },
+        "mentor": {
+          "type": "string"
+        },
+        "favoriteTo": {
+          "type": "string"
+        },
+        "workingDays": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1Bid": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "bidderId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rate": {
+          "type": "number",
+          "format": "float"
+        },
+        "amount": {
+          "type": "number",
+          "format": "float"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "timeRequired": {
+          "type": "string"
+        },
+        "workingTime": {
+          "type": "string"
+        },
+        "questId": {
+          "type": "string"
+        },
+        "apprentice": {
+          "$ref": "#/definitions/v1Apprentice"
+        },
+        "apprenticeRate": {
+          "type": "number",
+          "format": "float"
+        },
+        "apprenticeCut": {
+          "type": "number",
+          "format": "float"
+        },
+        "totalEarnings": {
+          "type": "number",
+          "format": "float"
+        },
+        "status": {
+          "type": "string"
+        },
+        "totalBidValue": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "v1CreateHeroRequest": {
+      "type": "object",
+      "properties": {
+        "hero": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1CreateHeroResponse": {
+      "type": "object",
+      "properties": {
+        "hero": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1DeleteHeroResponse": {
+      "type": "object",
+      "title": "empty response, code 200"
+    },
+    "v1Experience": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        }
+      }
+    },
+    "v1Financials": {
+      "type": "object",
+      "properties": {
+        "balance": {
+          "type": "number",
+          "format": "float"
+        },
+        "withdrawFrequency": {
+          "type": "string",
+          "title": "TODO this is not a good way to encapsulate withdraw frequency"
+        },
+        "withdrawThreshold": {
+          "type": "number",
+          "format": "float"
+        },
+        "cardEnding": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "cardType": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetHeroResponse": {
+      "type": "object",
+      "properties": {
+        "hero": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1Hero": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "string"
+        },
+        "linkedAccounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1LinkedAccount"
+          }
+        },
+        "profilePicture": {
+          "$ref": "#/definitions/v1Image"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/v1Name"
+        },
+        "location": {
+          "$ref": "#/definitions/lancrv1Location"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "workType": {
+          "type": "string"
+        },
+        "subWorkType": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "linkedin": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "bids": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Bid"
+          }
+        },
+        "quests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Quest"
+          }
+        },
+        "portfolios": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "experiences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Experience"
+          }
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "isMentor": {
+          "type": "boolean"
+        },
+        "mentor": {
+          "$ref": "#/definitions/v1Mentor"
+        },
+        "isApprentice": {
+          "type": "boolean"
+        },
+        "apprentice": {
+          "$ref": "#/definitions/v1Apprentice"
+        },
+        "xp": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isVerified": {
+          "type": "boolean"
+        },
+        "twoFactorAuth": {
+          "type": "boolean"
+        },
+        "receiveVerificationText": {
+          "type": "boolean"
+        },
+        "notificationPreferences": {
+          "$ref": "#/definitions/v1NotificationPreferences"
+        },
+        "financials": {
+          "$ref": "#/definitions/v1Financials"
+        }
+      },
+      "required": [
+        "id",
+        "displayName",
+        "visibility"
+      ]
+    },
+    "v1Image": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "alt": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1LinkedAccount": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string"
+        },
+        "credential": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ListHeroesResponse": {
+      "type": "object",
+      "properties": {
+        "heroes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Hero"
+          }
+        },
+        "nextPageToken": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1Mentor": {
+      "type": "object",
+      "properties": {
+        "bio": {
+          "type": "string"
+        },
+        "skill": {
+          "type": "string"
+        },
+        "maxRate": {
+          "type": "number",
+          "format": "float"
+        },
+        "minRate": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "v1Name": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string"
+        },
+        "second": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string"
+        }
+      }
+    },
+    "v1NotificationPreferences": {
+      "type": "object",
+      "properties": {
+        "questModified": {
+          "type": "boolean"
+        },
+        "proposalReceived": {
+          "type": "boolean"
+        },
+        "interviewAccepted": {
+          "type": "boolean"
+        },
+        "interviewProposalDeclined": {
+          "type": "boolean"
+        },
+        "offerAccepted": {
+          "type": "boolean"
+        },
+        "questExpiresSoon": {
+          "type": "boolean"
+        },
+        "questExpires": {
+          "type": "boolean"
+        },
+        "noInterviews": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1Quest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "string"
+        },
+        "reward": {
+          "type": "number",
+          "format": "float"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Tag"
+          }
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Image"
+          }
+        },
+        "bidders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1Tag": {
+      "type": "string",
+      "enum": [
+        "TAG_DESIGN_UNSPECIFIED",
+        "TAG_MANAGEMENT",
+        "TAG_RESEARCH",
+        "TAG_PRESENTATION",
+        "TAG_SOFTWAREDEVELOPMENT",
+        "TAG_CUSTOMERSUCCESS",
+        "TAG_LEADERSHIP"
+      ],
+      "default": "TAG_DESIGN_UNSPECIFIED"
+    },
+    "v1UpdateHeroResponse": {
+      "type": "object",
+      "properties": {
+        "hero": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1WorkingHours": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "end": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "timezone": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

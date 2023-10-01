@@ -5,7 +5,7 @@ window.onload = function() {
   window.ui = SwaggerUIBundle({
     urls: [
       {
-        "url":"proto/lancr/v1/hero_service.swagger.json",
+        "url":"lancr/v1/hero_service.swagger.json",
         "name":"Hero Service"
       }
     ],
