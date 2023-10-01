@@ -28,7 +28,7 @@ jobs:
           service_account: "cloud-deployer-sa@asoltd-guilds.iam.gserviceaccount.com"
 
       - name: Set up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0.2.0
+        uses: google-github-actions/setup-gcloud@v1
 
       - name: Deploy
         run: |

@@ -1,4 +1,4 @@
-name: Push Images
+name: Push
 
 on: [push]
 
@@ -23,7 +23,13 @@ jobs:
           workload_identity_provider: "projects/808202803134/locations/global/workloadIdentityPools/gh-actions-pool/providers/gh-actions-provider"
           service_account: "cloud-deployer-sa@asoltd-guilds.iam.gserviceaccount.com"
 
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Install skaffold
+        run: |
+          gcloud components install skaffold
+
       - name: Run skaffold build
-        uses: hiberbee/github-action-skaffold@1.19.0
-        with:
-          command: build
+        run: |
+          skaffold build
