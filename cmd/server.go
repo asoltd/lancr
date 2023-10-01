@@ -27,7 +27,6 @@ var serverCmd = &cobra.Command{
 		grpclog.SetLoggerV2(log)
 
 		grpcServerAddr := cmd.Flags().Lookup("grpc-server-addr").Value.String()
-		runLocally := cmd.Flags().Lookup("local").Value.String() == "true"
 
 		lis, err := net.Listen("tcp", grpcServerAddr)
 		if err != nil {
@@ -35,16 +34,8 @@ var serverCmd = &cobra.Command{
 		}
 
 		s := grpc.NewServer()
-		var backend *server.Backend
-		if runLocally {
-			log.Info("Running locally")
-			backend, err = server.NewLocal(
-				"./asoltd-lancr-firebase-admin-service-account.json",
-			)
-		} else {
-			backend, err = server.NewRemote()
-		}
 
+		backend, err := server.New()
 		if err != nil {
 			log.Fatalf("failed to set up backend asdf: %+v", err)
 		}
