@@ -1,0 +1,9 @@
+---
+# service account for gRPC API Service
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: heroes-sa
+  namespace: default
+  labels:
+    app.kubernetes.io/name: heroes-sa
