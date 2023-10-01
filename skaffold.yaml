@@ -3,6 +3,8 @@ kind: Config
 metadata:
   name: lancr
 build:
+  tagPolicy:
+    sha256: {}
   artifacts:
     - image: gcr.io/asoltd-guilds/lancr
   googleCloudBuild:
