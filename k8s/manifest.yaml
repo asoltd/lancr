@@ -50,10 +50,10 @@ spec:
             - containerPort: 4200
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "250m"
+              memory: "512Mi"
+              cpu: "500m"
             limits:
-              memory: "128Mi"
+              memory: "512Mi"
               cpu: "500m"
 
 ---
@@ -103,30 +103,8 @@ spec:
             - containerPort: 4201
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
+              memory: "512Mi"
               cpu: "500m"
-# ---
-# workload identity test, feel free to uncomment
-# apiVersion: v1
-# kind: Pod
-# metadata:
-# name: workload-identity-test
-# namespace: default
-# spec:
-# containers:
-# - image: google/cloud-sdk:slim
-# name: workload-identity-test
-# command: ["sleep","infinity"]
-# resources:
-# requests:
-# memory: "64Mi"
-# cpu: "250m"
-# limits:
-# memory: "128Mi"
-# cpu: "500m"
-# serviceAccountName: heroes-sa
-# nodeSelector:
-# iam.gke.io/gke-metadata-server-enabled: "true"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
