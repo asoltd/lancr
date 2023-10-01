@@ -15,4 +15,4 @@ metadata:
   name: lancr-prod
 description: production cluster
 gke:
-  cluster: projects/asoltd-guilds/locations/europe-central2/clusters/lancr-cluster
+  cluster: projects/asoltd-guilds/locations/europe-central2/clusters/lancr-prod
