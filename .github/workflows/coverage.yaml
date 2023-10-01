@@ -1,15 +1,26 @@
-name: Test
+name: Coverage
 
 on: [push]
 
 jobs:
   test:
-    name: Run Custom Tests
+    name: Run Tests with Coverage
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: "read"
+      id-token: "write"
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - id: "auth"
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0.5.0
+        with:
+          workload_identity_provider: "projects/asoltd-guilds/locations/global/workloadIdentityPools/gh-actions-pool"
+          service_account: "firestore-editor@asolt-guilds.iam.gserviceaccount.com"
 
       - name: Set up Go
         uses: actions/setup-go@v4
@@ -17,9 +28,6 @@ jobs:
           go-version: "1.20.3"
 
       - name: Run coverage
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         run: |
-          chmod 600 $GOOGLE_APPLICATION_CREDENTIALS
           chmod +x ./hack/coverage.sh
           ./hack/coverage.sh
