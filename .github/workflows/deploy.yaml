@@ -1,9 +1,14 @@
 name: Deploy
 
-on: [push]
+on:
+  workflow_run:
+    workflows: ["Push"]
+    types:
+      - completed
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     permissions:
@@ -13,12 +18,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Run Test Job
-        uses: ./.github/workflows/test.yaml
-
-      - name: Run Push Job
-        uses: ./.github/workflows/push.yaml
 
       - id: "auth"
         name: Authenticate to Google Cloud

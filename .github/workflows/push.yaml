@@ -1,9 +1,14 @@
 name: Push
 
-on: [push]
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     permissions:
@@ -14,8 +19,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # TODO this might require Cloud Build permissions, but think that the
-      # Cloud Deployer sa has it by default
       - id: "auth"
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0.5.0
