@@ -1,6 +1,6 @@
 name: Coverage
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -20,7 +20,7 @@ jobs:
         uses: google-github-actions/auth@v0.5.0
         with:
           workload_identity_provider: "projects/asoltd-guilds/locations/global/workloadIdentityPools/gh-actions-pool/providers/gh-actions-provider"
-          service_account: "firestore-editor@asolt-guilds.iam.gserviceaccount.com"
+          service_account: "firestore-editor@asoltd-guilds.iam.gserviceaccount.com"
 
       - name: Set up Go
         uses: actions/setup-go@v4
