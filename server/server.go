@@ -66,6 +66,6 @@ func NewLocal(keypath string) (*Backend, error) {
 	return New(&keypath)
 }
 
-func NewGKE() (*Backend, error) {
+func NewRemote() (*Backend, error) {
 	return New(nil)
 }

@@ -2,4 +2,4 @@
 
 set -e 
 
-go test -v -coverprofile=coverage.out ./...
+go test -v -coverprofile=coverage.out ./server

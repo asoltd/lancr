@@ -22,7 +22,7 @@ func (b *Backend) GetHero(ctx context.Context, req *lancrv1.GetHeroRequest) (*la
 	hero := &lancrv1.Hero{}
 	err = b.snapshotToMessage(snapshot, hero)
 	if err != nil {
-		log.Println("hero:", hero, "doc:", snapshot.Data())
+		log.Printf("failed to serialize firestore snapshot to proto, ref ID: %s", snapshot.Ref.ID)
 		return nil, err
 	}
 	return &lancrv1.GetHeroResponse{Hero: hero}, nil
@@ -40,11 +40,10 @@ func (b *Backend) ListHeroes(ctx context.Context, req *lancrv1.ListHeroesRequest
 		if err != nil {
 			log.Fatalf("Failed to iterate: %v", err)
 		}
-		fmt.Println(snapshot.Data())
 		hero := &lancrv1.Hero{}
 		err = b.snapshotToMessage(snapshot, hero)
 		if err != nil {
-			log.Printf("failed to parse hero into pb: %v", err)
+			log.Printf("failed to parse hero into pb, ref ID: %s", snapshot.Ref.ID)
 		}
 		res = append(res, hero)
 		if len(res) == int(req.GetPageSize()) {

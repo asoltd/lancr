@@ -42,8 +42,7 @@ var serverCmd = &cobra.Command{
 				"./asoltd-lancr-firebase-admin-service-account.json",
 			)
 		} else {
-			log.Info("Running on GKE")
-			backend, err = server.NewGKE()
+			backend, err = server.NewRemote()
 		}
 
 		if err != nil {
