@@ -1,0 +1,32 @@
+name: Deploy
+
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Test Job
+        uses: ./.github/workflows/test.yaml
+
+      - name: Run Push Job
+        uses: ./.github/workflows/push.yaml
+
+      - id: "auth"
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0.5.0
+        with:
+          workload_identity_provider: "projects/808202803134/locations/global/workloadIdentityPools/gh-actions-pool/providers/gh-actions-provider"
+          service_account: "cloud-deployer-sa@asoltd-guilds.iam.gserviceaccount.com"
+
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v0.2.0
+
+      - name: Deploy
+        run: |
+          chmod +x ./hack/deploy.sh
+          ./hack/deploy.sh
