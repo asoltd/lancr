@@ -84,7 +84,7 @@ func (gw *Gateway) Run(ctx context.Context, dialAddr string, gatewayAddr string)
 
 	// some of the fields in the protobuf might be marked as private?
 
-	oa, err := g.getOpenAPIHandler()
+	oa, err := gw.getOpenAPIHandler()
 	if err != nil {
 		return err
 	}

@@ -2,4 +2,4 @@
 
 set -e
 
-go test ./server
+go test ./server ./gateway
