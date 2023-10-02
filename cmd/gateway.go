@@ -33,13 +33,14 @@ var gatewayCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalf("Failed to create gateway: %v", err)
 		}
-		err = gw.Run(
-			ctx,
-			dialAddress,
-			gatewayAddr,
-		)
+		gwServer, err := gw.Setup(ctx, dialAddress, gatewayAddr)
 		if err != nil {
-			log.Fatalf("Exit with error: %w", err)
+			log.Fatalf("Failed to setup gateway: %v", err)
+		}
+
+		err = gwServer.ListenAndServe()
+		if err != nil {
+			log.Fatalf("gateway exited with error: %w", err)
 		}
 	},
 }

@@ -2,7 +2,6 @@ package gateway
 
 import (
 	"context"
-	"fmt"
 	"io/fs"
 	"log"
 	"mime"
@@ -50,7 +49,8 @@ func New(ctx context.Context) (*Gateway, error) {
 	return &Gateway{authclient: authclient}, nil
 }
 
-func (gw *Gateway) Run(ctx context.Context, dialAddr string, gatewayAddr string) error {
+// Setup dials the backend and sets up the gateway
+func (gw *Gateway) Setup(ctx context.Context, dialAddr string, gatewayAddr string) (*http.Server, error) {
 	conn, err := grpc.DialContext(
 		context.Background(),
 		dialAddr,
@@ -58,7 +58,7 @@ func (gw *Gateway) Run(ctx context.Context, dialAddr string, gatewayAddr string)
 		grpc.WithBlock(),
 	)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	gwmux := runtime.NewServeMux(
@@ -73,27 +73,17 @@ func (gw *Gateway) Run(ctx context.Context, dialAddr string, gatewayAddr string)
 	)
 	err = lancrv1.RegisterHeroServiceHandler(ctx, gwmux, conn)
 	if err != nil {
-		return err
+		return nil, err
 	}
-
-	// TODO create a client here and retrieve the docs before authorizing any reqeuest
-
-	// the API is designed so that GET requests are semi-public, POST and UPDATE
-	// are private only to ownerId of the doc, so only POST and UPDATE need to
-	// fetch the doc from the database and verify permissions
-
-	// some of the fields in the protobuf might be marked as private?
 
 	oa, err := gw.getOpenAPIHandler()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	gwServer := &http.Server{
+	return &http.Server{
 		Addr: gatewayAddr,
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// could use /api here rather than /v1, I think is smarter to do long-term
-			// the below is to server OpenAPI UI to non-API requests
 			if !strings.HasPrefix(r.URL.Path, "/v1") {
 				oa.ServeHTTP(w, r)
 				return
@@ -120,13 +110,11 @@ func (gw *Gateway) Run(ctx context.Context, dialAddr string, gatewayAddr string)
 				w.WriteHeader(http.StatusForbidden)
 				_, err = w.Write([]byte(err.Error()))
 				if err != nil {
-					log.Printf("Failed to write response: %w", err)
+					log.Printf("Failed to write response: %s", err.Error())
 				}
 			}
 
 			gwmux.ServeHTTP(w, r)
 		}),
-	}
-
-	return fmt.Errorf("gRPC-Gateway server: %w", gwServer.ListenAndServe())
+	}, nil
 }

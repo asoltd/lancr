@@ -19,6 +19,13 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] set up auth tests
 // - [ ] include information about the X-Firebase-ID-Token header in the OpenAPI
 // spec (grpc-gateway allows customization like that)
+// - [ ] some of the fields in the protobuf might be marked as private? (e.g. the
+// transactions for a hero)
+// more im thinking if say there should not be a need-to-know parameter for example
+// /v1/heroes/{hero_id}?include_transactions=true
+// this would then say require MFA or something
+// - [ ] write an integration test case to see if the gateway + server work together
+// TODO create a client here and retrieve the docs before authorizing any reqeuest
 
 func main() {
 	cmd.Execute()
