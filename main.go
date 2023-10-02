@@ -26,6 +26,12 @@ import "github.com/asoltd/lancr/cmd"
 // this would then say require MFA or something
 // - [ ] write an integration test case to see if the gateway + server work together
 // TODO create a client here and retrieve the docs before authorizing any reqeuest
+// - [ ] when updating make sure that update mask by default prevents writing
+// sensitive fields, like the transactions
+//- [ ] ensure that the server is not susceptible to a common pitfalls, as DoS
+//attack, memory leaks, man in the middle, xss, sql injection, etc.
+//- [ ] separate the service account firestore-editor@ that currently is used by
+//both services (and testing locally as well as during remote CI/CD)
 
 func main() {
 	cmd.Execute()

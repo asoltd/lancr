@@ -43,7 +43,8 @@ func (b *Backend) ListHeroes(ctx context.Context, req *lancrv1.ListHeroesRequest
 			break
 		}
 		if err != nil {
-			log.Fatalf("Failed to iterate: %v", err)
+			log.Printf("Failed to iterate: %v", err)
+			return nil, err
 		}
 		hero := &lancrv1.Hero{}
 		err = b.snapshotToMessage(snapshot, hero)
