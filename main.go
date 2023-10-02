@@ -27,11 +27,18 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] write an integration test case to see if the gateway + server work together
 // TODO create a client here and retrieve the docs before authorizing any reqeuest
 // - [ ] when updating make sure that update mask by default prevents writing
-// sensitive fields, like the transactions
+// sensitive fields, like the transactions - OUTPUT_ONLY field from import "google/api/field_behavior.proto";
+// - [ ] https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/customizing_openapi_output/#hiding-fields-methods-services-and-enum-values
 //- [ ] ensure that the server is not susceptible to a common pitfalls, as DoS
 //attack, memory leaks, man in the middle, xss, sql injection, etc.
 //- [ ] separate the service account firestore-editor@ that currently is used by
 //both services (and testing locally as well as during remote CI/CD)
+// - [ ] path params like:
+// option (google.api.http) = {
+//  get: "/v1/{name=shelves/*/books/*}"
+// };
+// - [ ] firestore on clientside SDK like in TypeScript updates the data live on website when document updates,
+// see if this can be achieved with the grpc-gateway and streaming?
 
 func main() {
 	cmd.Execute()

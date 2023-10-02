@@ -317,6 +317,11 @@
     "v1CreateHeroRequest": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "title": "TODO verify that id == hero.id, make hero.id immutable"
+        },
         "hero": {
           "$ref": "#/definitions/v1Hero"
         }

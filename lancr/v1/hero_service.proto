@@ -28,7 +28,8 @@ message ListHeroesResponse {
 }
 
 message CreateHeroRequest {
-  Hero hero = 1;
+  int32 id = 1;  // TODO verify that id == hero.id, make hero.id immutable
+  Hero hero = 2;
 }
 
 message CreateHeroResponse {
@@ -64,10 +65,6 @@ service HeroService {
       get: "/v1/heroes/{id}"
     };
   }
-  // below methods yet to be implemented, functionality will be rolled out
-  // incrementally I will set up tests for every method, doing an initial
-  // deployment since frontend needs to start migration so anything defined has
-  // to work
 
   rpc ListHeroes(ListHeroesRequest) returns (ListHeroesResponse) {
     option (google.api.http) = {

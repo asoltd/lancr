@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"cloud.google.com/go/firestore"
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"google.golang.org/api/iterator"
 	"google.golang.org/grpc/codes"
@@ -62,7 +63,8 @@ func (b *Backend) ListHeroes(ctx context.Context, req *lancrv1.ListHeroesRequest
 func (b *Backend) CreateHero(ctx context.Context, req *lancrv1.CreateHeroRequest) (*lancrv1.CreateHeroResponse, error) {
 	hero := req.GetHero()
 	if hero == nil {
-		return nil, fmt.Errorf("hero is required")
+		fmt.Printf("CreateHeroRequest is missing hero parameter, %+v, %+v", hero, req)
+		return nil, fmt.Errorf("CreateHeroRequest is missing hero parameter")
 	}
 
 	herostruct, err := messageToStruct(hero)
@@ -81,6 +83,22 @@ func (b *Backend) CreateHero(ctx context.Context, req *lancrv1.CreateHeroRequest
 		return nil, err
 	}
 	return &lancrv1.CreateHeroResponse{Hero: hero}, nil
+}
+
+func (b *Backend) UpdateHero(ctx context.Context, req *lancrv1.UpdateHeroRequest) (*lancrv1.UpdateHeroResponse, error) {
+	id := req.GetId()
+	hero := req.GetHero()
+	_, err := b.firestore.Collection("heroes").Doc(id).Update(ctx, []firestore.Update{
+		{
+			Path:  "email",
+			Value: hero.GetEmail(),
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &lancrv1.UpdateHeroResponse{Hero: hero}, nil
 }
 
 func (b *Backend) DeleteHero(ctx context.Context, req *lancrv1.DeleteHeroRequest) (*lancrv1.DeleteHeroResponse, error) {

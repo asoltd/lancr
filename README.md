@@ -1,5 +1,7 @@
 # Backend
 
+Currently, authentication is trivial, the token is required to POST/PUT/DELETE, but the ownerID is not checked against the clientID
+
 All of the scripts required to set up the infrastructure except for service account creation and applying the required permissions can be found in `./hack`
 
 The CI/CD uses Github Actions and Google Cloud Workload Identity to run tests,

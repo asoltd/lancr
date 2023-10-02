@@ -20,6 +20,7 @@ type Gateway struct {
 	Handler            http.Handler
 	authclient         *auth.Client
 	gwmux              *runtime.ServeMux
+	client             lancrv1.HeroServiceClient
 	connectedToBackend bool
 }
 
@@ -85,8 +86,8 @@ func (gw *Gateway) ConnectToBackend(ctx context.Context, dialAddr string) error 
 		return err
 	}
 
+	gw.client = lancrv1.NewHeroServiceClient(conn)
 	gw.connectedToBackend = true
-
 	// TODO add a client here? I am thinking of a better way to see if someone can
 	// do POST/PUT/DELETEs on their own data
 
@@ -116,7 +117,6 @@ func (gw *Gateway) SetupHandler(ctx context.Context) error {
 			if idtoken == "" {
 				w.WriteHeader(http.StatusForbidden)
 			}
-			return
 		default:
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return

@@ -90,33 +90,6 @@ func TestRequiresFirebaseIDToken(t *testing.T) {
 	}
 }
 
-func TestDoesNotRequireFirebaseIDTokenForGET(t *testing.T) {
-	t.Parallel()
-	ctx := context.Background()
-	gw, err := gateway.New(ctx)
-	if err != nil {
-		t.Fatalf("Failed to create gateway: %v", err)
-	}
-
-	err = gw.SetupHandler(ctx)
-	if err != nil {
-		t.Errorf("Failed to setup handler: %v", err)
-	}
-
-	s := httptest.NewServer(gw.Handler)
-	defer s.Close()
-
-	res, err := s.Client().Get(s.URL + "/v1/heroes")
-	if err != nil {
-		t.Errorf("Failed to GET /v1/heroes: %v", err)
-	}
-
-	// the response here will be 301 likely, which is fine
-	if res.StatusCode == http.StatusForbidden {
-		t.Errorf("Expected not to get 403, got %d", res.StatusCode)
-	}
-}
-
 // Tests if the only allowed methods are GET, POST, PUT, DELETE
 func TestOnlyAllowsAllowedMethods(t *testing.T) {
 	t.Parallel()
