@@ -31,7 +31,7 @@ func TestGetHero(t *testing.T) {
 	req := &lancrv1.GetHeroRequest{
 		Id: "test-stub",
 	}
-	_, err = b.GetHero(context.TODO(), req)
+	_, err = b.GetHero(context.Background(), req)
 	if err != nil {
 		t.Fatal(err)
 	}

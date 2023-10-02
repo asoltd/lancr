@@ -1,4 +1,4 @@
-## Backend
+# Backend
 
 All of the scripts required to set up the infrastructure except for service account creation and applying the required permissions can be found in `./hack`
 

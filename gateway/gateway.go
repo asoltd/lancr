@@ -41,7 +41,16 @@ func Run(ctx context.Context, dialAddr string, gatewayAddr string) error {
 		return err
 	}
 
-	gwmux := runtime.NewServeMux()
+	gwmux := runtime.NewServeMux(
+		runtime.WithIncomingHeaderMatcher(func(key string) (string, bool) {
+			switch key {
+			case "X-Firebase-ID-Token":
+				return key, true
+			default:
+				return runtime.DefaultHeaderMatcher(key)
+			}
+		}),
+	)
 	err = lancrv1.RegisterHeroServiceHandler(ctx, gwmux, conn)
 	if err != nil {
 		return err
@@ -57,6 +66,8 @@ func Run(ctx context.Context, dialAddr string, gatewayAddr string) error {
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// could use /api here rather than /v1, I think is smarter to do long-term
 			if strings.HasPrefix(r.URL.Path, "/v1") {
+				// TODO might add auth middleware here, to terminate the request if
+				// the user is not authenticated
 				gwmux.ServeHTTP(w, r)
 				return
 			}
