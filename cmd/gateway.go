@@ -29,7 +29,11 @@ var gatewayCmd = &cobra.Command{
 		dialAddress := cmd.Flags().Lookup("grpc-server-addr").Value.String()
 		gatewayAddr := cmd.Flags().Lookup("gateway-addr").Value.String()
 		log.Infof("Serving gRPC-Gateway and OpenAPI Documentation on https://%s", gatewayAddr)
-		err := gateway.Run(
+		gw, err := gateway.New(ctx)
+		if err != nil {
+			log.Fatalf("Failed to create gateway: %v", err)
+		}
+		err = gw.Run(
 			ctx,
 			dialAddress,
 			gatewayAddr,

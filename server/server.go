@@ -6,12 +6,15 @@ package server
 
 import (
 	"context"
+	"fmt"
+	"strings"
 	"sync"
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
+	"google.golang.org/grpc/metadata"
 )
 
 type Backend struct {
@@ -52,4 +55,19 @@ func New() (*Backend, error) {
 		firestore:  firestoreclient,
 		authclient: authclient,
 	}, nil
+}
+
+func (b *Backend) getIDTokenFromMetadata(ctx context.Context) (*string, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return nil, fmt.Errorf("failed to get grpc metadata from context")
+	}
+
+	xheader, ok := md["X-Firebase-ID-Token"]
+	if !ok {
+		return nil, fmt.Errorf("missing X-Firebase-ID-Token header")
+	}
+
+	idtoken := strings.Join(xheader, ",")
+	return &idtoken, nil
 }

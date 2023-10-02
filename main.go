@@ -17,6 +17,8 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] add a .cloudignore file
 // - [ ] add a test-case for passing on the X-Firebase-ID-Token header as grpc metadata
 // - [ ] set up auth tests
+// - [ ] include information about the X-Firebase-ID-Token header in the OpenAPI
+// spec (grpc-gateway allows customization like that)
 
 func main() {
 	cmd.Execute()

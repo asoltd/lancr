@@ -12,20 +12,10 @@ import (
 )
 
 func (b *Backend) GetHero(ctx context.Context, req *lancrv1.GetHeroRequest) (*lancrv1.GetHeroResponse, error) {
-	token, err := b.Authenticate(ctx)
-	if err != nil {
-		return nil, err // how to transcribe this to 403?
-	}
-
 	ref := b.firestore.Collection("heroes").Doc(req.GetId())
 	snapshot, err := ref.Get(ctx)
 	if err != nil {
 		return nil, err
-	}
-
-	err = b.Authorize(token, snapshot, Read)
-	if err != nil {
-		return nil, err // how to transcribe this to 403?
 	}
 
 	if status.Code(err) == codes.NotFound {
