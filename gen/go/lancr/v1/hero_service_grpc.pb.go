@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	HeroService_GetHero_FullMethodName    = "/lancr.v1.HeroService/GetHero"
+	HeroService_ReadHero_FullMethodName   = "/lancr.v1.HeroService/ReadHero"
 	HeroService_ListHeroes_FullMethodName = "/lancr.v1.HeroService/ListHeroes"
 	HeroService_CreateHero_FullMethodName = "/lancr.v1.HeroService/CreateHero"
 	HeroService_UpdateHero_FullMethodName = "/lancr.v1.HeroService/UpdateHero"
@@ -30,7 +30,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type HeroServiceClient interface {
-	GetHero(ctx context.Context, in *GetHeroRequest, opts ...grpc.CallOption) (*GetHeroResponse, error)
+	ReadHero(ctx context.Context, in *ReadHeroRequest, opts ...grpc.CallOption) (*ReadHeroResponse, error)
 	ListHeroes(ctx context.Context, in *ListHeroesRequest, opts ...grpc.CallOption) (*ListHeroesResponse, error)
 	CreateHero(ctx context.Context, in *CreateHeroRequest, opts ...grpc.CallOption) (*CreateHeroResponse, error)
 	UpdateHero(ctx context.Context, in *UpdateHeroRequest, opts ...grpc.CallOption) (*UpdateHeroResponse, error)
@@ -45,9 +45,9 @@ func NewHeroServiceClient(cc grpc.ClientConnInterface) HeroServiceClient {
 	return &heroServiceClient{cc}
 }
 
-func (c *heroServiceClient) GetHero(ctx context.Context, in *GetHeroRequest, opts ...grpc.CallOption) (*GetHeroResponse, error) {
-	out := new(GetHeroResponse)
-	err := c.cc.Invoke(ctx, HeroService_GetHero_FullMethodName, in, out, opts...)
+func (c *heroServiceClient) ReadHero(ctx context.Context, in *ReadHeroRequest, opts ...grpc.CallOption) (*ReadHeroResponse, error) {
+	out := new(ReadHeroResponse)
+	err := c.cc.Invoke(ctx, HeroService_ReadHero_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func (c *heroServiceClient) DeleteHero(ctx context.Context, in *DeleteHeroReques
 // All implementations must embed UnimplementedHeroServiceServer
 // for forward compatibility
 type HeroServiceServer interface {
-	GetHero(context.Context, *GetHeroRequest) (*GetHeroResponse, error)
+	ReadHero(context.Context, *ReadHeroRequest) (*ReadHeroResponse, error)
 	ListHeroes(context.Context, *ListHeroesRequest) (*ListHeroesResponse, error)
 	CreateHero(context.Context, *CreateHeroRequest) (*CreateHeroResponse, error)
 	UpdateHero(context.Context, *UpdateHeroRequest) (*UpdateHeroResponse, error)
@@ -106,8 +106,8 @@ type HeroServiceServer interface {
 type UnimplementedHeroServiceServer struct {
 }
 
-func (UnimplementedHeroServiceServer) GetHero(context.Context, *GetHeroRequest) (*GetHeroResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetHero not implemented")
+func (UnimplementedHeroServiceServer) ReadHero(context.Context, *ReadHeroRequest) (*ReadHeroResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadHero not implemented")
 }
 func (UnimplementedHeroServiceServer) ListHeroes(context.Context, *ListHeroesRequest) (*ListHeroesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListHeroes not implemented")
@@ -134,20 +134,20 @@ func RegisterHeroServiceServer(s grpc.ServiceRegistrar, srv HeroServiceServer) {
 	s.RegisterService(&HeroService_ServiceDesc, srv)
 }
 
-func _HeroService_GetHero_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetHeroRequest)
+func _HeroService_ReadHero_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadHeroRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HeroServiceServer).GetHero(ctx, in)
+		return srv.(HeroServiceServer).ReadHero(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: HeroService_GetHero_FullMethodName,
+		FullMethod: HeroService_ReadHero_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HeroServiceServer).GetHero(ctx, req.(*GetHeroRequest))
+		return srv.(HeroServiceServer).ReadHero(ctx, req.(*ReadHeroRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -232,8 +232,8 @@ var HeroService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*HeroServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetHero",
-			Handler:    _HeroService_GetHero_Handler,
+			MethodName: "ReadHero",
+			Handler:    _HeroService_ReadHero_Handler,
 		},
 		{
 			MethodName: "ListHeroes",

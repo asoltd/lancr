@@ -33,22 +33,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageToken",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
         "tags": [
           "HeroService"
         ]
@@ -86,12 +70,12 @@
     },
     "/v1/heroes/{id}": {
       "get": {
-        "operationId": "HeroService_GetHero",
+        "operationId": "HeroService_ReadHero",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1GetHeroResponse"
+              "$ref": "#/definitions/v1ReadHeroResponse"
             }
           },
           "default": {
@@ -171,7 +155,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "hero": {
+                "payload": {
                   "$ref": "#/definitions/v1Hero"
                 },
                 "allowMissing": {
@@ -229,91 +213,6 @@
         }
       }
     },
-    "v1Apprentice": {
-      "type": "object",
-      "properties": {
-        "rate": {
-          "type": "number",
-          "format": "float"
-        },
-        "workingHours": {
-          "$ref": "#/definitions/v1WorkingHours"
-        },
-        "mentor": {
-          "type": "string"
-        },
-        "favoriteTo": {
-          "type": "string"
-        },
-        "workingDays": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "v1Bid": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "bidderId": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "rate": {
-          "type": "number",
-          "format": "float"
-        },
-        "amount": {
-          "type": "number",
-          "format": "float"
-        },
-        "currency": {
-          "type": "string"
-        },
-        "timeRequired": {
-          "type": "string"
-        },
-        "workingTime": {
-          "type": "string"
-        },
-        "questId": {
-          "type": "string"
-        },
-        "apprentice": {
-          "$ref": "#/definitions/v1Apprentice"
-        },
-        "apprenticeRate": {
-          "type": "number",
-          "format": "float"
-        },
-        "apprenticeCut": {
-          "type": "number",
-          "format": "float"
-        },
-        "totalEarnings": {
-          "type": "number",
-          "format": "float"
-        },
-        "status": {
-          "type": "string"
-        },
-        "totalBidValue": {
-          "type": "number",
-          "format": "float"
-        }
-      }
-    },
     "v1CreateHeroRequest": {
       "type": "object",
       "properties": {
@@ -322,7 +221,7 @@
           "format": "int32",
           "title": "TODO verify that id == hero.id, make hero.id immutable"
         },
-        "hero": {
+        "payload": {
           "$ref": "#/definitions/v1Hero"
         }
       }
@@ -330,7 +229,7 @@
     "v1CreateHeroResponse": {
       "type": "object",
       "properties": {
-        "hero": {
+        "result": {
           "$ref": "#/definitions/v1Hero"
         }
       }
@@ -338,23 +237,6 @@
     "v1DeleteHeroResponse": {
       "type": "object",
       "title": "empty response, code 200"
-    },
-    "v1Experience": {
-      "type": "object",
-      "properties": {
-        "position": {
-          "type": "string"
-        },
-        "company": {
-          "type": "string"
-        },
-        "startDate": {
-          "type": "string"
-        },
-        "endDate": {
-          "type": "string"
-        }
-      }
     },
     "v1Financials": {
       "type": "object",
@@ -377,14 +259,6 @@
         },
         "cardType": {
           "type": "string"
-        }
-      }
-    },
-    "v1GetHeroResponse": {
-      "type": "object",
-      "properties": {
-        "hero": {
-          "$ref": "#/definitions/v1Hero"
         }
       }
     },
@@ -443,33 +317,6 @@
         "website": {
           "type": "string"
         },
-        "bids": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Bid"
-          }
-        },
-        "quests": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Quest"
-          }
-        },
-        "portfolios": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "experiences": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Experience"
-          }
-        },
         "rating": {
           "type": "number",
           "format": "float"
@@ -482,9 +329,6 @@
         },
         "isApprentice": {
           "type": "boolean"
-        },
-        "apprentice": {
-          "$ref": "#/definitions/v1Apprentice"
         },
         "xp": {
           "type": "string"
@@ -554,24 +398,13 @@
     "v1ListHeroesResponse": {
       "type": "object",
       "properties": {
-        "heroes": {
+        "results": {
           "type": "array",
           "items": {
             "type": "object",
             "$ref": "#/definitions/v1Hero"
-          }
-        },
-        "nextPageToken": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "pageSize": {
-          "type": "integer",
-          "format": "int32"
+          },
+          "title": "int32 next_page_token = 2;\n int32 total_size = 3;\n int32 page_size = 4;"
         }
       }
     },
@@ -637,94 +470,19 @@
         }
       }
     },
-    "v1Quest": {
+    "v1ReadHeroResponse": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        },
-        "creatorId": {
-          "type": "string"
-        },
-        "reward": {
-          "type": "number",
-          "format": "float"
-        },
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1Tag"
-          }
-        },
-        "images": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Image"
-          }
-        },
-        "bidders": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "status": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "summary": {
-          "type": "string"
-        },
-        "level": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
-    "v1Tag": {
-      "type": "string",
-      "enum": [
-        "TAG_DESIGN_UNSPECIFIED",
-        "TAG_MANAGEMENT",
-        "TAG_RESEARCH",
-        "TAG_PRESENTATION",
-        "TAG_SOFTWAREDEVELOPMENT",
-        "TAG_CUSTOMERSUCCESS",
-        "TAG_LEADERSHIP"
-      ],
-      "default": "TAG_DESIGN_UNSPECIFIED"
-    },
-    "v1UpdateHeroResponse": {
-      "type": "object",
-      "properties": {
-        "hero": {
+        "result": {
           "$ref": "#/definitions/v1Hero"
         }
       }
     },
-    "v1WorkingHours": {
+    "v1UpdateHeroResponse": {
       "type": "object",
       "properties": {
-        "start": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "end": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "timezone": {
-          "type": "string"
+        "result": {
+          "$ref": "#/definitions/v1Hero"
         }
       }
     }

@@ -4,13 +4,20 @@ plugins:
     out: gen/go
     opt:
       - paths=source_relative
+
   - name: go-grpc
     out: gen/go
     opt:
       - paths=source_relative
+
   - name: grpc-gateway
     out: gen/go
     opt:
       - paths=source_relative
+
   - name: openapiv2
     out: gen/openapiv2
+
+  - name: gorm
+    out: gen/go
+    opt: engine=postgres,paths=source_relative,enums=string,gateway=true:./gen/go/gorm

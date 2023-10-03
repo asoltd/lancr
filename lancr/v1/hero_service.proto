@@ -5,47 +5,49 @@ package lancr.v1;
 import "google/api/annotations.proto";
 import "lancr/v1/hero.proto";
 
+import "proto/options/gorm.proto";
+
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
-message GetHeroRequest {
+message ReadHeroRequest {
   string id = 1;
 }
 
-message GetHeroResponse {
-  Hero hero = 1;
+message ReadHeroResponse {
+  Hero result = 1;
 }
 
 message ListHeroesRequest {
-  int32 page_size = 1;
-  int32 page_token = 2;
+  // int32 page_size = 1;
+  // int32 page_token = 2;
 }
 
 message ListHeroesResponse {
-  repeated Hero heroes = 1;
-  int32 next_page_token = 2;
-  int32 total_size = 3;
-  int32 page_size = 4;
+  repeated Hero results = 1;
+  // int32 next_page_token = 2;
+  // int32 total_size = 3;
+  // int32 page_size = 4;
 }
 
 message CreateHeroRequest {
   int32 id = 1;  // TODO verify that id == hero.id, make hero.id immutable
-  Hero hero = 2;
+  Hero payload = 2;
 }
 
 message CreateHeroResponse {
-  Hero hero = 1;
+  Hero result = 1;
 }
 
 message UpdateHeroRequest {
   string id = 1;
-  Hero hero = 2;
+  Hero payload = 2;
 
   // If set to true, and the hero is not found, a new hero will be created.
   bool allow_missing = 3;
 }
 
 message UpdateHeroResponse {
-  Hero hero = 1;
+  Hero result = 1;
 }
 
 message DeleteHeroRequest {
@@ -57,7 +59,7 @@ message DeleteHeroResponse {
 }
 
 service HeroService {
-  rpc GetHero(GetHeroRequest) returns (GetHeroResponse) {
+  rpc ReadHero(ReadHeroRequest) returns (ReadHeroResponse) {
     option (google.api.http) = {
       // TODO not sure here if it should not be
       // "/v1/{name=heroes/*}"
@@ -84,6 +86,7 @@ service HeroService {
     };
   }
   rpc DeleteHero(DeleteHeroRequest) returns (DeleteHeroResponse) {
+    option (gorm.method).object_type = "Hero";
     option (google.api.http) = {
       delete: "/v1/heroes/{id}"
     };

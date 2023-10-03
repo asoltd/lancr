@@ -6,10 +6,10 @@ option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 import "google/api/field_behavior.proto";
 
-import "lancr/v1/apprentice.proto";
-import "lancr/v1/bid.proto";
+// this is from buf.build/piotrostr/protoc-gen-gorm
+import "proto/options/gorm.proto";
+
 import "lancr/v1/common.proto";
-import "lancr/v1/quest.proto";
 
 message Financials {
   float balance = 1;
@@ -62,6 +62,10 @@ message Transaction {
 }
 
 message Hero {
+  option (gorm.opts) = {
+    ormable: true
+  };
+
   string id = 1 [(google.api.field_behavior) = REQUIRED];
   string display_name = 2 [(google.api.field_behavior) = REQUIRED];
   string visibility = 3 [(google.api.field_behavior) = REQUIRED];
@@ -78,15 +82,18 @@ message Hero {
   string twitter = 14;
   string linkedin = 15;
   string website = 16;
-  repeated Bid bids = 17;
-  repeated Quest quests = 18;
-  repeated string portfolios = 19;
-  repeated Experience experiences = 20;
+
+  // deprecated
+  // repeated Bid bids = 17;
+  // repeated Quest quests = 18;
+  // repeated string portfolios = 19;
+  // repeated Experience experiences = 20;
+  // Apprentice apprentice = 25;
+
   float rating = 21;
   bool is_mentor = 22;
   Mentor mentor = 23;
   bool is_apprentice = 24;
-  Apprentice apprentice = 25;
   string xp = 26;
   string region = 27;
   string language = 28;
