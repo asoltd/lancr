@@ -33,6 +33,22 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
         "tags": [
           "HeroService"
         ]
@@ -403,8 +419,19 @@
           "items": {
             "type": "object",
             "$ref": "#/definitions/v1Hero"
-          },
-          "title": "int32 next_page_token = 2;\n int32 total_size = 3;\n int32 page_size = 4;"
+          }
+        },
+        "nextPageToken": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
