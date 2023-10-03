@@ -12,26 +12,12 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (b *Backend) GetHero(ctx context.Context, req *lancrv1.GetHeroRequest) (*lancrv1.GetHeroResponse, error) {
-	ref := b.firestore.Collection("heroes").Doc(req.GetId())
-	snapshot, err := ref.Get(ctx)
+func (b *Backend) ReadHero(ctx context.Context, req *lancrv1.ReadHeroRequest) (*lancrv1.ReadHeroResponse, error) {
+	hero, err := lancrv1.DefaultReadHero(ctx, &lancrv1.Hero{Id: req.GetId()}, b.db)
 	if err != nil {
 		return nil, err
 	}
-
-	if status.Code(err) == codes.NotFound {
-		return nil, fmt.Errorf("hero with id %s does not exist", req.GetId())
-	}
-	if err != nil {
-		return nil, err
-	}
-	hero := &lancrv1.Hero{}
-	err = b.snapshotToMessage(snapshot, hero)
-	if err != nil {
-		log.Printf("failed to serialize firestore snapshot to proto, ref ID: %s", snapshot.Ref.ID)
-		return nil, err
-	}
-	return &lancrv1.GetHeroResponse{Hero: hero}, nil
+	return &lancrv1.ReadHeroResponse{Result: hero}, nil
 }
 
 // TODO implement a pager for this method
@@ -57,11 +43,11 @@ func (b *Backend) ListHeroes(ctx context.Context, req *lancrv1.ListHeroesRequest
 			break
 		}
 	}
-	return &lancrv1.ListHeroesResponse{Heroes: res}, nil
+	return &lancrv1.ListHeroesResponse{Results: res}, nil
 }
 
 func (b *Backend) CreateHero(ctx context.Context, req *lancrv1.CreateHeroRequest) (*lancrv1.CreateHeroResponse, error) {
-	hero := req.GetHero()
+	hero := req.GetPayload()
 	if hero == nil {
 		fmt.Printf("CreateHeroRequest is missing hero parameter, %+v, %+v", hero, req)
 		return nil, fmt.Errorf("CreateHeroRequest is missing hero parameter")
@@ -82,12 +68,12 @@ func (b *Backend) CreateHero(ctx context.Context, req *lancrv1.CreateHeroRequest
 	if err != nil {
 		return nil, err
 	}
-	return &lancrv1.CreateHeroResponse{Hero: hero}, nil
+	return &lancrv1.CreateHeroResponse{Result: hero}, nil
 }
 
 func (b *Backend) UpdateHero(ctx context.Context, req *lancrv1.UpdateHeroRequest) (*lancrv1.UpdateHeroResponse, error) {
 	id := req.GetId()
-	hero := req.GetHero()
+	hero := req.GetPayload()
 	_, err := b.firestore.Collection("heroes").Doc(id).Update(ctx, []firestore.Update{
 		{
 			Path:  "email",
@@ -98,7 +84,7 @@ func (b *Backend) UpdateHero(ctx context.Context, req *lancrv1.UpdateHeroRequest
 		return nil, err
 	}
 
-	return &lancrv1.UpdateHeroResponse{Hero: hero}, nil
+	return &lancrv1.UpdateHeroResponse{Result: hero}, nil
 }
 
 func (b *Backend) DeleteHero(ctx context.Context, req *lancrv1.DeleteHeroRequest) (*lancrv1.DeleteHeroResponse, error) {

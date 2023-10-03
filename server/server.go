@@ -13,8 +13,10 @@ import (
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
+	"github.com/asoltd/lancr/db"
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"google.golang.org/grpc/metadata"
+	"gorm.io/gorm"
 )
 
 type Backend struct {
@@ -22,6 +24,7 @@ type Backend struct {
 	app        *firebase.App
 	firestore  *firestore.Client
 	authclient *auth.Client
+	db         *gorm.DB
 
 	lancrv1.UnimplementedHeroServiceServer
 }
@@ -49,15 +52,21 @@ func New() (*Backend, error) {
 		return nil, err
 	}
 
+	db, err := db.Connect()
+	if err != nil {
+		return nil, err
+	}
+
 	return &Backend{
 		mu:         &sync.RWMutex{},
 		app:        app,
 		firestore:  firestoreclient,
 		authclient: authclient,
+		db:         db,
 	}, nil
 }
 
-func (b *Backend) getIDTokenFromMetadata(ctx context.Context) (*string, error) {
+func GetIDTokenFromMetadata(ctx context.Context) (*string, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return nil, fmt.Errorf("failed to get grpc metadata from context")
