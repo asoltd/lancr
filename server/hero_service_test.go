@@ -47,7 +47,7 @@ func TestListHeroes(t *testing.T) {
 // In order to run this test, the ID field in the test-stub-hero.json file can be changed
 // to a unique value, otherwise the test will fail due to the ID already existing
 func TestCreateHero(t *testing.T) {
-	t.Skip()
+	// t.Skip()
 
 	b, err := server.New()
 	if err != nil {

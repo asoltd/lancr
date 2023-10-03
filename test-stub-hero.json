@@ -1,138 +1,50 @@
 {
-  "id": "test-stub",
-  "displayName": "John Doe",
-  "visibility": "public",
+  "id": "string",
+  "displayName": "string",
+  "visibility": "string",
   "linkedAccounts": [
     {
-      "provider": "GitHub",
-      "credential": "johndoe"
+      "provider": "string",
+      "credential": "string"
     }
   ],
   "profilePicture": {
-    "url": "https://example.com/johndoe.jpg",
-    "alt": "John's Profile Picture",
-    "width": 200,
-    "height": 200
+    "url": "string",
+    "alt": "string",
+    "width": 0,
+    "height": 0
   },
-  "email": "johndoe@example.com",
-  "phoneNumber": "+1 (123) 456-7890",
+  "email": "string",
+  "phoneNumber": "string",
   "name": {
-    "first": "John",
-    "second": "",
-    "last": "Doe"
+    "first": "string",
+    "second": "string",
+    "last": "string"
   },
   "location": {
-    "city": "New York",
-    "country": "USA"
+    "city": "string",
+    "country": "string"
   },
-  "userName": "johndoe123",
-  "bio": "Freelance Web Developer",
-  "workType": "Web Development",
-  "subWorkType": "Frontend Development",
-  "twitter": "https://twitter.com/johndoe",
-  "linkedin": "https://www.linkedin.com/in/johndoe",
-  "website": "https://www.johndoe.com",
-  "bids": [
-    {
-      "id": "bid123",
-      "bidderId": "123456",
-      "createdAt": "2023-09-30T12:58:23.525Z",
-      "updatedAt": "2023-09-30T12:58:23.525Z",
-      "rate": 50,
-      "amount": 1000,
-      "currency": "USD",
-      "timeRequired": "2 weeks",
-      "workingTime": "9 AM - 5 PM",
-      "questId": "quest456",
-      "apprentice": {
-        "rate": 30,
-        "workingHours": {
-          "start": 9,
-          "end": 5,
-          "timezone": "EST"
-        },
-        "mentor": "mentor789",
-        "favoriteTo": "janeapprentice",
-        "workingDays": [
-          "Monday",
-          "Wednesday",
-          "Friday"
-        ]
-      },
-      "apprenticeRate": 30,
-      "apprenticeCut": 20,
-      "totalEarnings": 700,
-      "status": "accepted",
-      "totalBidValue": 1000
-    }
-  ],
-  "quests": [
-    {
-      "id": "quest456",
-      "creatorId": "123456",
-      "reward": 500,
-      "title": "Build a Website",
-      "description": "Create a responsive website for a client.",
-      "tags": [
-        "TAG_SOFTWAREDEVELOPMENT"
-      ],
-      "images": [
-        {
-          "url": "https://example.com/website.png",
-          "alt": "Website Screenshot",
-          "width": 800,
-          "height": 600
-        }
-      ],
-      "bidders": [
-        "bid123"
-      ],
-      "status": "completed",
-      "createdAt": "2023-09-30T12:58:23.525Z",
-      "summary": "Successfully completed the website project.",
-      "level": 2
-    }
-  ],
-  "portfolios": [
-    "https://www.johndoe.com/portfolio1",
-    "https://www.johndoe.com/portfolio2"
-  ],
-  "experiences": [
-    {
-      "position": "Frontend Developer",
-      "company": "ABC Web Solutions",
-      "startDate": "2020-01-01",
-      "endDate": "2022-12-31"
-    }
-  ],
-  "rating": 4.5,
+  "userName": "string",
+  "bio": "string",
+  "workType": "string",
+  "subWorkType": "string",
+  "twitter": "string",
+  "linkedin": "string",
+  "website": "string",
+  "rating": 0,
   "isMentor": true,
   "mentor": {
-    "bio": "Experienced mentor in web development.",
-    "skill": "Web Development",
-    "maxRate": 100,
-    "minRate": 50
+    "bio": "string",
+    "skill": "string",
+    "maxRate": 0,
+    "minRate": 0
   },
   "isApprentice": true,
-  "apprentice": {
-    "rate": 30,
-    "workingHours": {
-      "start": 9,
-      "end": 5,
-      "timezone": "EST"
-    },
-    "mentor": "mentor789",
-    "favoriteTo": "janeapprentice",
-    "workingDays": [
-      "Monday",
-      "Wednesday",
-      "Friday"
-    ]
-  },
-  "xp": "5 years",
-  "region": "North America",
-  "language": "English",
-  "level": 3,
+  "xp": "string",
+  "region": "string",
+  "language": "string",
+  "level": 0,
   "isVerified": true,
   "twoFactorAuth": true,
   "receiveVerificationText": true,
@@ -147,10 +59,10 @@
     "noInterviews": true
   },
   "financials": {
-    "balance": 1500,
-    "withdrawFrequency": "monthly",
-    "withdrawThreshold": 500,
-    "cardEnding": 1234,
-    "cardType": "Visa"
+    "balance": 0,
+    "withdrawFrequency": "string",
+    "withdrawThreshold": 0,
+    "cardEnding": 0,
+    "cardType": "string"
   }
 }

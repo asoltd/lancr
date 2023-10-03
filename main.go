@@ -43,6 +43,7 @@ import "github.com/asoltd/lancr/cmd"
 // There is an issue with the `github.com/infobloxopen/protoc-gen-gorm` package, it
 // uses deprecated version of `gorm.io/gorm` that comes from another git repository
 // that has been moved to a new API
+// this has to be done soon since otherwise buf generate fails and it is brittle, we need a custom fork of that repo with the issues fixed
 
 func main() {
 	cmd.Execute()
