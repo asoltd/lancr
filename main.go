@@ -39,6 +39,10 @@ import "github.com/asoltd/lancr/cmd"
 // };
 // - [ ] firestore on clientside SDK like in TypeScript updates the data live on website when document updates,
 // see if this can be achieved with the grpc-gateway and streaming?
+// - [ ]
+// There is an issue with the `github.com/infobloxopen/protoc-gen-gorm` package, it
+// uses deprecated version of `gorm.io/gorm` that comes from another git repository
+// that has been moved to a new API
 
 func main() {
 	cmd.Execute()
