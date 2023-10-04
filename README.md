@@ -1,8 +1,8 @@
 # Backend
 
-There is an issue with the `github.com/infobloxopen/protoc-gen-gorm` package, it
-uses deprecated version of `gorm.io/gorm` that comes from another git repository
-that has been moved to a new API
+There is an issue with the `github.com/infobloxopen/protoc-gen-gorm` package,
+it uses deprecated version of `gorm.io/gorm` and there is a nil pointer ref
+, using my patch under `github.com/piotrostr/protoc-gen-gorm`
 
 In order to generate GORM models from the protobuf definition, the
 `github.com/infobloxopen/protoc-gen-gorm` package is used with the dependency

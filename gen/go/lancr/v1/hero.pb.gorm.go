@@ -3,13 +3,12 @@ package v1
 import (
 	context "context"
 	fmt "fmt"
-	strings "strings"
-
 	gateway "github.com/infobloxopen/atlas-app-toolkit/gateway"
 	gorm1 "github.com/infobloxopen/atlas-app-toolkit/gorm"
 	errors "github.com/infobloxopen/protoc-gen-gorm/errors"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
-	"gorm.io/gorm"
+	gorm "gorm.io/gorm"
+	strings "strings"
 )
 
 type HeroORM struct {
@@ -157,7 +156,7 @@ func DefaultCreateHero(ctx context.Context, in *Hero, db *gorm.DB) (*Hero, error
 			return nil, err
 		}
 	}
-	if err = db.Create(&ormObj).Error; err != nil {
+	if err = db.Omit().Create(&ormObj).Error; err != nil {
 		return nil, err
 	}
 	if hook, ok := interface{}(&ormObj).(HeroORMWithAfterCreate_); ok {
@@ -191,9 +190,6 @@ func DefaultReadHero(ctx context.Context, in *Hero, db *gorm.DB) (*Hero, error) 
 		if db, err = hook.BeforeReadApplyQuery(ctx, db); err != nil {
 			return nil, err
 		}
-	}
-	if db, err = gorm1.ApplyFieldSelection(ctx, db, nil, &HeroORM{}); err != nil {
-		return nil, err
 	}
 	if hook, ok := interface{}(&ormObj).(HeroORMWithBeforeReadFind); ok {
 		if db, err = hook.BeforeReadFind(ctx, db); err != nil {
@@ -316,7 +312,7 @@ func DefaultStrictUpdateHero(ctx context.Context, in *Hero, db *gorm.DB) (*Hero,
 			return nil, err
 		}
 	}
-	if err = db.Save(&ormObj).Error; err != nil {
+	if err = db.Omit().Save(&ormObj).Error; err != nil {
 		return nil, err
 	}
 	if hook, ok := interface{}(&ormObj).(HeroORMWithAfterStrictUpdateSave); ok {
@@ -681,10 +677,6 @@ func DefaultListHero(ctx context.Context, db *gorm.DB) ([]*Hero, error) {
 		if db, err = hook.BeforeListApplyQuery(ctx, db); err != nil {
 			return nil, err
 		}
-	}
-	db, err = gorm1.ApplyCollectionOperators(ctx, db, &HeroORM{}, &Hero{}, nil, nil, nil, nil)
-	if err != nil {
-		return nil, err
 	}
 	if hook, ok := interface{}(&ormObj).(HeroORMWithBeforeListFind); ok {
 		if db, err = hook.BeforeListFind(ctx, db); err != nil {
