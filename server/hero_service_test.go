@@ -9,8 +9,6 @@ import (
 )
 
 func TestReadHero(t *testing.T) {
-	t.Parallel()
-
 	b, err := server.New()
 	if err != nil {
 		t.Fatal(err)
@@ -21,13 +19,11 @@ func TestReadHero(t *testing.T) {
 	}
 	_, err = b.ReadHero(context.Background(), req)
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 }
 
 func TestListHeroes(t *testing.T) {
-	t.Parallel()
-
 	b, err := server.New()
 	if err != nil {
 		t.Fatal(err)
@@ -38,7 +34,7 @@ func TestListHeroes(t *testing.T) {
 	}
 	_, err = b.ListHeroes(context.Background(), req)
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 }
 
@@ -47,8 +43,6 @@ func TestListHeroes(t *testing.T) {
 // In order to run this test, the ID field in the test-stub-hero.json file can be changed
 // to a unique value, otherwise the test will fail due to the ID already existing
 func TestCreateHero(t *testing.T) {
-	// t.Skip()
-
 	b, err := server.New()
 	if err != nil {
 		t.Fatal(err)
@@ -57,7 +51,7 @@ func TestCreateHero(t *testing.T) {
 	hero := &lancrv1.Hero{}
 	err = server.UnmarshalJSONFileToMessage("../test-stub-hero.json", hero)
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 
 	req := &lancrv1.CreateHeroRequest{
@@ -65,13 +59,11 @@ func TestCreateHero(t *testing.T) {
 	}
 	_, err = b.CreateHero(context.Background(), req)
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 }
 
 func TestDeleteHero(t *testing.T) {
-	t.Skip()
-
 	b, err := server.New()
 	if err != nil {
 		t.Fatal(err)
@@ -81,11 +73,11 @@ func TestDeleteHero(t *testing.T) {
 		Id: "test-stub",
 	})
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 
 	_, err = b.ReadHero(context.Background(), &lancrv1.ReadHeroRequest{Id: "test-stub"})
 	if err == nil {
-		t.Fatalf("hero was not deleted %v", err)
+		t.Errorf("hero was not deleted %v", err)
 	}
 }
