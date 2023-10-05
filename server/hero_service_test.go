@@ -1,27 +1,18 @@
+// the methods order is important, parallel won't work here until some proper
+// mocking is in place
+//
+// ensure that the tests are running on the 'test' database and not the 'prod',
+// there is no mocks here
 package server_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"github.com/asoltd/lancr/server"
 )
-
-func TestReadHero(t *testing.T) {
-	b, err := server.New()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	req := &lancrv1.ReadHeroRequest{
-		Id: "test-stub",
-	}
-	_, err = b.ReadHero(context.Background(), req)
-	if err != nil {
-		t.Error(err)
-	}
-}
 
 func TestListHeroes(t *testing.T) {
 	b, err := server.New()
@@ -34,30 +25,39 @@ func TestListHeroes(t *testing.T) {
 	}
 	_, err = b.ListHeroes(context.Background(), req)
 	if err != nil {
-		t.Error(err)
+		t.Fatalf("ListHeroes() failed: %v", err)
 	}
 }
 
-// TestCreatehero is not relevant at the moment, used this to verify method
-// works, Update will be preferred in the future
-// In order to run this test, the ID field in the test-stub-hero.json file can be changed
-// to a unique value, otherwise the test will fail due to the ID already existing
 func TestCreateHero(t *testing.T) {
 	b, err := server.New()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	hero := &lancrv1.Hero{}
-	err = server.UnmarshalJSONFileToMessage("../test-stub-hero.json", hero)
-	if err != nil {
-		t.Error(err)
-	}
-
 	req := &lancrv1.CreateHeroRequest{
-		Payload: hero,
+		Payload: &lancrv1.Hero{
+			Id: "test-stub",
+		},
 	}
 	_, err = b.CreateHero(context.Background(), req)
+	if err != nil {
+		if err.Error() != fmt.Sprintf("Error 1062: Duplicate entry '%s' for key 'PRIMARY'", req.Payload.Id) {
+			t.Error(err)
+		}
+	}
+}
+
+func TestReadHero(t *testing.T) {
+	b, err := server.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req := &lancrv1.ReadHeroRequest{
+		Id: "test-stub",
+	}
+	_, err = b.ReadHero(context.Background(), req)
 	if err != nil {
 		t.Error(err)
 	}

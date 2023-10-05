@@ -1,5 +1,7 @@
 # Backend
 
+Running tests requires the TIDB\_\* env variables set
+
 There is an issue with the `github.com/infobloxopen/protoc-gen-gorm`, there is a
 nil pointer ref , using my patch under `github.com/piotrostr/protoc-gen-gorm`
 Also, in order to generate GORM models from the protobuf definition, the
@@ -8,7 +10,7 @@ protobufs hosted on `buf.build/piotrostr/protoc-gen-gorm`, so use `go install
 github.com/piotrostr/protoc-gen-go@latest`
 
 There was another issue with github.com/infobloxopen/atlas-app-toolki using the
-same deprecated gorm v1,  following this workaround seems to work just fine:
+same deprecated gorm v1, following this workaround seems to work just fine:
 [issue 243](https://github.com/infobloxopen/protoc-gen-gorm/issues/243) it swaps the
 mod `github.com/infobloxopen/atlas-app-toolkit` default version with `go get ...@gorm_v2`
 

@@ -27,7 +27,8 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] write an integration test case to see if the gateway + server work together
 // TODO create a client here and retrieve the docs before authorizing any reqeuest
 // - [ ] when updating make sure that update mask by default prevents writing
-// sensitive fields, like the transactions - OUTPUT_ONLY field from import "google/api/field_behavior.proto";
+// sensitive fields, like the transactions - OUTPUT_ONLY field from import
+// "google/api/field_behavior.proto";
 // - [ ] https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/customizing_openapi_output/#hiding-fields-methods-services-and-enum-values
 //- [ ] ensure that the server is not susceptible to a common pitfalls, as DoS
 //attack, memory leaks, man in the middle, xss, sql injection, etc.
@@ -39,11 +40,8 @@ import "github.com/asoltd/lancr/cmd"
 // };
 // - [ ] firestore on clientside SDK like in TypeScript updates the data live on website when document updates,
 // see if this can be achieved with the grpc-gateway and streaming?
-// - [ ]
-// There is an issue with the `github.com/infobloxopen/protoc-gen-gorm` package, it
-// uses deprecated version of `gorm.io/gorm` that comes from another git repository
-// that has been moved to a new API
-// this has to be done soon since otherwise buf generate fails and it is brittle, we need a custom fork of that repo with the issues fixed
+// - [ ] manaage secrets like CLICKHOUSE_PASSWORD in production, i want to use sth like spiffe
+// - [ ] set up proper logs (zap?)
 
 func main() {
 	cmd.Execute()
