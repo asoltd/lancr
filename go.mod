@@ -9,13 +9,13 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.0
 	github.com/infobloxopen/atlas-app-toolkit v1.2.2-0.20220721202134-28480c4993fc
 	github.com/infobloxopen/protoc-gen-gorm v1.1.2
-	github.com/jinzhu/gorm v1.9.16
 	github.com/spf13/cobra v1.7.0
 	google.golang.org/genproto v0.0.0-20230913181813-007df8e322eb
 	google.golang.org/genproto/googleapis/api v0.0.0-20230920204549-e6e6cdab5c13
 	google.golang.org/grpc v1.58.2
 	google.golang.org/protobuf v1.31.0
 	gorm.io/driver/clickhouse v0.5.1
+	gorm.io/driver/mysql v1.3.2
 	gorm.io/gorm v1.25.4
 )
 
@@ -66,5 +66,4 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230920183334-c177e329c48b // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/datatypes v1.0.6 // indirect
-	gorm.io/driver/mysql v1.3.2 // indirect
 )
