@@ -1,12 +1,16 @@
 # Backend
 
-There is an issue with the `github.com/infobloxopen/protoc-gen-gorm` package,
-it uses deprecated version of `gorm.io/gorm` and there is a nil pointer ref
-, using my patch under `github.com/piotrostr/protoc-gen-gorm`
-
-In order to generate GORM models from the protobuf definition, the
+There is an issue with the `github.com/infobloxopen/protoc-gen-gorm`, there is a
+nil pointer ref , using my patch under `github.com/piotrostr/protoc-gen-gorm`
+Also, in order to generate GORM models from the protobuf definition, the
 `github.com/infobloxopen/protoc-gen-gorm` package is used with the dependency
-protobufs hosted on `buf.build/piotrostr/protoc-gen-gorm`, the installation is
+protobufs hosted on `buf.build/piotrostr/protoc-gen-gorm`, so use `go install
+github.com/piotrostr/protoc-gen-go@latest`
+
+There was another issue with github.com/infobloxopen/atlas-app-toolki using the
+same deprecated gorm v1,  following this workaround seems to work just fine:
+[issue 243](https://github.com/infobloxopen/protoc-gen-gorm/issues/243) it swaps the
+mod `github.com/infobloxopen/atlas-app-toolkit` default version with `go get ...@gorm_v2`
 
 ```sh
 go install github.com/infobloxopen/protoc-gen-gorm@latest
