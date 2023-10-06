@@ -20,4 +20,4 @@ plugins:
 
   - name: gorm
     out: gen/go
-    opt: engine=postgres,paths=source_relative,enums=string,gateway=true:./gen/go/gorm
+    opt: paths=source_relative,enums=string
