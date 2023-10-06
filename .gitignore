@@ -13,3 +13,5 @@
 **/*.bun
 
 .env
+
+k8s/secrets.yaml

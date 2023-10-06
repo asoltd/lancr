@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: interface-service
+  namespace: default
+  labels:
+    app.kubernetes.io/name: interface-service
+spec:
+  selector:
+    app.kubernetes.io/name: interface
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: interface
+  namespace: default
+  labels:
+    app.kubernetes.io/name: interface
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: interface
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: interface
+    spec:
+      containers:
+        - name: gateway
+          image: gcr.io/asoltd-guilds/interface:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
