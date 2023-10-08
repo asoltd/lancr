@@ -3,7 +3,6 @@ module github.com/asoltd/lancr
 go 1.20
 
 require (
-	cloud.google.com/go/firestore v1.12.0
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/ClickHouse/clickhouse-go/v2 v2.14.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.0
@@ -23,6 +22,7 @@ require (
 	cloud.google.com/go v0.110.7 // indirect
 	cloud.google.com/go/compute v1.23.0 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
+	cloud.google.com/go/firestore v1.12.0 // indirect
 	cloud.google.com/go/iam v1.1.1 // indirect
 	cloud.google.com/go/longrunning v0.5.1 // indirect
 	cloud.google.com/go/storage v1.30.1 // indirect
