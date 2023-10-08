@@ -3,7 +3,6 @@ package v1
 import (
 	context "context"
 	fmt "fmt"
-	gateway "github.com/infobloxopen/atlas-app-toolkit/gateway"
 	gorm1 "github.com/infobloxopen/atlas-app-toolkit/gorm"
 	errors "github.com/infobloxopen/protoc-gen-gorm/errors"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
@@ -299,9 +298,8 @@ func DefaultStrictUpdateHero(ctx context.Context, in *Hero, db *gorm.DB) (*Hero,
 	if err != nil {
 		return nil, err
 	}
-	var count int64
 	lockedRow := &HeroORM{}
-	count = db.Model(&ormObj).Set("gorm:query_option", "FOR UPDATE").Where("id=?", ormObj.Id).First(lockedRow).RowsAffected
+	db.Model(&ormObj).Set("gorm:query_option", "FOR UPDATE").Where("id=?", ormObj.Id).First(lockedRow)
 	if hook, ok := interface{}(&ormObj).(HeroORMWithBeforeStrictUpdateCleanup); ok {
 		if db, err = hook.BeforeStrictUpdateCleanup(ctx, db); err != nil {
 			return nil, err
@@ -323,9 +321,6 @@ func DefaultStrictUpdateHero(ctx context.Context, in *Hero, db *gorm.DB) (*Hero,
 	pbResponse, err := ormObj.ToPB(ctx)
 	if err != nil {
 		return nil, err
-	}
-	if count == 0 {
-		err = gateway.SetCreated(ctx, "")
 	}
 	return &pbResponse, err
 }

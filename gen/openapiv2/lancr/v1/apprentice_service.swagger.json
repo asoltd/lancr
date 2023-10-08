@@ -1,0 +1,316 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "lancr/v1/apprentice_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ApprenticeService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/apprentices": {
+      "get": {
+        "operationId": "ApprenticeService_ListApprentices",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListApprenticesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      },
+      "post": {
+        "operationId": "ApprenticeService_CreateApprentice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateApprenticeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateApprenticeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      }
+    },
+    "/v1/apprentices/{id}": {
+      "get": {
+        "operationId": "ApprenticeService_ReadApprentice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReadApprenticeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      },
+      "delete": {
+        "operationId": "ApprenticeService_DeleteApprentice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteApprenticeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      },
+      "put": {
+        "operationId": "ApprenticeService_UpdateApprentice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateApprenticeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "payload": {
+                  "$ref": "#/definitions/v1Apprentice"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Apprentice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "rate": {
+          "type": "number",
+          "format": "float"
+        },
+        "workingHours": {
+          "$ref": "#/definitions/v1WorkingHours"
+        },
+        "mentor": {
+          "type": "string"
+        },
+        "favoriteTo": {
+          "type": "string"
+        },
+        "workingDays": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1CreateApprenticeRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Apprentice"
+        }
+      }
+    },
+    "v1CreateApprenticeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Apprentice"
+        }
+      }
+    },
+    "v1DeleteApprenticeResponse": {
+      "type": "object",
+      "title": "empty"
+    },
+    "v1ListApprenticesResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Apprentice"
+          }
+        },
+        "nextPageToken": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1ReadApprenticeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Apprentice"
+        }
+      }
+    },
+    "v1UpdateApprenticeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Apprentice"
+        }
+      }
+    },
+    "v1WorkingHours": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "end": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "timezone": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
