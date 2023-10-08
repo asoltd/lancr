@@ -62,9 +62,7 @@ message Transaction {
 }
 
 message Hero {
-  option (gorm.opts) = {
-    ormable: true
-  };
+  option (gorm.opts).ormable = true;
 
   string id = 1 [(google.api.field_behavior) = REQUIRED];
   string display_name = 2 [(google.api.field_behavior) = REQUIRED];

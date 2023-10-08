@@ -8,7 +8,11 @@ import "google/protobuf/timestamp.proto";
 import "lancr/v1/common.proto";
 import "lancr/v1/hero.proto";
 
+import "proto/options/gorm.proto";
+
 message Course {
+  option (gorm.opts).ormable = true;
+
   string id = 1;
   int32 xp = 2;
   bool verified = 3;
@@ -19,5 +23,13 @@ message Course {
   string creator_id = 8;
   int32 rating = 9;
   google.protobuf.Timestamp created_at = 10;
-  repeated Hero enrolled_users = 11;
+
+  // IDs of enrolled heroes
+  repeated string enrolled_users = 11;
+  // stuff like enrolled users has to come from a separate table?
+  // had an issue with protoc-gen-gorm not being able to create arrays
+
+  // has to be valid https:// url with a domain
+  string url = 12;
+  repeated string tags = 13;
 }

@@ -6,10 +6,15 @@ import "lancr/v1/common.proto";
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
+import "proto/options/gorm.proto";
+
 message Apprentice {
-  float rate = 1;
-  WorkingHours working_hours = 2;
-  string mentor = 3;
-  string favorite_to = 4;
-  repeated string working_days = 5;
+  option (gorm.opts).ormable = true;
+
+  string id = 1;
+  float rate = 2;
+  WorkingHours working_hours = 3;
+  string mentor = 4;
+  string favorite_to = 5;
+  repeated string working_days = 6;
 }

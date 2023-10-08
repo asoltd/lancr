@@ -26,11 +26,9 @@ message ListHeroesResponse {
   repeated Hero results = 1;
   int32 next_page_token = 2;
   int32 total_size = 3;
-  int32 page_size = 4;
 }
 
 message CreateHeroRequest {
-  int32 id = 1;  // TODO verify that id == hero.id, make hero.id immutable
   Hero payload = 2;
 }
 
@@ -59,6 +57,8 @@ message DeleteHeroResponse {
 }
 
 service HeroService {
+  option (gorm.server).autogen = true;
+
   rpc ReadHero(ReadHeroRequest) returns (ReadHeroResponse) {
     option (google.api.http) = {
       // TODO not sure here if it should not be
