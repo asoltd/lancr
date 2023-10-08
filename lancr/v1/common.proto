@@ -13,7 +13,6 @@ message WorkingHours {
 message Location {
   string city = 1;
   string country = 2;
-  // TODO coords?
 }
 
 message Name {

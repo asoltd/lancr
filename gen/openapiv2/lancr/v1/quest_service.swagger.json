@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "lancr/v1/hero_service.proto",
+    "title": "lancr/v1/quest_service.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "HeroService"
+      "name": "QuestService"
     }
   ],
   "consumes": [
@@ -16,14 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/v1/heroes": {
+    "/v1/quests": {
       "get": {
-        "operationId": "HeroService_ListHeroes",
+        "operationId": "QuestService_ListQuests",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListHeroesResponse"
+              "$ref": "#/definitions/v1ListQuestsResponse"
             }
           },
           "default": {
@@ -50,16 +50,16 @@
           }
         ],
         "tags": [
-          "HeroService"
+          "QuestService"
         ]
       },
       "post": {
-        "operationId": "HeroService_CreateHero",
+        "operationId": "QuestService_CreateQuest",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CreateHeroResponse"
+              "$ref": "#/definitions/v1CreateQuestResponse"
             }
           },
           "default": {
@@ -75,23 +75,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateHeroRequest"
+              "$ref": "#/definitions/v1CreateQuestRequest"
             }
           }
         ],
         "tags": [
-          "HeroService"
+          "QuestService"
         ]
       }
     },
-    "/v1/heroes/{id}": {
+    "/v1/quests/{id}": {
       "get": {
-        "operationId": "HeroService_ReadHero",
+        "operationId": "QuestService_ReadQuest",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ReadHeroResponse"
+              "$ref": "#/definitions/v1ReadQuestResponse"
             }
           },
           "default": {
@@ -110,16 +110,16 @@
           }
         ],
         "tags": [
-          "HeroService"
+          "QuestService"
         ]
       },
       "delete": {
-        "operationId": "HeroService_DeleteHero",
+        "operationId": "QuestService_DeleteQuest",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DeleteHeroResponse"
+              "$ref": "#/definitions/v1DeleteQuestResponse"
             }
           },
           "default": {
@@ -138,16 +138,16 @@
           }
         ],
         "tags": [
-          "HeroService"
+          "QuestService"
         ]
       },
       "put": {
-        "operationId": "HeroService_UpdateHero",
+        "operationId": "QuestService_UpdateQuest",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UpdateHeroResponse"
+              "$ref": "#/definitions/v1UpdateQuestResponse"
             }
           },
           "default": {
@@ -172,7 +172,7 @@
               "type": "object",
               "properties": {
                 "payload": {
-                  "$ref": "#/definitions/v1Hero"
+                  "$ref": "#/definitions/v1Quest"
                 },
                 "allowMissing": {
                   "type": "boolean",
@@ -183,93 +183,12 @@
           }
         ],
         "tags": [
-          "HeroService"
-        ]
-      }
-    },
-    "/v1/heroes:getQuestCreator": {
-      "get": {
-        "operationId": "HeroService_GetQuestCreator",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1GetQuestCreatorResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "questId",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "HeroService"
-        ]
-      }
-    },
-    "/v1/heroes:getTotalHeroes": {
-      "get": {
-        "operationId": "HeroService_GetTotalHeroes",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1GetTotalHeroesResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "tags": [
-          "HeroService"
+          "QuestService"
         ]
       }
     }
   },
   "definitions": {
-    "HeroExperience": {
-      "type": "object",
-      "properties": {
-        "position": {
-          "type": "string"
-        },
-        "company": {
-          "type": "string"
-        },
-        "startDate": {
-          "type": "string"
-        },
-        "endDate": {
-          "type": "string"
-        }
-      },
-      "title": "TODO this might need to be a separate service since we need to verify some\nof those things and you need base CRUD for this also"
-    },
-    "lancrv1Location": {
-      "type": "object",
-      "properties": {
-        "city": {
-          "type": "string"
-        },
-        "country": {
-          "type": "string"
-        }
-      }
-    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -298,121 +217,25 @@
         }
       }
     },
-    "v1CreateHeroRequest": {
+    "v1CreateQuestRequest": {
       "type": "object",
       "properties": {
         "payload": {
-          "$ref": "#/definitions/v1Hero"
+          "$ref": "#/definitions/v1Quest"
         }
       }
     },
-    "v1CreateHeroResponse": {
+    "v1CreateQuestResponse": {
       "type": "object",
       "properties": {
         "result": {
-          "$ref": "#/definitions/v1Hero"
+          "$ref": "#/definitions/v1Quest"
         }
       }
     },
-    "v1DeleteHeroResponse": {
+    "v1DeleteQuestResponse": {
       "type": "object",
       "title": "empty response, code 200"
-    },
-    "v1GetQuestCreatorResponse": {
-      "type": "object",
-      "properties": {
-        "hero": {
-          "$ref": "#/definitions/v1Hero"
-        }
-      }
-    },
-    "v1GetTotalHeroesResponse": {
-      "type": "object",
-      "properties": {
-        "total": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
-    "v1Hero": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "visibility": {
-          "type": "string"
-        },
-        "profilePicture": {
-          "$ref": "#/definitions/v1Image"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phoneNumber": {
-          "type": "string"
-        },
-        "name": {
-          "$ref": "#/definitions/v1Name"
-        },
-        "location": {
-          "$ref": "#/definitions/lancrv1Location"
-        },
-        "userName": {
-          "type": "string"
-        },
-        "bio": {
-          "type": "string"
-        },
-        "workType": {
-          "type": "string"
-        },
-        "subWorkType": {
-          "type": "string"
-        },
-        "twitter": {
-          "type": "string"
-        },
-        "linkedin": {
-          "type": "string"
-        },
-        "website": {
-          "type": "string"
-        },
-        "experiences": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/HeroExperience"
-          }
-        },
-        "rating": {
-          "type": "number",
-          "format": "float"
-        },
-        "xp": {
-          "type": "string"
-        },
-        "region": {
-          "type": "string"
-        },
-        "language": {
-          "type": "string"
-        },
-        "level": {
-          "type": "integer",
-          "format": "int64"
-        }
-      },
-      "required": [
-        "id",
-        "displayName",
-        "visibility"
-      ]
     },
     "v1Image": {
       "type": "object",
@@ -433,14 +256,14 @@
         }
       }
     },
-    "v1ListHeroesResponse": {
+    "v1ListQuestsResponse": {
       "type": "object",
       "properties": {
         "results": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1Hero"
+            "$ref": "#/definitions/v1Quest"
           }
         },
         "nextPageToken": {
@@ -453,33 +276,86 @@
         }
       }
     },
-    "v1Name": {
+    "v1Quest": {
       "type": "object",
       "properties": {
-        "first": {
+        "id": {
           "type": "string"
         },
-        "second": {
+        "creatorId": {
           "type": "string"
         },
-        "last": {
+        "reward": {
+          "type": "number",
+          "format": "float"
+        },
+        "title": {
           "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Tag"
+          }
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Image"
+          }
+        },
+        "bidders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
-    "v1ReadHeroResponse": {
+    "v1ReadQuestResponse": {
       "type": "object",
       "properties": {
         "result": {
-          "$ref": "#/definitions/v1Hero"
+          "$ref": "#/definitions/v1Quest"
         }
       }
     },
-    "v1UpdateHeroResponse": {
+    "v1Tag": {
+      "type": "string",
+      "enum": [
+        "TAG_DESIGN_UNSPECIFIED",
+        "TAG_MANAGEMENT",
+        "TAG_RESEARCH",
+        "TAG_PRESENTATION",
+        "TAG_SOFTWAREDEVELOPMENT",
+        "TAG_CUSTOMERSUCCESS",
+        "TAG_LEADERSHIP"
+      ],
+      "default": "TAG_DESIGN_UNSPECIFIED"
+    },
+    "v1UpdateQuestResponse": {
       "type": "object",
       "properties": {
         "result": {
-          "$ref": "#/definitions/v1Hero"
+          "$ref": "#/definitions/v1Quest"
         }
       }
     }

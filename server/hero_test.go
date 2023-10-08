@@ -50,13 +50,8 @@ func TestCreateHero(t *testing.T) {
 
 	req := &lancrv1.CreateHeroRequest{
 		Payload: &lancrv1.Hero{
-			Id: "test-stub",
-			LinkedAccounts: []*lancrv1.LinkedAccount{
-				{
-					Provider:   "google",
-					Credential: "test-credential",
-				},
-			},
+			Id:          "test-stub",
+			DisplayName: "test guy",
 		},
 	}
 	_, err := h.CreateHero(context.Background(), req)

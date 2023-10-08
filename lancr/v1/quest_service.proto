@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package lancr.v1;
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
+
+import "lancr/v1/quest.proto";
+
+import "google/api/annotations.proto";
+
+import "proto/options/gorm.proto";
+
+service QuestService {
+  option (gorm.server).autogen = true;
+
+  rpc ReadQuest(ReadQuestRequest) returns (ReadQuestResponse) {
+    option (google.api.http) = {
+      get: "/v1/quests/{id}"
+    };
+  }
+  rpc ListQuests(ListQuestsRequest) returns (ListQuestsResponse) {
+    option (google.api.http) = {
+      get: "/v1/quests"
+    };
+  }
+  rpc CreateQuest(CreateQuestRequest) returns (CreateQuestResponse) {
+    option (google.api.http) = {
+      post: "/v1/quests"
+      body: "*"
+    };
+  }
+  rpc UpdateQuest(UpdateQuestRequest) returns (UpdateQuestResponse) {
+    option (google.api.http) = {
+      put: "/v1/quests/{id}"
+      body: "*"
+    };
+  }
+  rpc DeleteQuest(DeleteQuestRequest) returns (DeleteQuestResponse) {
+    option (gorm.method).object_type = "Quest";
+    option (google.api.http) = {
+      delete: "/v1/quests/{id}"
+    };
+  }
+}
+
+message ReadQuestRequest {
+  string id = 1;
+}
+
+message ReadQuestResponse {
+  Quest result = 1;
+}
+
+message ListQuestsRequest {
+  int32 page_size = 1;
+  int32 page_token = 2;
+}
+
+message ListQuestsResponse {
+  repeated Quest results = 1;
+  int32 next_page_token = 2;
+  int32 total_size = 3;
+}
+
+message CreateQuestRequest {
+  Quest payload = 2;
+}
+
+message CreateQuestResponse {
+  Quest result = 1;
+}
+
+message UpdateQuestRequest {
+  string id = 1;
+  Quest payload = 2;
+
+  // If set to true, and the hero is not found, a new hero will be created.
+  bool allow_missing = 3;
+}
+
+message UpdateQuestResponse {
+  Quest result = 1;
+}
+
+message DeleteQuestRequest {
+  string id = 1;
+}
+
+message DeleteQuestResponse {
+  // empty response, code 200
+}
+
+// deprecated
+// repeated Bid bids = 17;
+// repeated Quest quests = 18;
+// repeated string portfolios = 19;
+// Apprentice apprentice = 25;

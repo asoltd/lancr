@@ -89,7 +89,7 @@ type Location struct {
 	unknownFields protoimpl.UnknownFields
 
 	City    string `protobuf:"bytes,1,opt,name=city,proto3" json:"city,omitempty"`
-	Country string `protobuf:"bytes,2,opt,name=country,proto3" json:"country,omitempty"` // TODO coords?
+	Country string `protobuf:"bytes,2,opt,name=country,proto3" json:"country,omitempty"`
 }
 
 func (x *Location) Reset() {

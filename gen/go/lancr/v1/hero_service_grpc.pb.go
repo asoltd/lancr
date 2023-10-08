@@ -19,11 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	HeroService_ReadHero_FullMethodName   = "/lancr.v1.HeroService/ReadHero"
-	HeroService_ListHeroes_FullMethodName = "/lancr.v1.HeroService/ListHeroes"
-	HeroService_CreateHero_FullMethodName = "/lancr.v1.HeroService/CreateHero"
-	HeroService_UpdateHero_FullMethodName = "/lancr.v1.HeroService/UpdateHero"
-	HeroService_DeleteHero_FullMethodName = "/lancr.v1.HeroService/DeleteHero"
+	HeroService_ReadHero_FullMethodName        = "/lancr.v1.HeroService/ReadHero"
+	HeroService_ListHeroes_FullMethodName      = "/lancr.v1.HeroService/ListHeroes"
+	HeroService_CreateHero_FullMethodName      = "/lancr.v1.HeroService/CreateHero"
+	HeroService_UpdateHero_FullMethodName      = "/lancr.v1.HeroService/UpdateHero"
+	HeroService_DeleteHero_FullMethodName      = "/lancr.v1.HeroService/DeleteHero"
+	HeroService_GetTotalHeroes_FullMethodName  = "/lancr.v1.HeroService/GetTotalHeroes"
+	HeroService_GetQuestCreator_FullMethodName = "/lancr.v1.HeroService/GetQuestCreator"
 )
 
 // HeroServiceClient is the client API for HeroService service.
@@ -35,6 +37,8 @@ type HeroServiceClient interface {
 	CreateHero(ctx context.Context, in *CreateHeroRequest, opts ...grpc.CallOption) (*CreateHeroResponse, error)
 	UpdateHero(ctx context.Context, in *UpdateHeroRequest, opts ...grpc.CallOption) (*UpdateHeroResponse, error)
 	DeleteHero(ctx context.Context, in *DeleteHeroRequest, opts ...grpc.CallOption) (*DeleteHeroResponse, error)
+	GetTotalHeroes(ctx context.Context, in *GetTotalHeroesRequest, opts ...grpc.CallOption) (*GetTotalHeroesResponse, error)
+	GetQuestCreator(ctx context.Context, in *GetQuestCreatorRequest, opts ...grpc.CallOption) (*GetQuestCreatorResponse, error)
 }
 
 type heroServiceClient struct {
@@ -90,6 +94,24 @@ func (c *heroServiceClient) DeleteHero(ctx context.Context, in *DeleteHeroReques
 	return out, nil
 }
 
+func (c *heroServiceClient) GetTotalHeroes(ctx context.Context, in *GetTotalHeroesRequest, opts ...grpc.CallOption) (*GetTotalHeroesResponse, error) {
+	out := new(GetTotalHeroesResponse)
+	err := c.cc.Invoke(ctx, HeroService_GetTotalHeroes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *heroServiceClient) GetQuestCreator(ctx context.Context, in *GetQuestCreatorRequest, opts ...grpc.CallOption) (*GetQuestCreatorResponse, error) {
+	out := new(GetQuestCreatorResponse)
+	err := c.cc.Invoke(ctx, HeroService_GetQuestCreator_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HeroServiceServer is the server API for HeroService service.
 // All implementations must embed UnimplementedHeroServiceServer
 // for forward compatibility
@@ -99,6 +121,8 @@ type HeroServiceServer interface {
 	CreateHero(context.Context, *CreateHeroRequest) (*CreateHeroResponse, error)
 	UpdateHero(context.Context, *UpdateHeroRequest) (*UpdateHeroResponse, error)
 	DeleteHero(context.Context, *DeleteHeroRequest) (*DeleteHeroResponse, error)
+	GetTotalHeroes(context.Context, *GetTotalHeroesRequest) (*GetTotalHeroesResponse, error)
+	GetQuestCreator(context.Context, *GetQuestCreatorRequest) (*GetQuestCreatorResponse, error)
 	mustEmbedUnimplementedHeroServiceServer()
 }
 
@@ -120,6 +144,12 @@ func (UnimplementedHeroServiceServer) UpdateHero(context.Context, *UpdateHeroReq
 }
 func (UnimplementedHeroServiceServer) DeleteHero(context.Context, *DeleteHeroRequest) (*DeleteHeroResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteHero not implemented")
+}
+func (UnimplementedHeroServiceServer) GetTotalHeroes(context.Context, *GetTotalHeroesRequest) (*GetTotalHeroesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTotalHeroes not implemented")
+}
+func (UnimplementedHeroServiceServer) GetQuestCreator(context.Context, *GetQuestCreatorRequest) (*GetQuestCreatorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetQuestCreator not implemented")
 }
 func (UnimplementedHeroServiceServer) mustEmbedUnimplementedHeroServiceServer() {}
 
@@ -224,6 +254,42 @@ func _HeroService_DeleteHero_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HeroService_GetTotalHeroes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTotalHeroesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HeroServiceServer).GetTotalHeroes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HeroService_GetTotalHeroes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HeroServiceServer).GetTotalHeroes(ctx, req.(*GetTotalHeroesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HeroService_GetQuestCreator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetQuestCreatorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HeroServiceServer).GetQuestCreator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HeroService_GetQuestCreator_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HeroServiceServer).GetQuestCreator(ctx, req.(*GetQuestCreatorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HeroService_ServiceDesc is the grpc.ServiceDesc for HeroService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +316,14 @@ var HeroService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteHero",
 			Handler:    _HeroService_DeleteHero_Handler,
+		},
+		{
+			MethodName: "GetTotalHeroes",
+			Handler:    _HeroService_GetTotalHeroes_Handler,
+		},
+		{
+			MethodName: "GetQuestCreator",
+			Handler:    _HeroService_GetQuestCreator_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -6,6 +6,7 @@ option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 import "google/protobuf/timestamp.proto";
 import "lancr/v1/common.proto";
+import "proto/options/gorm.proto";
 
 enum Tag {
   TAG_DESIGN_UNSPECIFIED = 0;
@@ -18,6 +19,8 @@ enum Tag {
 }
 
 message Quest {
+  option (gorm.opts).ormable = true;
+
   string id = 1;
   string creator_id = 2;
   float reward = 3;

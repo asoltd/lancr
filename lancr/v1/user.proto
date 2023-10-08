@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package lancr.v1;
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
+
+message User {
+  string id = 1;
+  // TODO the User model has a belongs-to relationship with Hero?
+  string hero_id = 2;
+  string firebase_user_id = 3;
+  repeated LinkedAccount linked_accounts = 4;
+  bool is_verified = 25;
+  bool two_factor_auth = 26;
+  bool receive_verification_text = 27;
+  NotificationPreferences notification_preferences = 28;
+}
+
+message NotificationPreferences {
+  string user_id = 1;
+  bool quest_modified = 2;
+  bool proposal_received = 3;
+  bool interview_accepted = 4;
+  bool interview_proposal_declined = 5;
+  bool offer_accepted = 6;
+  bool quest_expires_soon = 7;
+  bool quest_expires = 8;
+  bool no_interviews = 9;
+}
+
+message LinkedAccount {
+  string provider = 1;
+  string credential = 2;
+}

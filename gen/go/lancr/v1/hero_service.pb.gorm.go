@@ -146,3 +146,15 @@ type HeroServiceHeroWithBeforeDeleteHero interface {
 type HeroServiceHeroWithAfterDeleteHero interface {
 	AfterDeleteHero(context.Context, *DeleteHeroResponse, *gorm.DB) error
 }
+
+// GetTotalHeroes ...
+func (m *HeroServiceDefaultServer) GetTotalHeroes(ctx context.Context, in *GetTotalHeroesRequest) (*GetTotalHeroesResponse, error) {
+	out := &GetTotalHeroesResponse{}
+	return out, nil
+}
+
+// GetQuestCreator ...
+func (m *HeroServiceDefaultServer) GetQuestCreator(ctx context.Context, in *GetQuestCreatorRequest) (*GetQuestCreatorResponse, error) {
+	out := &GetQuestCreatorResponse{}
+	return out, nil
+}

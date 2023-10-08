@@ -41,3 +41,16 @@ func (h *HeroServiceServer) UpdateHero(ctx context.Context, req *lancrv1.UpdateH
 func (h *HeroServiceServer) DeleteHero(ctx context.Context, req *lancrv1.DeleteHeroRequest) (*lancrv1.DeleteHeroResponse, error) {
 	return h.HeroServiceDefaultServer.DeleteHero(ctx, req)
 }
+
+func (h *HeroServiceServer) GetTotalHeroes(ctx context.Context, req *lancrv1.GetTotalHeroesRequest) (*lancrv1.GetTotalHeroesResponse, error) {
+	return &lancrv1.GetTotalHeroesResponse{Total: 1}, nil
+}
+
+func (h *HeroServiceServer) GetQuestCreator(ctx context.Context, req *lancrv1.GetQuestCreatorRequest) (*lancrv1.GetQuestCreatorResponse, error) {
+	res := &lancrv1.GetQuestCreatorResponse{
+		Hero: &lancrv1.Hero{
+			Id: "some-dude",
+		},
+	}
+	return res, nil
+}

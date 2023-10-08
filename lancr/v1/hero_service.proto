@@ -9,6 +9,53 @@ import "proto/options/gorm.proto";
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
+service HeroService {
+  option (gorm.server).autogen = true;
+
+  rpc ReadHero(ReadHeroRequest) returns (ReadHeroResponse) {
+    option (google.api.http) = {
+      // TODO not sure here if it should not be
+      // "/v1/{name=heroes/*}"
+      // got to double-check that
+      get: "/v1/heroes/{id}"
+    };
+  }
+  rpc ListHeroes(ListHeroesRequest) returns (ListHeroesResponse) {
+    option (google.api.http) = {
+      get: "/v1/heroes"
+    };
+  }
+  rpc CreateHero(CreateHeroRequest) returns (CreateHeroResponse) {
+    option (google.api.http) = {
+      post: "/v1/heroes"
+      body: "*"
+    };
+  }
+  rpc UpdateHero(UpdateHeroRequest) returns (UpdateHeroResponse) {
+    option (google.api.http) = {
+      put: "/v1/heroes/{id}"
+      body: "*"
+    };
+  }
+  rpc DeleteHero(DeleteHeroRequest) returns (DeleteHeroResponse) {
+    option (gorm.method).object_type = "Hero";
+    option (google.api.http) = {
+      delete: "/v1/heroes/{id}"
+    };
+  }
+  rpc GetTotalHeroes(GetTotalHeroesRequest) returns (GetTotalHeroesResponse) {
+    option (google.api.http) = {
+      get: "/v1/heroes:getTotalHeroes"
+    };
+  }
+  rpc GetQuestCreator(GetQuestCreatorRequest)
+      returns (GetQuestCreatorResponse) {
+    option (google.api.http) = {
+      get: "/v1/heroes:getQuestCreator"
+    };
+  }
+}
+
 message ReadHeroRequest {
   string id = 1;
 }
@@ -56,39 +103,16 @@ message DeleteHeroResponse {
   // empty response, code 200
 }
 
-service HeroService {
-  option (gorm.server).autogen = true;
+message GetTotalHeroesRequest {}
 
-  rpc ReadHero(ReadHeroRequest) returns (ReadHeroResponse) {
-    option (google.api.http) = {
-      // TODO not sure here if it should not be
-      // "/v1/{name=heroes/*}"
-      // got to double-check that
-      get: "/v1/heroes/{id}"
-    };
-  }
+message GetTotalHeroesResponse {
+  uint32 total = 1;
+}
 
-  rpc ListHeroes(ListHeroesRequest) returns (ListHeroesResponse) {
-    option (google.api.http) = {
-      get: "/v1/heroes"
-    };
-  }
-  rpc CreateHero(CreateHeroRequest) returns (CreateHeroResponse) {
-    option (google.api.http) = {
-      post: "/v1/heroes"
-      body: "*"
-    };
-  }
-  rpc UpdateHero(UpdateHeroRequest) returns (UpdateHeroResponse) {
-    option (google.api.http) = {
-      put: "/v1/heroes/{id}"
-      body: "*"
-    };
-  }
-  rpc DeleteHero(DeleteHeroRequest) returns (DeleteHeroResponse) {
-    option (gorm.method).object_type = "Hero";
-    option (google.api.http) = {
-      delete: "/v1/heroes/{id}"
-    };
-  }
+message GetQuestCreatorRequest {
+  string quest_id = 1;
+}
+
+message GetQuestCreatorResponse {
+  Hero hero = 1;
 }

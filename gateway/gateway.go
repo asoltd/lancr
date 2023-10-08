@@ -70,6 +70,9 @@ func New(ctx context.Context) (*Gateway, error) {
 	}, nil
 }
 
+// ConnectToBackend assumes that all of the below services are under the same
+// gRPC server, in this case that would be the Hero, Apprentice and Quest
+// services
 func (gw *Gateway) ConnectToBackend(ctx context.Context, dialAddr string) error {
 	conn, err := grpc.DialContext(
 		context.Background(),
@@ -87,6 +90,11 @@ func (gw *Gateway) ConnectToBackend(ctx context.Context, dialAddr string) error 
 	}
 
 	err = lancrv1.RegisterApprenticeServiceHandler(ctx, gw.gwmux, conn)
+	if err != nil {
+		return err
+	}
+
+	err = lancrv1.RegisterQuestServiceHandler(ctx, gw.gwmux, conn)
 	if err != nil {
 		return err
 	}
