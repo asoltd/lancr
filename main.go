@@ -42,6 +42,7 @@ import "github.com/asoltd/lancr/cmd"
 // see if this can be achieved with the grpc-gateway and streaming?
 // - [ ] manaage secrets like CLICKHOUSE_PASSWORD in production, i want to use sth like spiffe
 // - [ ] set up proper logs (zap?)
+// - [ ] add healthchecks
 
 func main() {
 	cmd.Execute()

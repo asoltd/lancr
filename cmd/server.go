@@ -8,6 +8,7 @@ import (
 	"net"
 	"os"
 
+	"github.com/asoltd/lancr/db"
 	"github.com/asoltd/lancr/server"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -35,12 +36,16 @@ var serverCmd = &cobra.Command{
 
 		s := grpc.NewServer()
 
-		backend, err := server.New()
+		db, err := db.Connect()
 		if err != nil {
-			log.Fatalf("failed to set up backend asdf: %+v", err)
+			log.Fatalf("failed to connect to database %w", err)
 		}
 
-		lancrv1.RegisterHeroServiceServer(s, backend)
+		h := server.NewHeroServiceServer(db)
+		a := server.NewApprenticeServiceServer(db)
+
+		lancrv1.RegisterHeroServiceServer(s, h)
+		lancrv1.RegisterApprenticeServiceServer(s, a)
 
 		reflection.Register(s)
 

@@ -16,13 +16,13 @@ func ConnectTiDB() (*gorm.DB, error) {
 	})
 }
 
+// TODO implement SSL, notice how currently false and insecure
 func getDSN() string {
 	tidbHost := GetEnvWithDefault("TIDB_HOST", "127.0.0.1")
 	tidbPort := GetEnvWithDefault("TIDB_PORT", "4000")
 	tidbUser := GetEnvWithDefault("TIDB_USER", "root")
 	tidbPassword := GetEnvWithDefault("TIDB_PASSWORD", "")
 	tidbDBName := GetEnvWithDefault("TIDB_DB_NAME", "test")
-	// TODO implement SSL, notice how currently false and insecure
 	useSSL := GetEnvWithDefault("USE_SSL", "false")
 
 	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&tls=%s",

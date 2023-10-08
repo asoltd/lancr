@@ -86,6 +86,11 @@ func (gw *Gateway) ConnectToBackend(ctx context.Context, dialAddr string) error 
 		return err
 	}
 
+	err = lancrv1.RegisterApprenticeServiceHandler(ctx, gw.gwmux, conn)
+	if err != nil {
+		return err
+	}
+
 	gw.client = lancrv1.NewHeroServiceClient(conn)
 	gw.connectedToBackend = true
 	// TODO add a client here? I am thinking of a better way to see if someone can
@@ -116,6 +121,8 @@ func (gw *Gateway) SetupHandler(ctx context.Context) error {
 			idtoken := r.Header.Get("X-Firebase-ID-Token")
 			if idtoken == "" {
 				w.WriteHeader(http.StatusForbidden)
+				w.Write([]byte("X-Firebase-ID-Token header is required"))
+				return
 			}
 		default:
 			w.WriteHeader(http.StatusMethodNotAllowed)
