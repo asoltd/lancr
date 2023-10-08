@@ -28,6 +28,11 @@ func Connect() (*gorm.DB, error) {
 		return nil, err
 	}
 
+	err = db.AutoMigrate(&lancrv1.QuestORM{})
+	if err != nil {
+		return nil, err
+	}
+
 	return db, nil
 }
 
