@@ -49,6 +49,8 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] do you need to ensure that
 // 1. the table is going to be the same as the ORM object
 // 2. the payload is not nil, is the parameters in request gonna be required
+// - [ ] set up cloud armor for dddos protection
+// = [ ] set up static files hosting
 
 func main() {
 	cmd.Execute()
