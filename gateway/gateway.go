@@ -55,7 +55,7 @@ func New(ctx context.Context) (*Gateway, error) {
 	gwmux := runtime.NewServeMux(
 		runtime.WithIncomingHeaderMatcher(func(key string) (string, bool) {
 			switch key {
-			case "X-Firebase-ID-Token":
+			case "Authorization":
 				return key, true
 			default:
 				return runtime.DefaultHeaderMatcher(key)
@@ -126,10 +126,10 @@ func (gw *Gateway) SetupHandler(ctx context.Context) error {
 		switch r.Method {
 		case http.MethodGet:
 		case http.MethodPost, http.MethodPut, http.MethodDelete:
-			idtoken := r.Header.Get("X-Firebase-ID-Token")
+			idtoken := r.Header.Get("Authorization")
 			if idtoken == "" {
 				w.WriteHeader(http.StatusForbidden)
-				w.Write([]byte("X-Firebase-ID-Token header is required"))
+				w.Write([]byte("Authorization header is required"))
 				return
 			}
 		default:

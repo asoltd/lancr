@@ -13,8 +13,15 @@ func (gw *Gateway) AuthMiddleware(ctx context.Context, r *http.Request) error {
 	// TODO ensure that custom claims are going to be persistant
 	// param idtoken is the Firebase ID Token
 
-	idtoken := r.Header.Get("X-Firebase-ID-Token")
-	/*token*/ _, err := gw.authclient.VerifyIDToken(ctx, idtoken)
+	authheader := r.Header.Get("Authorization")
+	if authheader == "" || len(authheader) < 7 {
+		return fmt.Errorf("missing authorization header")
+	}
+	// split bearer token
+	idtoken := authheader[7:]
+
+	/*token*/
+	_, err := gw.authclient.VerifyIDToken(ctx, idtoken)
 	if err != nil {
 		// TODO this is a firebase error, this might not be good to return,
 		// at the moment this is written in the 403 not authorized

@@ -18,12 +18,18 @@ func GetIDTokenFromMetadata(ctx context.Context) (*string, error) {
 		return nil, fmt.Errorf("failed to get grpc metadata from context")
 	}
 
-	xheader, ok := md["X-Firebase-ID-Token"]
+	xheader, ok := md["Authorization"]
 	if !ok {
-		return nil, fmt.Errorf("missing X-Firebase-ID-Token header")
+		return nil, fmt.Errorf("missing Authorization header")
 	}
 
-	idtoken := strings.Join(xheader, ",")
+	joined := strings.Join(xheader, ",")
+	if len(joined) < 7 {
+		return nil, fmt.Errorf("invalid Authorization header")
+	}
+
+	idtoken := joined[7:]
+
 	return &idtoken, nil
 }
 
