@@ -14,10 +14,11 @@ import type { v1UpdateHeroRequest } from '../models/v1UpdateHeroRequest';
 import type { v1UpdateHeroResponse } from '../models/v1UpdateHeroResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 
 export class HeroServiceService {
+
+    constructor(public readonly httpRequest: BaseHttpRequest) {}
 
     /**
      * @param pageSize
@@ -26,11 +27,11 @@ export class HeroServiceService {
      * @returns rpcStatus An unexpected error response.
      * @throws ApiError
      */
-    public static heroServiceListHeroes(
+    public heroServiceListHeroes(
         pageSize?: number,
         pageToken?: number,
     ): CancelablePromise<v1ListHeroesResponse | rpcStatus> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'GET',
             url: '/v1/heroes',
             query: {
@@ -46,10 +47,10 @@ export class HeroServiceService {
      * @returns rpcStatus An unexpected error response.
      * @throws ApiError
      */
-    public static heroServiceCreateHero(
+    public heroServiceCreateHero(
         body: v1CreateHeroRequest,
     ): CancelablePromise<v1CreateHeroResponse | rpcStatus> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'POST',
             url: '/v1/heroes',
             body: body,
@@ -62,10 +63,10 @@ export class HeroServiceService {
      * @returns rpcStatus An unexpected error response.
      * @throws ApiError
      */
-    public static heroServiceUpdateHero(
+    public heroServiceUpdateHero(
         body: v1UpdateHeroRequest,
     ): CancelablePromise<v1UpdateHeroResponse | rpcStatus> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'PUT',
             url: '/v1/heroes',
             body: body,
@@ -78,10 +79,10 @@ export class HeroServiceService {
      * @returns rpcStatus An unexpected error response.
      * @throws ApiError
      */
-    public static heroServiceReadHero(
+    public heroServiceReadHero(
         id: string,
     ): CancelablePromise<v1ReadHeroResponse | rpcStatus> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'GET',
             url: '/v1/heroes/{id}',
             path: {
@@ -96,10 +97,10 @@ export class HeroServiceService {
      * @returns rpcStatus An unexpected error response.
      * @throws ApiError
      */
-    public static heroServiceDeleteHero(
+    public heroServiceDeleteHero(
         id: string,
     ): CancelablePromise<v1DeleteHeroResponse | rpcStatus> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'DELETE',
             url: '/v1/heroes/{id}',
             path: {
@@ -114,10 +115,10 @@ export class HeroServiceService {
      * @returns rpcStatus An unexpected error response.
      * @throws ApiError
      */
-    public static heroServiceGetQuestCreator(
+    public heroServiceGetQuestCreator(
         questId?: string,
     ): CancelablePromise<v1GetQuestCreatorResponse | rpcStatus> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'GET',
             url: '/v1/heroes:getQuestCreator',
             query: {
@@ -131,8 +132,8 @@ export class HeroServiceService {
      * @returns rpcStatus An unexpected error response.
      * @throws ApiError
      */
-    public static heroServiceGetTotalHeroes(): CancelablePromise<v1GetTotalHeroesResponse | rpcStatus> {
-        return __request(OpenAPI, {
+    public heroServiceGetTotalHeroes(): CancelablePromise<v1GetTotalHeroesResponse | rpcStatus> {
+        return this.httpRequest.request({
             method: 'GET',
             url: '/v1/heroes:getTotalHeroes',
         });
