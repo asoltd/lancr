@@ -41,3 +41,7 @@ func (q *QuestServiceServer) UpdateQuest(ctx context.Context, req *lancrv1.Updat
 func (q *QuestServiceServer) DeleteQuest(ctx context.Context, req *lancrv1.DeleteQuestRequest) (*lancrv1.DeleteQuestResponse, error) {
 	return q.QuestServiceDefaultServer.DeleteQuest(ctx, req)
 }
+
+func (q *QuestServiceServer) GetTopQuesters(ctx context.Context, req *lancrv1.GetTopQuestersRequest) (*lancrv1.GetTopQuestersResponse, error) {
+	return q.QuestServiceDefaultServer.GetTopQuesters(ctx, req)
+}

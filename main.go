@@ -11,19 +11,10 @@ import "github.com/asoltd/lancr/cmd"
 // protobufs declarations TODO(oliwierost)
 // - [ ] Add Firebase Authentication and Authorization
 // - [ ] Implement the remainder of the CRUD operations for all of the items
-// - [ ] Ensure idempotency of the application (no double withdrawals),
-// transactional support should be enabled by default in Firestore since it is
-// based in Spanner
+// - [ ] Ensure idempotency of the application (no double withdrawals), use request_id parameter
 // - [ ] add a .cloudignore file
-// - [ ] add a test-case for passing on the X-Firebase-ID-Token header as grpc metadata
-// - [ ] set up auth tests
 // - [ ] include information about the X-Firebase-ID-Token header in the OpenAPI
 // spec (grpc-gateway allows customization like that)
-// - [ ] some of the fields in the protobuf might be marked as private? (e.g. the
-// transactions for a hero)
-// more im thinking if say there should not be a need-to-know parameter for example
-// /v1/heroes/{hero_id}?include_transactions=true
-// this would then say require MFA or something
 // - [ ] write an integration test case to see if the gateway + server work together
 // TODO create a client here and retrieve the docs before authorizing any reqeuest
 // - [ ] when updating make sure that update mask by default prevents writing
@@ -32,8 +23,9 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/customizing_openapi_output/#hiding-fields-methods-services-and-enum-values
 //- [ ] ensure that the server is not susceptible to a common pitfalls, as DoS
 //attack, memory leaks, man in the middle, xss, sql injection, etc.
-//- [ ] separate the service account firestore-editor@ that currently is used by
-//both services (and testing locally as well as during remote CI/CD)
+// - [ ] create and apply the gateway-sa service account (firebase auth)
+// - [ ] look for an open-source example of a gateway with auth integrated,
+// something like twitter or discord for reference
 // - [ ] path params like:
 // option (google.api.http) = {
 //  get: "/v1/{name=shelves/*/books/*}"
@@ -43,6 +35,14 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] manaage secrets like CLICKHOUSE_PASSWORD in production, i want to use sth like spiffe
 // - [ ] set up proper logs (zap?)
 // - [ ] add healthchecks
+// - [ ] set up MFA for changing certain settings
+// - [ ] handling of create Hero, creation of User automatically and Hero being
+// customizable based on the UX, Hero is public-readable, User is private
+// - [ ] the one-to-many, many-to-many, belongs-to, ..., relationships - based on the MVP functionality
+// - [ ] handling of the errors and returning the errors which can be displayed nicely
+// - [ ] asynchronous notifications service
+// - [ ] is there a need for having a message queue running? some of the updates
+// around bids etc would be very nice to work live
 
 func main() {
 	cmd.Execute()

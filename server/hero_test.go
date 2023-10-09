@@ -7,44 +7,31 @@ package server_test
 
 import (
 	"context"
-	"log"
 	"testing"
 
-	"github.com/asoltd/lancr/db"
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"github.com/asoltd/lancr/server"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
-func setupTestDB() *gorm.DB {
+func setupTestDB(t *testing.T) *gorm.DB {
 	// Open a test database connection (SQLite in-memory for this example)
-	db, err := db.Connect()
+	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("Failed to connect to the database: %v", err)
+		t.Fatalf("Failed to open database connection: %v", err)
 	}
 
-	// Migrate your database schema here
-	// db.AutoMigrate(&YourModel{})
+	err = db.AutoMigrate(&lancrv1.HeroORM{})
+	if err != nil {
+		t.Fatalf("Failed to auto-migrate: %v", err)
+	}
 
 	return db
 }
 
-func TestListHeroes(t *testing.T) {
-	db := setupTestDB()
-
-	h := server.NewHeroServiceServer(db)
-
-	req := &lancrv1.ListHeroesRequest{
-		PageSize: 10,
-	}
-	_, err := h.ListHeroes(context.Background(), req)
-	if err != nil {
-		t.Fatalf("ListHeroes() failed: %v", err)
-	}
-}
-
 func TestCreateHero(t *testing.T) {
-	db := setupTestDB()
+	db := setupTestDB(t)
 
 	h := server.NewHeroServiceServer(db)
 
@@ -60,8 +47,22 @@ func TestCreateHero(t *testing.T) {
 	}
 }
 
+func TestListHeroes(t *testing.T) {
+	db := setupTestDB(t)
+
+	h := server.NewHeroServiceServer(db)
+
+	req := &lancrv1.ListHeroesRequest{
+		PageSize: 10,
+	}
+	_, err := h.ListHeroes(context.Background(), req)
+	if err != nil {
+		t.Fatalf("ListHeroes() failed: %v", err)
+	}
+}
+
 func TestReadHero(t *testing.T) {
-	db := setupTestDB()
+	db := setupTestDB(t)
 
 	h := server.NewHeroServiceServer(db)
 
@@ -75,7 +76,7 @@ func TestReadHero(t *testing.T) {
 }
 
 func TestDeleteHero(t *testing.T) {
-	db := setupTestDB()
+	db := setupTestDB(t)
 
 	h := server.NewHeroServiceServer(db)
 
