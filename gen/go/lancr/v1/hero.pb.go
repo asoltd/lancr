@@ -316,8 +316,8 @@ func (x *Hero) GetLevel() uint32 {
 	return 0
 }
 
-// TODO this might need to be a separate service since we need to verify some
-// of those things and you need base CRUD for this also
+// Experience might be another service possibly since it requires separate
+// CRUD and might be nice to have it separate for D&A workloads later on
 type Hero_Experience struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
