@@ -37,8 +37,7 @@ message CreateApprenticeResponse {
 }
 
 message UpdateApprenticeRequest {
-  string id = 1;
-  Apprentice payload = 2;
+  Apprentice payload = 1;
 }
 
 message UpdateApprenticeResponse {
@@ -80,7 +79,7 @@ service ApprenticeService {
   rpc UpdateApprentice(UpdateApprenticeRequest)
       returns (UpdateApprenticeResponse) {
     option (google.api.http) = {
-      put: "/v1/apprentices/{id}"
+      put: "/v1/apprentices"
       body: "*"
     };
   };

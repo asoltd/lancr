@@ -110,8 +110,37 @@ type QuestServiceQuestWithAfterCreateQuest interface {
 
 // UpdateQuest ...
 func (m *QuestServiceDefaultServer) UpdateQuest(ctx context.Context, in *UpdateQuestRequest) (*UpdateQuestResponse, error) {
-	out := &UpdateQuestResponse{}
+	var err error
+	var res *Quest
+	db := m.DB
+	if custom, ok := interface{}(in).(QuestServiceQuestWithBeforeUpdateQuest); ok {
+		var err error
+		if db, err = custom.BeforeUpdateQuest(ctx, db); err != nil {
+			return nil, err
+		}
+	}
+	res, err = DefaultStrictUpdateQuest(ctx, in.GetPayload(), db)
+	if err != nil {
+		return nil, err
+	}
+	out := &UpdateQuestResponse{Result: res}
+	if custom, ok := interface{}(in).(QuestServiceQuestWithAfterUpdateQuest); ok {
+		var err error
+		if err = custom.AfterUpdateQuest(ctx, out, db); err != nil {
+			return nil, err
+		}
+	}
 	return out, nil
+}
+
+// QuestServiceQuestWithBeforeUpdateQuest called before DefaultUpdateQuestQuest in the default UpdateQuest handler
+type QuestServiceQuestWithBeforeUpdateQuest interface {
+	BeforeUpdateQuest(context.Context, *gorm.DB) (*gorm.DB, error)
+}
+
+// QuestServiceQuestWithAfterUpdateQuest called before DefaultUpdateQuestQuest in the default UpdateQuest handler
+type QuestServiceQuestWithAfterUpdateQuest interface {
+	AfterUpdateQuest(context.Context, *UpdateQuestResponse, *gorm.DB) error
 }
 
 // DeleteQuest ...

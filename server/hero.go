@@ -36,11 +36,25 @@ func (h *HeroServiceServer) CreateHero(ctx context.Context, req *lancrv1.CreateH
 }
 
 func (h *HeroServiceServer) UpdateHero(ctx context.Context, req *lancrv1.UpdateHeroRequest) (*lancrv1.UpdateHeroResponse, error) {
-	res, err := lancrv1.DefaultStrictUpdateHero(ctx, req.GetPayload(), h.DB)
+	hero := req.GetPayload()
+	heroORM, err := hero.ToORM(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return &lancrv1.UpdateHeroResponse{Result: res}, nil
+	err = h.DB.Save(&heroORM).Error
+	if err != nil {
+		return nil, err
+	}
+	var res *lancrv1.HeroORM
+	err = h.DB.First(&res).Error
+	if err != nil {
+		return nil, err
+	}
+	pbRes, err := res.ToPB(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &lancrv1.UpdateHeroResponse{Result: &pbRes}, nil
 }
 
 func (h *HeroServiceServer) DeleteHero(ctx context.Context, req *lancrv1.DeleteHeroRequest) (*lancrv1.DeleteHeroResponse, error) {

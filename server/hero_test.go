@@ -7,7 +7,6 @@ package server_test
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
@@ -66,14 +65,12 @@ func TestUpdateHero(t *testing.T) {
 
 	h := server.NewHeroServiceServer(db)
 
-	res, err := h.UpdateHero(context.Background(), &lancrv1.UpdateHeroRequest{
-		Id: "test-stub",
+	_, err := h.UpdateHero(context.Background(), &lancrv1.UpdateHeroRequest{
 		Payload: &lancrv1.Hero{
 			Id:          "test-stub",
 			DisplayName: "updated test guy",
 		},
 	})
-	fmt.Printf("%+v\n", res.GetResult())
 	if err != nil {
 		t.Error(err)
 	}
@@ -83,7 +80,6 @@ func TestUpdateHero(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Printf("%+v\n", heroInDB)
 
 	if heroInDB.DisplayName != "updated test guy" {
 		t.Errorf("expected updated test guy, got %s", heroInDB.DisplayName)

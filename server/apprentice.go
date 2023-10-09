@@ -35,7 +35,25 @@ func (a *ApprenticeServiceServer) CreateApprentice(ctx context.Context, req *lan
 }
 
 func (a *ApprenticeServiceServer) UpdateApprentice(ctx context.Context, req *lancrv1.UpdateApprenticeRequest) (*lancrv1.UpdateApprenticeResponse, error) {
-	return a.ApprenticeServiceDefaultServer.UpdateApprentice(ctx, req)
+	apprentice := req.GetPayload()
+	apprenticeORM, err := apprentice.ToORM(ctx)
+	if err != nil {
+		return nil, err
+	}
+	err = a.DB.Save(&apprenticeORM).Error
+	if err != nil {
+		return nil, err
+	}
+	var res *lancrv1.ApprenticeORM
+	err = a.DB.First(&res).Error
+	if err != nil {
+		return nil, err
+	}
+	pbRes, err := res.ToPB(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &lancrv1.UpdateApprenticeResponse{Result: &pbRes}, nil
 }
 
 func (a *ApprenticeServiceServer) DeleteApprentice(ctx context.Context, req *lancrv1.DeleteApprenticeRequest) (*lancrv1.DeleteApprenticeResponse, error) {

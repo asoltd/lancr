@@ -37,7 +37,7 @@ service HeroService {
   }
   rpc UpdateHero(UpdateHeroRequest) returns (UpdateHeroResponse) {
     option (google.api.http) = {
-      put: "/v1/heroes/{id}"
+      put: "/v1/heroes"
       body: "*"
     };
   }
@@ -88,11 +88,11 @@ message CreateHeroResponse {
 }
 
 message UpdateHeroRequest {
-  string id = 1;
-  Hero payload = 2;
+  Hero payload = 1;
 
   // If set to true, and the hero is not found, a new hero will be created.
-  bool allow_missing = 3;
+  // currently unsuported
+  // bool allow_missing = 2;
 }
 
 message UpdateHeroResponse {

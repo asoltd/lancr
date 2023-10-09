@@ -82,6 +82,36 @@
         "tags": [
           "QuestService"
         ]
+      },
+      "put": {
+        "operationId": "QuestService_UpdateQuest",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateQuestResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateQuestRequest"
+            }
+          }
+        ],
+        "tags": [
+          "QuestService"
+        ]
       }
     },
     "/v1/quests/{id}": {
@@ -135,50 +165,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "tags": [
-          "QuestService"
-        ]
-      },
-      "put": {
-        "operationId": "QuestService_UpdateQuest",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1UpdateQuestResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "payload": {
-                  "$ref": "#/definitions/v1Quest"
-                },
-                "allowMissing": {
-                  "type": "boolean"
-                }
-              }
-            }
           }
         ],
         "tags": [
@@ -503,6 +489,14 @@
         "TAG_LEADERSHIP"
       ],
       "default": "TAG_DESIGN_UNSPECIFIED"
+    },
+    "v1UpdateQuestRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Quest"
+        }
+      }
     },
     "v1UpdateQuestResponse": {
       "type": "object",

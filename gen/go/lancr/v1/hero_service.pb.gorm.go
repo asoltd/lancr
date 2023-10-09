@@ -110,8 +110,37 @@ type HeroServiceHeroWithAfterCreateHero interface {
 
 // UpdateHero ...
 func (m *HeroServiceDefaultServer) UpdateHero(ctx context.Context, in *UpdateHeroRequest) (*UpdateHeroResponse, error) {
-	out := &UpdateHeroResponse{}
+	var err error
+	var res *Hero
+	db := m.DB
+	if custom, ok := interface{}(in).(HeroServiceHeroWithBeforeUpdateHero); ok {
+		var err error
+		if db, err = custom.BeforeUpdateHero(ctx, db); err != nil {
+			return nil, err
+		}
+	}
+	res, err = DefaultStrictUpdateHero(ctx, in.GetPayload(), db)
+	if err != nil {
+		return nil, err
+	}
+	out := &UpdateHeroResponse{Result: res}
+	if custom, ok := interface{}(in).(HeroServiceHeroWithAfterUpdateHero); ok {
+		var err error
+		if err = custom.AfterUpdateHero(ctx, out, db); err != nil {
+			return nil, err
+		}
+	}
 	return out, nil
+}
+
+// HeroServiceHeroWithBeforeUpdateHero called before DefaultUpdateHeroHero in the default UpdateHero handler
+type HeroServiceHeroWithBeforeUpdateHero interface {
+	BeforeUpdateHero(context.Context, *gorm.DB) (*gorm.DB, error)
+}
+
+// HeroServiceHeroWithAfterUpdateHero called before DefaultUpdateHeroHero in the default UpdateHero handler
+type HeroServiceHeroWithAfterUpdateHero interface {
+	AfterUpdateHero(context.Context, *UpdateHeroResponse, *gorm.DB) error
 }
 
 // DeleteHero ...

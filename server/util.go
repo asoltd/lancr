@@ -39,5 +39,15 @@ func SetupTestDB(t *testing.T) *gorm.DB {
 		t.Fatalf("Failed to auto-migrate: %v", err)
 	}
 
+	err = db.AutoMigrate(&lancrv1.ApprenticeORM{})
+	if err != nil {
+		t.Fatalf("Failed to auto-migrate: %v", err)
+	}
+
+	err = db.AutoMigrate(&lancrv1.QuestORM{})
+	if err != nil {
+		t.Fatalf("Failed to auto-migrate: %v", err)
+	}
+
 	return db
 }

@@ -32,7 +32,7 @@ service QuestService {
   }
   rpc UpdateQuest(UpdateQuestRequest) returns (UpdateQuestResponse) {
     option (google.api.http) = {
-      put: "/v1/quests/{id}"
+      put: "/v1/quests"
       body: "*"
     };
   }
@@ -77,10 +77,10 @@ message CreateQuestResponse {
 }
 
 message UpdateQuestRequest {
-  string id = 1;
-  Quest payload = 2;
+  Quest payload = 1;
 
-  bool allow_missing = 3;
+  // TODO
+  // bool allow_missing = 3;
 }
 
 message UpdateQuestResponse {

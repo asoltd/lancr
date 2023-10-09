@@ -43,6 +43,8 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] asynchronous notifications service
 // - [ ] is there a need for having a message queue running? some of the updates
 // around bids etc would be very nice to work live
+// - [ ] the specific services should not have access to all tables, every
+// service should only be able to access its own corresponding table
 
 func main() {
 	cmd.Execute()

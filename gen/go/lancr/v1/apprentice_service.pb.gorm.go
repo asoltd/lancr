@@ -110,8 +110,37 @@ type ApprenticeServiceApprenticeWithAfterCreateApprentice interface {
 
 // UpdateApprentice ...
 func (m *ApprenticeServiceDefaultServer) UpdateApprentice(ctx context.Context, in *UpdateApprenticeRequest) (*UpdateApprenticeResponse, error) {
-	out := &UpdateApprenticeResponse{}
+	var err error
+	var res *Apprentice
+	db := m.DB
+	if custom, ok := interface{}(in).(ApprenticeServiceApprenticeWithBeforeUpdateApprentice); ok {
+		var err error
+		if db, err = custom.BeforeUpdateApprentice(ctx, db); err != nil {
+			return nil, err
+		}
+	}
+	res, err = DefaultStrictUpdateApprentice(ctx, in.GetPayload(), db)
+	if err != nil {
+		return nil, err
+	}
+	out := &UpdateApprenticeResponse{Result: res}
+	if custom, ok := interface{}(in).(ApprenticeServiceApprenticeWithAfterUpdateApprentice); ok {
+		var err error
+		if err = custom.AfterUpdateApprentice(ctx, out, db); err != nil {
+			return nil, err
+		}
+	}
 	return out, nil
+}
+
+// ApprenticeServiceApprenticeWithBeforeUpdateApprentice called before DefaultUpdateApprenticeApprentice in the default UpdateApprentice handler
+type ApprenticeServiceApprenticeWithBeforeUpdateApprentice interface {
+	BeforeUpdateApprentice(context.Context, *gorm.DB) (*gorm.DB, error)
+}
+
+// ApprenticeServiceApprenticeWithAfterUpdateApprentice called before DefaultUpdateApprenticeApprentice in the default UpdateApprentice handler
+type ApprenticeServiceApprenticeWithAfterUpdateApprentice interface {
+	AfterUpdateApprentice(context.Context, *UpdateApprenticeResponse, *gorm.DB) error
 }
 
 // DeleteApprentice ...

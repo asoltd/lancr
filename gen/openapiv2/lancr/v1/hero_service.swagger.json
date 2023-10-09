@@ -82,6 +82,36 @@
         "tags": [
           "HeroService"
         ]
+      },
+      "put": {
+        "operationId": "HeroService_UpdateHero",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateHeroResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateHeroRequest"
+            }
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
       }
     },
     "/v1/heroes/{id}": {
@@ -135,51 +165,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "tags": [
-          "HeroService"
-        ]
-      },
-      "put": {
-        "operationId": "HeroService_UpdateHero",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1UpdateHeroResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "payload": {
-                  "$ref": "#/definitions/v1Hero"
-                },
-                "allowMissing": {
-                  "type": "boolean",
-                  "description": "If set to true, and the hero is not found, a new hero will be created."
-                }
-              }
-            }
           }
         ],
         "tags": [
@@ -469,6 +454,14 @@
       "type": "object",
       "properties": {
         "result": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1UpdateHeroRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
           "$ref": "#/definitions/v1Hero"
         }
       }
