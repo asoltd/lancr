@@ -409,9 +409,7 @@
         }
       },
       "required": [
-        "id",
-        "displayName",
-        "visibility"
+        "id"
       ]
     },
     "v1Image": {

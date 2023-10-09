@@ -9,6 +9,7 @@ import (
 
 type HeroServiceServer struct {
 	lancrv1.HeroServiceDefaultServer
+	lancrv1.HeroServiceHeroWithBeforeCreateHero
 
 	lancrv1.UnimplementedHeroServiceServer
 }
@@ -35,7 +36,11 @@ func (h *HeroServiceServer) CreateHero(ctx context.Context, req *lancrv1.CreateH
 }
 
 func (h *HeroServiceServer) UpdateHero(ctx context.Context, req *lancrv1.UpdateHeroRequest) (*lancrv1.UpdateHeroResponse, error) {
-	return h.HeroServiceDefaultServer.UpdateHero(ctx, req)
+	res, err := lancrv1.DefaultStrictUpdateHero(ctx, req.GetPayload(), h.DB)
+	if err != nil {
+		return nil, err
+	}
+	return &lancrv1.UpdateHeroResponse{Result: res}, nil
 }
 
 func (h *HeroServiceServer) DeleteHero(ctx context.Context, req *lancrv1.DeleteHeroRequest) (*lancrv1.DeleteHeroResponse, error) {

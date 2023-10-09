@@ -24,8 +24,8 @@ message Hero {
   option (gorm.opts).ormable = true;
 
   string id = 1 [(google.api.field_behavior) = REQUIRED];
-  string display_name = 2 [(google.api.field_behavior) = REQUIRED];
-  string visibility = 3 [(google.api.field_behavior) = REQUIRED];
+  string display_name = 2;
+  string visibility = 3;
   Image profile_picture = 5;
   string email = 6;
   string phone_number = 7;

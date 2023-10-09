@@ -4,8 +4,12 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"testing"
 
+	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"google.golang.org/grpc/metadata"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func GetIDTokenFromMetadata(ctx context.Context) (*string, error) {
@@ -21,4 +25,19 @@ func GetIDTokenFromMetadata(ctx context.Context) (*string, error) {
 
 	idtoken := strings.Join(xheader, ",")
 	return &idtoken, nil
+}
+
+func SetupTestDB(t *testing.T) *gorm.DB {
+	// Open a test database connection (SQLite in-memory for this example)
+	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	if err != nil {
+		t.Fatalf("Failed to open database connection: %v", err)
+	}
+
+	err = db.AutoMigrate(&lancrv1.HeroORM{})
+	if err != nil {
+		t.Fatalf("Failed to auto-migrate: %v", err)
+	}
+
+	return db
 }

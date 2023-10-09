@@ -7,31 +7,15 @@ package server_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"github.com/asoltd/lancr/server"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 )
 
-func setupTestDB(t *testing.T) *gorm.DB {
-	// Open a test database connection (SQLite in-memory for this example)
-	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
-	if err != nil {
-		t.Fatalf("Failed to open database connection: %v", err)
-	}
-
-	err = db.AutoMigrate(&lancrv1.HeroORM{})
-	if err != nil {
-		t.Fatalf("Failed to auto-migrate: %v", err)
-	}
-
-	return db
-}
-
 func TestCreateHero(t *testing.T) {
-	db := setupTestDB(t)
+	db := server.SetupTestDB(t)
 
 	h := server.NewHeroServiceServer(db)
 
@@ -48,7 +32,7 @@ func TestCreateHero(t *testing.T) {
 }
 
 func TestListHeroes(t *testing.T) {
-	db := setupTestDB(t)
+	db := server.SetupTestDB(t)
 
 	h := server.NewHeroServiceServer(db)
 
@@ -61,8 +45,9 @@ func TestListHeroes(t *testing.T) {
 	}
 }
 
+// TestReadHero Depends on CreateHero, will fail if ran on its own or CreateHero fails
 func TestReadHero(t *testing.T) {
-	db := setupTestDB(t)
+	db := server.SetupTestDB(t)
 
 	h := server.NewHeroServiceServer(db)
 
@@ -75,8 +60,38 @@ func TestReadHero(t *testing.T) {
 	}
 }
 
+// TestUpdateHero Depends on CreateHero, will fail if ran on its own or CreateHero fails
+func TestUpdateHero(t *testing.T) {
+	db := server.SetupTestDB(t)
+
+	h := server.NewHeroServiceServer(db)
+
+	res, err := h.UpdateHero(context.Background(), &lancrv1.UpdateHeroRequest{
+		Id: "test-stub",
+		Payload: &lancrv1.Hero{
+			Id:          "test-stub",
+			DisplayName: "updated test guy",
+		},
+	})
+	fmt.Printf("%+v\n", res.GetResult())
+	if err != nil {
+		t.Error(err)
+	}
+
+	heroInDB := &lancrv1.HeroORM{}
+	err = db.First(&lancrv1.HeroORM{}, "id = ?", "test-stub").Scan(&heroInDB).Error
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Printf("%+v\n", heroInDB)
+
+	if heroInDB.DisplayName != "updated test guy" {
+		t.Errorf("expected updated test guy, got %s", heroInDB.DisplayName)
+	}
+}
+
 func TestDeleteHero(t *testing.T) {
-	db := setupTestDB(t)
+	db := server.SetupTestDB(t)
 
 	h := server.NewHeroServiceServer(db)
 
