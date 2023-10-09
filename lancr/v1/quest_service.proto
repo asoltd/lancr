@@ -5,6 +5,7 @@ package lancr.v1;
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 import "lancr/v1/quest.proto";
+import "lancr/v1/hero.proto";
 
 import "google/api/annotations.proto";
 
@@ -41,6 +42,11 @@ service QuestService {
       delete: "/v1/quests/{id}"
     };
   }
+  rpc GetTopQuesters(GetTopQuestersRequest) returns (GetTopQuestersResponse) {
+    option (google.api.http) = {
+      get: "/v1/quests:getTopQuesters"
+    };
+  }
 }
 
 message ReadQuestRequest {
@@ -74,7 +80,6 @@ message UpdateQuestRequest {
   string id = 1;
   Quest payload = 2;
 
-  // If set to true, and the hero is not found, a new hero will be created.
   bool allow_missing = 3;
 }
 
@@ -88,6 +93,12 @@ message DeleteQuestRequest {
 
 message DeleteQuestResponse {
   // empty response, code 200
+}
+
+message GetTopQuestersRequest {}
+
+message GetTopQuestersResponse {
+  repeated Hero top_questers = 1;
 }
 
 // deprecated

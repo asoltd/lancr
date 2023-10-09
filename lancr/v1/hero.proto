@@ -39,8 +39,8 @@ message Hero {
   string linkedin = 15;
   string website = 16;
 
-  // TODO this might need to be a separate service since we need to verify some
-  // of those things and you need base CRUD for this also
+  // Experience might be another service possibly since it requires separate
+  // CRUD and might be nice to have it separate for D&A workloads later on
   message Experience {
     string position = 1;
     string company = 2;

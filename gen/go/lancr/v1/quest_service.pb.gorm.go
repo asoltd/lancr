@@ -146,3 +146,9 @@ type QuestServiceQuestWithBeforeDeleteQuest interface {
 type QuestServiceQuestWithAfterDeleteQuest interface {
 	AfterDeleteQuest(context.Context, *DeleteQuestResponse, *gorm.DB) error
 }
+
+// GetTopQuesters ...
+func (m *QuestServiceDefaultServer) GetTopQuesters(ctx context.Context, in *GetTopQuestersRequest) (*GetTopQuestersResponse, error) {
+	out := &GetTopQuestersResponse{}
+	return out, nil
+}

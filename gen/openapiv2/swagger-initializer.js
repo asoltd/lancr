@@ -12,6 +12,10 @@ window.onload = function () {
         url: "lancr/v1/apprentice_service.swagger.json",
         name: "Apprentice Service",
       },
+      {
+        url: "lancr/v1/quest_service.swagger.json",
+        name: "Quest Service",
+      },
     ],
     dom_id: "#swagger-ui",
     deepLinking: true,

@@ -14,9 +14,13 @@ service HeroService {
 
   rpc ReadHero(ReadHeroRequest) returns (ReadHeroResponse) {
     option (google.api.http) = {
-      // TODO not sure here if it should not be
-      // "/v1/{name=heroes/*}"
-      // got to double-check that
+      // the name here could be like "/v1/{name=heroes/*}" in case you need a
+      // longer placement, like heroes/123/transactions/124 for the transaction
+      // with id 124 got to double-check that
+      // idea: resources are in form
+      // /v1/users/{user_id}/heroes/{hero_id}/transactions/{transaction_id},
+      // if the user_id != user_id from token
+      // prevent access
       get: "/v1/heroes/{id}"
     };
   }

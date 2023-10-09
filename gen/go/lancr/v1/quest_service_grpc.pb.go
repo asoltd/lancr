@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	QuestService_ReadQuest_FullMethodName   = "/lancr.v1.QuestService/ReadQuest"
-	QuestService_ListQuests_FullMethodName  = "/lancr.v1.QuestService/ListQuests"
-	QuestService_CreateQuest_FullMethodName = "/lancr.v1.QuestService/CreateQuest"
-	QuestService_UpdateQuest_FullMethodName = "/lancr.v1.QuestService/UpdateQuest"
-	QuestService_DeleteQuest_FullMethodName = "/lancr.v1.QuestService/DeleteQuest"
+	QuestService_ReadQuest_FullMethodName      = "/lancr.v1.QuestService/ReadQuest"
+	QuestService_ListQuests_FullMethodName     = "/lancr.v1.QuestService/ListQuests"
+	QuestService_CreateQuest_FullMethodName    = "/lancr.v1.QuestService/CreateQuest"
+	QuestService_UpdateQuest_FullMethodName    = "/lancr.v1.QuestService/UpdateQuest"
+	QuestService_DeleteQuest_FullMethodName    = "/lancr.v1.QuestService/DeleteQuest"
+	QuestService_GetTopQuesters_FullMethodName = "/lancr.v1.QuestService/GetTopQuesters"
 )
 
 // QuestServiceClient is the client API for QuestService service.
@@ -35,6 +36,7 @@ type QuestServiceClient interface {
 	CreateQuest(ctx context.Context, in *CreateQuestRequest, opts ...grpc.CallOption) (*CreateQuestResponse, error)
 	UpdateQuest(ctx context.Context, in *UpdateQuestRequest, opts ...grpc.CallOption) (*UpdateQuestResponse, error)
 	DeleteQuest(ctx context.Context, in *DeleteQuestRequest, opts ...grpc.CallOption) (*DeleteQuestResponse, error)
+	GetTopQuesters(ctx context.Context, in *GetTopQuestersRequest, opts ...grpc.CallOption) (*GetTopQuestersResponse, error)
 }
 
 type questServiceClient struct {
@@ -90,6 +92,15 @@ func (c *questServiceClient) DeleteQuest(ctx context.Context, in *DeleteQuestReq
 	return out, nil
 }
 
+func (c *questServiceClient) GetTopQuesters(ctx context.Context, in *GetTopQuestersRequest, opts ...grpc.CallOption) (*GetTopQuestersResponse, error) {
+	out := new(GetTopQuestersResponse)
+	err := c.cc.Invoke(ctx, QuestService_GetTopQuesters_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QuestServiceServer is the server API for QuestService service.
 // All implementations must embed UnimplementedQuestServiceServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type QuestServiceServer interface {
 	CreateQuest(context.Context, *CreateQuestRequest) (*CreateQuestResponse, error)
 	UpdateQuest(context.Context, *UpdateQuestRequest) (*UpdateQuestResponse, error)
 	DeleteQuest(context.Context, *DeleteQuestRequest) (*DeleteQuestResponse, error)
+	GetTopQuesters(context.Context, *GetTopQuestersRequest) (*GetTopQuestersResponse, error)
 	mustEmbedUnimplementedQuestServiceServer()
 }
 
@@ -120,6 +132,9 @@ func (UnimplementedQuestServiceServer) UpdateQuest(context.Context, *UpdateQuest
 }
 func (UnimplementedQuestServiceServer) DeleteQuest(context.Context, *DeleteQuestRequest) (*DeleteQuestResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteQuest not implemented")
+}
+func (UnimplementedQuestServiceServer) GetTopQuesters(context.Context, *GetTopQuestersRequest) (*GetTopQuestersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopQuesters not implemented")
 }
 func (UnimplementedQuestServiceServer) mustEmbedUnimplementedQuestServiceServer() {}
 
@@ -224,6 +239,24 @@ func _QuestService_DeleteQuest_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _QuestService_GetTopQuesters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopQuestersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QuestServiceServer).GetTopQuesters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: QuestService_GetTopQuesters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QuestServiceServer).GetTopQuesters(ctx, req.(*GetTopQuestersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // QuestService_ServiceDesc is the grpc.ServiceDesc for QuestService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +283,10 @@ var QuestService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteQuest",
 			Handler:    _QuestService_DeleteQuest_Handler,
+		},
+		{
+			MethodName: "GetTopQuesters",
+			Handler:    _QuestService_GetTopQuesters_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -175,8 +175,7 @@
                   "$ref": "#/definitions/v1Quest"
                 },
                 "allowMissing": {
-                  "type": "boolean",
-                  "description": "If set to true, and the hero is not found, a new hero will be created."
+                  "type": "boolean"
                 }
               }
             }
@@ -186,9 +185,60 @@
           "QuestService"
         ]
       }
+    },
+    "/v1/quests:getTopQuesters": {
+      "delete": {
+        "operationId": "QuestService_GetTopQuesters",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetTopQuestersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "QuestService"
+        ]
+      }
     }
   },
   "definitions": {
+    "HeroExperience": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        }
+      },
+      "title": "TODO this might need to be a separate service since we need to verify some\nof those things and you need base CRUD for this also"
+    },
+    "lancrv1Location": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -237,6 +287,97 @@
       "type": "object",
       "title": "empty response, code 200"
     },
+    "v1GetTopQuestersResponse": {
+      "type": "object",
+      "properties": {
+        "topQuesters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Hero"
+          }
+        }
+      }
+    },
+    "v1Hero": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "$ref": "#/definitions/v1Image"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/v1Name"
+        },
+        "location": {
+          "$ref": "#/definitions/lancrv1Location"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "workType": {
+          "type": "string"
+        },
+        "subWorkType": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "linkedin": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "experiences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/HeroExperience"
+          }
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "xp": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "required": [
+        "id",
+        "displayName",
+        "visibility"
+      ]
+    },
     "v1Image": {
       "type": "object",
       "properties": {
@@ -273,6 +414,20 @@
         "totalSize": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "v1Name": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string"
+        },
+        "second": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string"
         }
       }
     },
