@@ -44,7 +44,7 @@ spec:
               "./lancr",
               "gateway",
               "--grpc-server-addr",
-              "heroes-service.default.svc.cluster.local:4201",
+              "server-service.default.svc.cluster.local:4201",
             ]
           ports:
             - containerPort: 4200
@@ -57,7 +57,7 @@ spec:
               cpu: "500m"
 
 ---
-# Heroes service
+# Server service
 apiVersion: v1
 kind: Service
 metadata:
@@ -74,7 +74,7 @@ spec:
       targetPort: 4201
 
 ---
-# Heroes deployment
+# Server deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -98,38 +98,9 @@ spec:
       containers:
         - name: server
           image: gcr.io/asoltd-guilds/lancr:latest
-          env:
-            - name: TIDB_HOST
-              valueFrom: 
-                secretKeyRef:
-                  name: tidb-secret
-                  key: TIDB_HOST
-            - name: TIDB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: tidb-secret
-                  key: TIDB_PORT
-            - name: TIDB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: tidb-secret
-                  key: TIDB_USER
-            - name: TIDB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: tidb-secret
-                  key: TIDB_PASSWORD
-            - name: TIDB_DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: tidb-secret
-                  key: TIDB_DB_NAME
-            - name: USE_SSL
-              valueFrom:
-                secretKeyRef:
-                  name: tidb-secret
-                  key: USE_SSL
-              
+          envFrom:
+            - secretRef:
+                name: tidb-secret
           command: ["./lancr", "server"]
           ports:
             - containerPort: 4201
