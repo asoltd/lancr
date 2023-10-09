@@ -51,6 +51,9 @@ import "github.com/asoltd/lancr/cmd"
 // 2. the payload is not nil, is the parameters in request gonna be required
 // - [ ] set up cloud armor for dddos protection
 // = [ ] set up static files hosting
+// - [ ] include information about the Bearer token in the OpenAPI spec,
+// transition from X-Firebase-ID-Token to Bearer
+// - [ ] move all of the *.swagger.json into a single declaration
 
 func main() {
 	cmd.Execute()
