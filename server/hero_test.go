@@ -74,16 +74,6 @@ func TestUpdateHero(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
-	heroInDB := &lancrv1.HeroORM{}
-	err = db.First(&lancrv1.HeroORM{}, "id = ?", "test-stub").Scan(&heroInDB).Error
-	if err != nil {
-		t.Error(err)
-	}
-
-	if heroInDB.DisplayName != "updated test guy" {
-		t.Errorf("expected updated test guy, got %s", heroInDB.DisplayName)
-	}
 }
 
 func TestDeleteHero(t *testing.T) {

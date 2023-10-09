@@ -41,15 +41,18 @@ func (h *HeroServiceServer) UpdateHero(ctx context.Context, req *lancrv1.UpdateH
 	if err != nil {
 		return nil, err
 	}
+
 	err = h.DB.Save(&heroORM).Error
 	if err != nil {
 		return nil, err
 	}
+
 	var res *lancrv1.HeroORM
 	err = h.DB.First(&res).Error
 	if err != nil {
 		return nil, err
 	}
+
 	pbRes, err := res.ToPB(ctx)
 	if err != nil {
 		return nil, err

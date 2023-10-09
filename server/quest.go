@@ -35,7 +35,30 @@ func (q *QuestServiceServer) CreateQuest(ctx context.Context, req *lancrv1.Creat
 }
 
 func (q *QuestServiceServer) UpdateQuest(ctx context.Context, req *lancrv1.UpdateQuestRequest) (*lancrv1.UpdateQuestResponse, error) {
-	return q.QuestServiceDefaultServer.UpdateQuest(ctx, req)
+	// use same logic as UpdateHero
+	quest := req.GetPayload()
+	questORM, err := quest.ToORM(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	err = q.DB.Save(&questORM).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var res *lancrv1.QuestORM
+	err = q.DB.First(&res).Error
+	if err != nil {
+		return nil, err
+	}
+
+	pbRes, err := res.ToPB(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &lancrv1.UpdateQuestResponse{Result: &pbRes}, nil
 }
 
 func (q *QuestServiceServer) DeleteQuest(ctx context.Context, req *lancrv1.DeleteQuestRequest) (*lancrv1.DeleteQuestResponse, error) {

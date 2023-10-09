@@ -45,6 +45,10 @@ import "github.com/asoltd/lancr/cmd"
 // around bids etc would be very nice to work live
 // - [ ] the specific services should not have access to all tables, every
 // service should only be able to access its own corresponding table
+// - [ ] implement paging for list methods, implement search
+// - [ ] do you need to ensure that
+// 1. the table is going to be the same as the ORM object
+// 2. the payload is not nil, is the parameters in request gonna be required
 
 func main() {
 	cmd.Execute()

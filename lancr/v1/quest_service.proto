@@ -100,9 +100,3 @@ message GetTopQuestersRequest {}
 message GetTopQuestersResponse {
   repeated Hero top_questers = 1;
 }
-
-// deprecated
-// repeated Bid bids = 17;
-// repeated Quest quests = 18;
-// repeated string portfolios = 19;
-// Apprentice apprentice = 25;
