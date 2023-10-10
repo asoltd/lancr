@@ -2,14 +2,12 @@ syntax = "proto3";
 
 package lancr.v1;
 
-option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
-
+import "google/api/field_behavior.proto";
+import "lancr/v1/common.proto";
 // this is from buf.build/piotrostr/protoc-gen-gorm
 import "proto/options/gorm.proto";
 
-import "google/api/field_behavior.proto";
-
-import "lancr/v1/common.proto";
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 message Mentor {
   string id = 1;

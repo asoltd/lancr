@@ -4,7 +4,6 @@ package lancr.v1;
 
 import "google/api/annotations.proto";
 import "lancr/v1/apprentice.proto";
-
 import "proto/options/gorm.proto";
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
@@ -56,39 +55,29 @@ service ApprenticeService {
   option (gorm.server).autogen = true;
 
   rpc ReadApprentice(ReadApprenticeRequest) returns (ReadApprenticeResponse) {
-    option (google.api.http) = {
-      get: "/v1/apprentices/{id}"
-    };
-  };
+    option (google.api.http) = {get: "/v1/apprentices/{id}"};
+  }
 
-  rpc ListApprentices(ListApprenticesRequest)
-      returns (ListApprenticesResponse) {
-    option (google.api.http) = {
-      get: "/v1/apprentices"
-    };
-  };
+  rpc ListApprentices(ListApprenticesRequest) returns (ListApprenticesResponse) {
+    option (google.api.http) = {get: "/v1/apprentices"};
+  }
 
-  rpc CreateApprentice(CreateApprenticeRequest)
-      returns (CreateApprenticeResponse) {
+  rpc CreateApprentice(CreateApprenticeRequest) returns (CreateApprenticeResponse) {
     option (google.api.http) = {
       post: "/v1/apprentices"
       body: "*"
     };
-  };
+  }
 
-  rpc UpdateApprentice(UpdateApprenticeRequest)
-      returns (UpdateApprenticeResponse) {
+  rpc UpdateApprentice(UpdateApprenticeRequest) returns (UpdateApprenticeResponse) {
     option (google.api.http) = {
       put: "/v1/apprentices"
       body: "*"
     };
-  };
+  }
 
-  rpc DeleteApprentice(DeleteApprenticeRequest)
-      returns (DeleteApprenticeResponse) {
+  rpc DeleteApprentice(DeleteApprenticeRequest) returns (DeleteApprenticeResponse) {
     option (gorm.method).object_type = "Apprentice";
-    option (google.api.http) = {
-      delete: "/v1/apprentices/{id}"
-    };
-  };
+    option (google.api.http) = {delete: "/v1/apprentices/{id}"};
+  }
 }

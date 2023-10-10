@@ -3,10 +3,9 @@ syntax = "proto3";
 package lancr.v1;
 
 import "lancr/v1/common.proto";
+import "proto/options/gorm.proto";
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
-
-import "proto/options/gorm.proto";
 
 message Apprentice {
   option (gorm.opts).ormable = true;

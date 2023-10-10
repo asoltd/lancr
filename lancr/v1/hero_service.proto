@@ -4,7 +4,6 @@ package lancr.v1;
 
 import "google/api/annotations.proto";
 import "lancr/v1/hero.proto";
-
 import "proto/options/gorm.proto";
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
@@ -25,9 +24,7 @@ service HeroService {
     };
   }
   rpc ListHeroes(ListHeroesRequest) returns (ListHeroesResponse) {
-    option (google.api.http) = {
-      get: "/v1/heroes"
-    };
+    option (google.api.http) = {get: "/v1/heroes"};
   }
   rpc CreateHero(CreateHeroRequest) returns (CreateHeroResponse) {
     option (google.api.http) = {
@@ -43,20 +40,13 @@ service HeroService {
   }
   rpc DeleteHero(DeleteHeroRequest) returns (DeleteHeroResponse) {
     option (gorm.method).object_type = "Hero";
-    option (google.api.http) = {
-      delete: "/v1/heroes/{id}"
-    };
+    option (google.api.http) = {delete: "/v1/heroes/{id}"};
   }
   rpc GetTotalHeroes(GetTotalHeroesRequest) returns (GetTotalHeroesResponse) {
-    option (google.api.http) = {
-      get: "/v1/heroes:getTotalHeroes"
-    };
+    option (google.api.http) = {get: "/v1/heroes:getTotalHeroes"};
   }
-  rpc GetQuestCreator(GetQuestCreatorRequest)
-      returns (GetQuestCreatorResponse) {
-    option (google.api.http) = {
-      get: "/v1/heroes:getQuestCreator"
-    };
+  rpc GetQuestCreator(GetQuestCreatorRequest) returns (GetQuestCreatorResponse) {
+    option (google.api.http) = {get: "/v1/heroes:getQuestCreator"};
   }
 }
 

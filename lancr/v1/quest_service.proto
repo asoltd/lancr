@@ -2,27 +2,21 @@ syntax = "proto3";
 
 package lancr.v1;
 
-option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
-
-import "lancr/v1/quest.proto";
-import "lancr/v1/hero.proto";
-
 import "google/api/annotations.proto";
-
+import "lancr/v1/hero.proto";
+import "lancr/v1/quest.proto";
 import "proto/options/gorm.proto";
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 service QuestService {
   option (gorm.server).autogen = true;
 
   rpc ReadQuest(ReadQuestRequest) returns (ReadQuestResponse) {
-    option (google.api.http) = {
-      get: "/v1/quests/{id}"
-    };
+    option (google.api.http) = {get: "/v1/quests/{id}"};
   }
   rpc ListQuests(ListQuestsRequest) returns (ListQuestsResponse) {
-    option (google.api.http) = {
-      get: "/v1/quests"
-    };
+    option (google.api.http) = {get: "/v1/quests"};
   }
   rpc CreateQuest(CreateQuestRequest) returns (CreateQuestResponse) {
     option (google.api.http) = {
@@ -38,14 +32,10 @@ service QuestService {
   }
   rpc DeleteQuest(DeleteQuestRequest) returns (DeleteQuestResponse) {
     option (gorm.method).object_type = "Quest";
-    option (google.api.http) = {
-      delete: "/v1/quests/{id}"
-    };
+    option (google.api.http) = {delete: "/v1/quests/{id}"};
   }
   rpc GetTopQuesters(GetTopQuestersRequest) returns (GetTopQuestersResponse) {
-    option (google.api.http) = {
-      get: "/v1/quests:getTopQuesters"
-    };
+    option (google.api.http) = {get: "/v1/quests:getTopQuesters"};
   }
 }
 

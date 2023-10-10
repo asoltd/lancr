@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
-
 package lancr.v1;
 
 import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 message Task {
   string id = 1;

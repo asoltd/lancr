@@ -2,12 +2,12 @@ syntax = "proto3";
 
 package lancr.v1;
 
-option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
-
 import "google/protobuf/timestamp.proto";
-import "lancr/v1/common.proto";
 import "lancr/v1/bid.proto";
+import "lancr/v1/common.proto";
 import "lancr/v1/hero.proto";
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 // the categories are not exhaustive, but are meant to be a starting point
 enum RoleCategory {

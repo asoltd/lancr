@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package lancr.v1;
 
-option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
-
 import "google/protobuf/timestamp.proto";
 import "lancr/v1/common.proto";
 import "proto/options/gorm.proto";
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 enum Tag {
   TAG_DESIGN_UNSPECIFIED = 0;
