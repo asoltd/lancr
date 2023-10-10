@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package lancr.v1;
 
+import "google/api/field_behavior.proto";
+
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 message Financials {
@@ -14,7 +16,7 @@ message Financials {
 }
 
 message Transaction {
-  string id = 1;
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
   float amount = 2;
   string user_id = 3;
   string date = 5;

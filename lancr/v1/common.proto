@@ -15,12 +15,6 @@ message Location {
   string country = 2;
 }
 
-message Name {
-  string first = 1;
-  string second = 2;
-  string last = 3;
-}
-
 message FrequentlyAskedQuestion {
   string id = 1;
   string question = 2;

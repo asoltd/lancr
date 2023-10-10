@@ -667,7 +667,10 @@
             "type": "string"
           }
         }
-      }
+      },
+      "required": [
+        "id"
+      ]
     },
     "v1CreateApprenticeRequest": {
       "type": "object",
@@ -764,7 +767,10 @@
         "id": {
           "type": "string"
         },
-        "displayName": {
+        "firebaseId": {
+          "type": "string"
+        },
+        "name": {
           "type": "string"
         },
         "visibility": {
@@ -778,9 +784,6 @@
         },
         "phoneNumber": {
           "type": "string"
-        },
-        "name": {
-          "$ref": "#/definitions/v1Name"
         },
         "location": {
           "$ref": "#/definitions/lancrv1Location"
@@ -914,25 +917,12 @@
         }
       }
     },
-    "v1Name": {
-      "type": "object",
-      "properties": {
-        "first": {
-          "type": "string"
-        },
-        "second": {
-          "type": "string"
-        },
-        "last": {
-          "type": "string"
-        }
-      }
-    },
     "v1Quest": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "title": "TODO should the IDs be created on the backend also?"
         },
         "creatorId": {
           "type": "string"
@@ -971,7 +961,8 @@
         },
         "createdAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "title": "TODO this has to be implemented at the backend level"
         },
         "summary": {
           "type": "string"
@@ -980,7 +971,10 @@
           "type": "integer",
           "format": "int64"
         }
-      }
+      },
+      "required": [
+        "id"
+      ]
     },
     "v1ReadApprenticeResponse": {
       "type": "object",

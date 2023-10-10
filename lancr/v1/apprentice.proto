@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package lancr.v1;
 
+import "google/api/field_behavior.proto";
 import "lancr/v1/common.proto";
 import "proto/options/gorm.proto";
 
@@ -10,7 +11,7 @@ option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 message Apprentice {
   option (gorm.opts).ormable = true;
 
-  string id = 1;
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
   float rate = 2;
   WorkingHours working_hours = 3;
   string mentor = 4;

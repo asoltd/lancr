@@ -12,12 +12,13 @@ import (
 
 type HeroORM struct {
 	Bio         string
-	DisplayName string
 	Email       string
+	FirebaseId  string
 	Id          string
 	Language    string
 	Level       uint32
 	Linkedin    string
+	Name        string
 	PhoneNumber string
 	Rating      float32
 	Region      string
@@ -46,7 +47,8 @@ func (m *Hero) ToORM(ctx context.Context) (HeroORM, error) {
 		}
 	}
 	to.Id = m.Id
-	to.DisplayName = m.DisplayName
+	to.FirebaseId = m.FirebaseId
+	to.Name = m.Name
 	to.Visibility = m.Visibility
 	to.Email = m.Email
 	to.PhoneNumber = m.PhoneNumber
@@ -80,7 +82,8 @@ func (m *HeroORM) ToPB(ctx context.Context) (Hero, error) {
 		}
 	}
 	to.Id = m.Id
-	to.DisplayName = m.DisplayName
+	to.FirebaseId = m.FirebaseId
+	to.Name = m.Name
 	to.Visibility = m.Visibility
 	to.Email = m.Email
 	to.PhoneNumber = m.PhoneNumber
@@ -403,15 +406,18 @@ func DefaultApplyFieldMaskHero(ctx context.Context, patchee *Hero, patcher *Hero
 	}
 	var err error
 	var updatedProfilePicture bool
-	var updatedName bool
 	var updatedLocation bool
 	for i, f := range updateMask.Paths {
 		if f == prefix+"Id" {
 			patchee.Id = patcher.Id
 			continue
 		}
-		if f == prefix+"DisplayName" {
-			patchee.DisplayName = patcher.DisplayName
+		if f == prefix+"FirebaseId" {
+			patchee.FirebaseId = patcher.FirebaseId
+			continue
+		}
+		if f == prefix+"Name" {
+			patchee.Name = patcher.Name
 			continue
 		}
 		if f == prefix+"Visibility" {
@@ -447,29 +453,6 @@ func DefaultApplyFieldMaskHero(ctx context.Context, patchee *Hero, patcher *Hero
 		}
 		if f == prefix+"PhoneNumber" {
 			patchee.PhoneNumber = patcher.PhoneNumber
-			continue
-		}
-		if !updatedName && strings.HasPrefix(f, prefix+"Name.") {
-			if patcher.Name == nil {
-				patchee.Name = nil
-				continue
-			}
-			if patchee.Name == nil {
-				patchee.Name = &Name{}
-			}
-			childMask := &field_mask.FieldMask{}
-			for j := i; j < len(updateMask.Paths); j++ {
-				if trimPath := strings.TrimPrefix(updateMask.Paths[j], prefix+"Name."); trimPath != updateMask.Paths[j] {
-					childMask.Paths = append(childMask.Paths, trimPath)
-				}
-			}
-			if err := gorm1.MergeWithMask(patcher.Name, patchee.Name, childMask); err != nil {
-				return nil, nil
-			}
-		}
-		if f == prefix+"Name" {
-			updatedName = true
-			patchee.Name = patcher.Name
 			continue
 		}
 		if !updatedLocation && strings.HasPrefix(f, prefix+"Location.") {

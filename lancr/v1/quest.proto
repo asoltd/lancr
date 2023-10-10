@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package lancr.v1;
 
+import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 import "lancr/v1/common.proto";
 import "proto/options/gorm.proto";
@@ -21,7 +22,8 @@ enum Tag {
 message Quest {
   option (gorm.opts).ormable = true;
 
-  string id = 1;
+  // TODO should the IDs be created on the backend also?
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
   string creator_id = 2;
   float reward = 3;
   string title = 4;
@@ -30,6 +32,8 @@ message Quest {
   repeated Image images = 7;
   repeated string bidders = 8;
   string status = 9;
+
+  // TODO this has to be implemented at the backend level
   google.protobuf.Timestamp created_at = 10;
   string summary = 11;
   uint32 level = 12;

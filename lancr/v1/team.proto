@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package lancr.v1;
 
+import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 import "lancr/v1/bid.proto";
 import "lancr/v1/common.proto";
@@ -29,7 +30,7 @@ enum Industry {
 }
 
 message Team {
-  string id = 1;
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
   string creator_id = 2;
   optional string title = 3;
   optional string description = 4;

@@ -20,8 +20,7 @@ func TestCreateHero(t *testing.T) {
 
 	req := &lancrv1.CreateHeroRequest{
 		Payload: &lancrv1.Hero{
-			Id:          "test-stub",
-			DisplayName: "test guy",
+			Id: "test-stub",
 		},
 	}
 	_, err := h.CreateHero(context.Background(), req)
@@ -67,8 +66,8 @@ func TestUpdateHero(t *testing.T) {
 
 	_, err := h.UpdateHero(context.Background(), &lancrv1.UpdateHeroRequest{
 		Payload: &lancrv1.Hero{
-			Id:          "test-stub",
-			DisplayName: "updated test guy",
+			Id:   "test-stub",
+			Name: "guy",
 		},
 	})
 	if err != nil {

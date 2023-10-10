@@ -2,10 +2,12 @@ syntax = "proto3";
 
 package lancr.v1;
 
+import "google/api/field_behavior.proto";
+
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 message User {
-  string id = 1;
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
   // TODO the User model has a belongs-to relationship with Hero?
   string hero_id = 2;
   string firebase_user_id = 3;

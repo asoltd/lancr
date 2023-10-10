@@ -51,9 +51,9 @@ import "github.com/asoltd/lancr/cmd"
 // 2. the payload is not nil, is the parameters in request gonna be required
 // - [ ] set up cloud armor for dddos protection
 // = [ ] set up static files hosting
-// - [ ] include information about the Bearer token in the OpenAPI spec,
-// transition from X-Firebase-ID-Token to Bearer
-// - [ ] move all of the *.swagger.json into a single declaration
+// - [ ] set up custom create so that there are say no quests that have the same
+// name
+// - [ ] the client has to re-generate automatically, same as buf generate
 
 func main() {
 	cmd.Execute()

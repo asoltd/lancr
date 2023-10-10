@@ -10,7 +10,7 @@ import "proto/options/gorm.proto";
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 message Mentor {
-  string id = 1;
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
   string hero_id = 2;
   string bio = 3;
   string skill = 4;
@@ -22,12 +22,12 @@ message Hero {
   option (gorm.opts).ormable = true;
 
   string id = 1 [(google.api.field_behavior) = REQUIRED];
-  string display_name = 2;
-  string visibility = 3;
+  string firebase_id = 2;
+  string name = 3;
+  string visibility = 4;
   Image profile_picture = 5;
   string email = 6;
   string phone_number = 7;
-  Name name = 8;
   Location location = 9;
   string user_name = 10;
   string bio = 11;
