@@ -5,16 +5,8 @@ window.onload = function () {
   window.ui = SwaggerUIBundle({
     urls: [
       {
-        url: "lancr/v1/hero_service.swagger.json",
-        name: "Hero Service",
-      },
-      {
-        url: "lancr/v1/apprentice_service.swagger.json",
-        name: "Apprentice Service",
-      },
-      {
-        url: "lancr/v1/quest_service.swagger.json",
-        name: "Quest Service",
+        url: "./api.swagger.json",
+        name: "Lancr API"
       },
     ],
     dom_id: "#swagger-ui",

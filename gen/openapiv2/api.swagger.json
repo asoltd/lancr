@@ -1,0 +1,1074 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Lancr API",
+    "description": "All of the methods require 'Authorization: Bearer \u003ctoken\u003e' header.",
+    "version": "1.0",
+    "contact": {
+      "name": "ASO LTD",
+      "url": "https://github.com/asoltd",
+      "email": "piotr.jp.ostrowski@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "ApprenticeService"
+    },
+    {
+      "name": "HeroService"
+    },
+    {
+      "name": "QuestService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/apprentices": {
+      "get": {
+        "operationId": "ApprenticeService_ListApprentices",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListApprenticesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      },
+      "post": {
+        "operationId": "ApprenticeService_CreateApprentice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateApprenticeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateApprenticeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      },
+      "put": {
+        "operationId": "ApprenticeService_UpdateApprentice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateApprenticeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateApprenticeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      }
+    },
+    "/v1/apprentices/{id}": {
+      "get": {
+        "operationId": "ApprenticeService_ReadApprentice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReadApprenticeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      },
+      "delete": {
+        "operationId": "ApprenticeService_DeleteApprentice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteApprenticeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ApprenticeService"
+        ]
+      }
+    },
+    "/v1/heroes": {
+      "get": {
+        "operationId": "HeroService_ListHeroes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListHeroesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      },
+      "post": {
+        "operationId": "HeroService_CreateHero",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateHeroResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateHeroRequest"
+            }
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      },
+      "put": {
+        "operationId": "HeroService_UpdateHero",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateHeroResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateHeroRequest"
+            }
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      }
+    },
+    "/v1/heroes/{id}": {
+      "get": {
+        "operationId": "HeroService_ReadHero",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReadHeroResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      },
+      "delete": {
+        "operationId": "HeroService_DeleteHero",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteHeroResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      }
+    },
+    "/v1/heroes:getQuestCreator": {
+      "get": {
+        "operationId": "HeroService_GetQuestCreator",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetQuestCreatorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "questId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HeroService"
+        ]
+      }
+    },
+    "/v1/heroes:getTotalHeroes": {
+      "get": {
+        "operationId": "HeroService_GetTotalHeroes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetTotalHeroesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "HeroService"
+        ]
+      }
+    },
+    "/v1/quests": {
+      "get": {
+        "operationId": "QuestService_ListQuests",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListQuestsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "QuestService"
+        ]
+      },
+      "post": {
+        "operationId": "QuestService_CreateQuest",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateQuestResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateQuestRequest"
+            }
+          }
+        ],
+        "tags": [
+          "QuestService"
+        ]
+      },
+      "put": {
+        "operationId": "QuestService_UpdateQuest",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateQuestResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateQuestRequest"
+            }
+          }
+        ],
+        "tags": [
+          "QuestService"
+        ]
+      }
+    },
+    "/v1/quests/{id}": {
+      "get": {
+        "operationId": "QuestService_ReadQuest",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReadQuestResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "QuestService"
+        ]
+      },
+      "delete": {
+        "operationId": "QuestService_DeleteQuest",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteQuestResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "QuestService"
+        ]
+      }
+    },
+    "/v1/quests:getTopQuesters": {
+      "get": {
+        "operationId": "QuestService_GetTopQuesters",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetTopQuestersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "QuestService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "HeroExperience": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        }
+      },
+      "title": "Experience might be another service possibly since it requires separate\nCRUD and might be nice to have it separate for D\u0026A workloads later on"
+    },
+    "lancrv1Location": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
+    "lancrv1Tag": {
+      "type": "string",
+      "enum": [
+        "TAG_DESIGN_UNSPECIFIED",
+        "TAG_MANAGEMENT",
+        "TAG_RESEARCH",
+        "TAG_PRESENTATION",
+        "TAG_SOFTWAREDEVELOPMENT",
+        "TAG_CUSTOMERSUCCESS",
+        "TAG_LEADERSHIP"
+      ],
+      "default": "TAG_DESIGN_UNSPECIFIED"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Apprentice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "rate": {
+          "type": "number",
+          "format": "float"
+        },
+        "workingHours": {
+          "$ref": "#/definitions/v1WorkingHours"
+        },
+        "mentor": {
+          "type": "string"
+        },
+        "favoriteTo": {
+          "type": "string"
+        },
+        "workingDays": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1CreateApprenticeRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Apprentice"
+        }
+      }
+    },
+    "v1CreateApprenticeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Apprentice"
+        }
+      }
+    },
+    "v1CreateHeroRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1CreateHeroResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1CreateQuestRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Quest"
+        }
+      }
+    },
+    "v1CreateQuestResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Quest"
+        }
+      }
+    },
+    "v1DeleteApprenticeResponse": {
+      "type": "object",
+      "title": "empty"
+    },
+    "v1DeleteHeroResponse": {
+      "type": "object",
+      "title": "empty response, code 200"
+    },
+    "v1DeleteQuestResponse": {
+      "type": "object",
+      "title": "empty response, code 200"
+    },
+    "v1GetQuestCreatorResponse": {
+      "type": "object",
+      "properties": {
+        "hero": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1GetTopQuestersResponse": {
+      "type": "object",
+      "properties": {
+        "topQuesters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Hero"
+          }
+        }
+      }
+    },
+    "v1GetTotalHeroesResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1Hero": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "$ref": "#/definitions/v1Image"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/v1Name"
+        },
+        "location": {
+          "$ref": "#/definitions/lancrv1Location"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "workType": {
+          "type": "string"
+        },
+        "subWorkType": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "linkedin": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "experiences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/HeroExperience"
+          }
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "xp": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "v1Image": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "alt": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1ListApprenticesResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Apprentice"
+          }
+        },
+        "nextPageToken": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1ListHeroesResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Hero"
+          }
+        },
+        "nextPageToken": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1ListQuestsResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Quest"
+          }
+        },
+        "nextPageToken": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1Name": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string"
+        },
+        "second": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string"
+        }
+      }
+    },
+    "v1Quest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "string"
+        },
+        "reward": {
+          "type": "number",
+          "format": "float"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/lancrv1Tag"
+          }
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Image"
+          }
+        },
+        "bidders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1ReadApprenticeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Apprentice"
+        }
+      }
+    },
+    "v1ReadHeroResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1ReadQuestResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Quest"
+        }
+      }
+    },
+    "v1UpdateApprenticeRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Apprentice"
+        }
+      }
+    },
+    "v1UpdateApprenticeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Apprentice"
+        }
+      }
+    },
+    "v1UpdateHeroRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1UpdateHeroResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Hero"
+        }
+      }
+    },
+    "v1UpdateQuestRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Quest"
+        }
+      }
+    },
+    "v1UpdateQuestResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Quest"
+        }
+      }
+    },
+    "v1WorkingHours": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "end": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "timezone": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

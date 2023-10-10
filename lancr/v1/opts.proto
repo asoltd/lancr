@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package lancr.v1;
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Lancr API";
+    version: "1.0";
+    contact: {
+      name: "ASO LTD";
+      url: "https://github.com/asoltd";
+      email: "piotr.jp.ostrowski@gmail.com";
+    };
+    description: "All of the methods require 'Authorization: Bearer <token>' header.";
+  };
+};

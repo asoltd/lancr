@@ -17,6 +17,8 @@ plugins:
 
   - name: openapiv2
     out: gen/openapiv2
+    strategy: all
+    opt: allow_merge=true,merge_file_name=api,use_go_templates=true
 
   - name: gorm
     out: gen/go
