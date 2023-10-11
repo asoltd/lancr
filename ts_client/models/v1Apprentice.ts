@@ -6,7 +6,7 @@
 import type { v1WorkingHours } from './v1WorkingHours';
 
 export type v1Apprentice = {
-    id?: string;
+    id: string;
     rate?: number;
     workingHours?: v1WorkingHours;
     mentor?: string;

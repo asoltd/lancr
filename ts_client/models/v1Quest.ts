@@ -7,7 +7,7 @@ import type { lancrv1Tag } from './lancrv1Tag';
 import type { v1Image } from './v1Image';
 
 export type v1Quest = {
-    id?: string;
+    id: string;
     creatorId?: string;
     reward?: number;
     title?: string;

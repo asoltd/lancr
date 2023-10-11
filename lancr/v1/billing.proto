@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package lancr.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "proto/options/gorm.proto";
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
+
+enum BillingPlanType {
+  BILLING_PLAN_TYPE_UNSPECIFIED = 0;
+  BILLING_PLAN_TYPE_FREE = 1;
+  BILLING_PLAN_TYPE_BASIC = 2;
+  BILLING_PLAN_TYPE_PRO = 3;
+}
+
+enum CardType {
+  CARD_TYPE_UNSPECIFIED = 0;
+  CARD_TYPE_VISA = 1;
+  CARD_TYPE_MASTERCARD = 2;
+  CARD_TYPE_UNKNOWN = 3;
+}
+
+// Financials message needs to be constructed based on the outstanding balance
+// of all of the transactions for a given user
+message Financials {
+  float balance = 1;
+  // TODO this is not a good way to encapsulate withdraw frequency
+  string withdraw_frequency = 2;
+  float withdraw_threshold = 3;
+  int32 card_ending = 4;
+  string card_type = 5;
+}
+
+message Transaction {
+  option (gorm.opts).ormable = true;
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  float amount = 2;
+  string user_id = 3;
+  string date = 5;
+  // TODO other metadata from the payment service yet to come
+}
+
+message Invoice {
+  option (gorm.opts).ormable = true;
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  string title = 2;
+  string download_url = 3;
+  float amount = 4;
+  string currency = 5;
+  BillingPlanType billing_plan = 6;
+  google.protobuf.Timestamp date = 7;
+  string payment_method_id = 8;
+}
+
+message PaymentMethod {
+  option (gorm.opts).ormable = true;
+  string id = 1;
+  string type = 2;
+  string last4 = 3;
+  string exp_month = 4;
+  string exp_year = 5;
+  CardType card_type = 6;
+}
+
+message BillingPlan {
+  BillingPlanType type = 1;
+  string description = 2;
+  int32 user_limit = 3;
+}
+
+message BillingDetails {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  repeated PaymentMethod payment_method = 2;
+  BillingPlan billing_plan = 3;
+  int32 user_count = 4;
+}

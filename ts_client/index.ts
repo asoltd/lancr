@@ -33,7 +33,6 @@ export type { v1Image } from './models/v1Image';
 export type { v1ListApprenticesResponse } from './models/v1ListApprenticesResponse';
 export type { v1ListHeroesResponse } from './models/v1ListHeroesResponse';
 export type { v1ListQuestsResponse } from './models/v1ListQuestsResponse';
-export type { v1Name } from './models/v1Name';
 export type { v1Quest } from './models/v1Quest';
 export type { v1ReadApprenticeResponse } from './models/v1ReadApprenticeResponse';
 export type { v1ReadHeroResponse } from './models/v1ReadHeroResponse';
