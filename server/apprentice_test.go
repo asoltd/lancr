@@ -62,8 +62,8 @@ func TestUpdateApprentice(t *testing.T) {
 
 	res, err := a.UpdateApprentice(context.Background(), &lancrv1.UpdateApprenticeRequest{
 		Payload: &lancrv1.Apprentice{
-			Id:     "test-apprentice",
-			Mentor: "test-mentor",
+			Id:    "test-apprentice",
+			Level: 10,
 		},
 	})
 	fmt.Println(res)
@@ -77,15 +77,13 @@ func TestUpdateApprentice(t *testing.T) {
 		t.Error(err)
 	}
 
-	want := "test-mentor"
+	var want int32 = 10
 	pb, err := apprenticeInDB.ToPB(context.Background())
 	if err != nil {
 		t.Errorf("failed to convert to pb: %v", err)
 	}
-	if pb.GetMentor() != "test-mentor" {
-		if pb.GetMentor() != want {
-			t.Errorf("expected %s, got %v", want, pb.GetMentor())
-		}
+	if pb.GetLevel() != want {
+		t.Errorf("expected %d, got %d", want, pb.GetLevel())
 	}
 }
 

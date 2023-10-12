@@ -4,15 +4,21 @@ package lancr.v1;
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
+message Hour {
+  int32 hour = 1;
+  int32 minute = 2;
+}
+
 message WorkingHours {
-  int32 start = 1;
-  int32 end = 2;
+  Hour start = 1;
+  Hour end = 2;
   string timezone = 3;
 }
 
 message Location {
   string city = 1;
   string country = 2;
+  string country_code = 3;
 }
 
 message FrequentlyAskedQuestion {

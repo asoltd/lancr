@@ -572,24 +572,6 @@
     }
   },
   "definitions": {
-    "HeroExperience": {
-      "type": "object",
-      "properties": {
-        "position": {
-          "type": "string"
-        },
-        "company": {
-          "type": "string"
-        },
-        "startDate": {
-          "type": "string"
-        },
-        "endDate": {
-          "type": "string"
-        }
-      },
-      "title": "Experience might be another service possibly since it requires separate\nCRUD and might be nice to have it separate for D\u0026A workloads later on"
-    },
     "lancrv1Location": {
       "type": "object",
       "properties": {
@@ -597,6 +579,9 @@
           "type": "string"
         },
         "country": {
+          "type": "string"
+        },
+        "countryCode": {
           "type": "string"
         }
       }
@@ -648,15 +633,23 @@
         "id": {
           "type": "string"
         },
+        "heroId": {
+          "type": "string"
+        },
         "rate": {
           "type": "number",
-          "format": "float"
+          "format": "float",
+          "title": "rate is denominated in %, 10%, 20% etc"
         },
         "workingHours": {
           "$ref": "#/definitions/v1WorkingHours"
         },
-        "mentor": {
-          "type": "string"
+        "mentors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Mentor"
+          }
         },
         "favoriteTo": {
           "type": "string"
@@ -666,6 +659,20 @@
           "items": {
             "type": "string"
           }
+        },
+        "ratings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Rating"
+          }
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "location": {
+          "$ref": "#/definitions/lancrv1Location"
         }
       },
       "required": [
@@ -732,6 +739,28 @@
       "type": "object",
       "title": "empty response, code 200"
     },
+    "v1Experience": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "title": "ISO date string"
+        },
+        "endDate": {
+          "type": "string"
+        }
+      },
+      "title": "Experience might be another service possibly since it requires separate\nCRUD and might be nice to have it separate for D\u0026A workloads later on"
+    },
     "v1GetQuestCreatorResponse": {
       "type": "object",
       "properties": {
@@ -768,7 +797,8 @@
           "type": "string"
         },
         "firebaseId": {
-          "type": "string"
+          "type": "string",
+          "title": "internal"
         },
         "name": {
           "type": "string"
@@ -777,7 +807,7 @@
           "type": "string"
         },
         "profilePicture": {
-          "$ref": "#/definitions/v1Image"
+          "type": "string"
         },
         "email": {
           "type": "string"
@@ -809,11 +839,11 @@
         "website": {
           "type": "string"
         },
-        "experiences": {
+        "experience": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/HeroExperience"
+            "$ref": "#/definitions/v1Experience"
           }
         },
         "rating": {
@@ -837,6 +867,19 @@
       "required": [
         "id"
       ]
+    },
+    "v1Hour": {
+      "type": "object",
+      "properties": {
+        "hour": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minute": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
     },
     "v1Image": {
       "type": "object",
@@ -917,6 +960,34 @@
         }
       }
     },
+    "v1Mentor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "heroId": {
+          "type": "string"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "skill": {
+          "type": "string"
+        },
+        "maxRate": {
+          "type": "number",
+          "format": "float"
+        },
+        "minRate": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
     "v1Quest": {
       "type": "object",
       "properties": {
@@ -970,6 +1041,37 @@
         "level": {
           "type": "integer",
           "format": "int64"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "v1Rating": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "heroId": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "integer",
+          "format": "int32",
+          "title": "rating denominated as from 1 to 5"
         }
       },
       "required": [
@@ -1052,12 +1154,10 @@
       "type": "object",
       "properties": {
         "start": {
-          "type": "integer",
-          "format": "int32"
+          "$ref": "#/definitions/v1Hour"
         },
         "end": {
-          "type": "integer",
-          "format": "int32"
+          "$ref": "#/definitions/v1Hour"
         },
         "timezone": {
           "type": "string"

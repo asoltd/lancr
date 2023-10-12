@@ -8,13 +8,48 @@ import "proto/options/gorm.proto";
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
+message Mentor {
+  option (gorm.opts).ormable = true;
+
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  string hero_id = 2;
+  string bio = 3;
+  string skill = 4;
+  float max_rate = 5;
+  float min_rate = 6;
+}
+
+message Rating {
+  option (gorm.opts).ormable = true;
+
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  string customer_id = 2;
+  string hero_id = 3;
+  string comment = 5;
+  string created_at = 7;
+  string updated_at = 8;
+
+  // rating denominated as from 1 to 5
+  int32 rating = 9;
+}
+
 message Apprentice {
   option (gorm.opts).ormable = true;
 
   string id = 1 [(google.api.field_behavior) = REQUIRED];
-  float rate = 2;
-  WorkingHours working_hours = 3;
-  string mentor = 4;
-  string favorite_to = 5;
-  repeated string working_days = 6;
+  string hero_id = 2;
+
+  // rate is denominated in %, 10%, 20% etc
+  float rate = 3;
+
+  WorkingHours working_hours = 4;
+  repeated Mentor mentors = 5;
+  string favorite_to = 6;
+  repeated string working_days = 7;
+
+  repeated Rating ratings = 8;
+
+  int32 level = 9;
+
+  Location location = 10;
 }
