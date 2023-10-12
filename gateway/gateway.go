@@ -99,6 +99,11 @@ func (gw *Gateway) ConnectToBackend(ctx context.Context, dialAddr string) error 
 		return err
 	}
 
+	err = lancrv1.RegisterTeamsServiceHandler(ctx, gw.gwmux, conn)
+	if err != nil {
+		return err
+	}
+
 	gw.client = lancrv1.NewHeroServiceClient(conn)
 	gw.connectedToBackend = true
 	// TODO add a client here? I am thinking of a better way to see if someone can

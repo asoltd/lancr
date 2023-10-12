@@ -39,7 +39,8 @@ message Team {
   string description = 4;
   string highlight = 5;
   Industry industry = 6;
-  Image image = 7;
+  // Image URL
+  string image = 7;
   string time_estimate = 8;
   Bid bidders = 9;
   Hero members = 10;
