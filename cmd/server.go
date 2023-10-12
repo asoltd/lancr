@@ -44,10 +44,12 @@ var serverCmd = &cobra.Command{
 		h := server.NewHeroServiceServer(db)
 		a := server.NewApprenticeServiceServer(db)
 		q := server.NewQuestServiceServer(db)
+		t := server.NewTeamsServiceServer(db)
 
 		lancrv1.RegisterHeroServiceServer(s, h)
 		lancrv1.RegisterApprenticeServiceServer(s, a)
 		lancrv1.RegisterQuestServiceServer(s, q)
+		lancrv1.RegisterTeamsServiceServer(s, t)
 
 		reflection.Register(s)
 

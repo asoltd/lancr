@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
+	"github.com/asoltd/lancr/db"
 	"google.golang.org/grpc/metadata"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -35,25 +35,15 @@ func GetIDTokenFromMetadata(ctx context.Context) (*string, error) {
 
 func SetupTestDB(t *testing.T) *gorm.DB {
 	// Open a test database connection (SQLite in-memory for this example)
-	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	gormDB, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
 	if err != nil {
 		t.Fatalf("Failed to open database connection: %v", err)
 	}
 
-	err = db.AutoMigrate(&lancrv1.HeroORM{})
+	err = db.RunMigrations(gormDB)
 	if err != nil {
-		t.Fatalf("Failed to auto-migrate: %v", err)
+		t.Fatalf("Failed to run migrations: %v", err)
 	}
 
-	err = db.AutoMigrate(&lancrv1.ApprenticeORM{})
-	if err != nil {
-		t.Fatalf("Failed to auto-migrate: %v", err)
-	}
-
-	err = db.AutoMigrate(&lancrv1.QuestORM{})
-	if err != nil {
-		t.Fatalf("Failed to auto-migrate: %v", err)
-	}
-
-	return db
+	return gormDB
 }
