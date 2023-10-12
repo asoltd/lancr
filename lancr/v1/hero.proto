@@ -17,7 +17,7 @@ message Experience {
   string id = 1;
   string position = 2;
   string company = 3;
-  string start_date = 4;  // ISO date string
+  string start_date = 4; // ISO date string
   string end_date = 5;
 }
 
@@ -29,7 +29,7 @@ message Hero {
   // internal
   string firebase_id = 2;
 
-  string name = 3;
+  Name name = 3;
   string visibility = 4;
   string profile_picture = 5;
   string email = 6;

@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package lancr.v1;
+
+import "google/api/annotations.proto";
+import "lancr/v1/apprentice.proto";
+import "proto/options/gorm.proto";
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
+
+message ReadTeamRequest {
+  string id = 1;
+}
+
+message ReadTeamResponse {
+  Team result = 1;
+}
+
+message ListTeamsRequest {
+  int32 page_size = 1;
+  int32 page_token = 2;
+}
+
+message ListTeamsResponse {
+  repeated Team results = 1;
+  int32 next_page_token = 2;
+  int32 total_size = 3;
+}
+
+message CreateTeamRequest {
+  Team payload = 1;
+}
+
+message CreateTeamResponse {
+  Team result = 1;
+}
+
+message UpdateTeamRequest {
+  Team payload = 1;
+}
+
+message UpdateTeamResponse {
+  Team result = 1;
+}
+
+message DeleteTeamRequest {
+  string id = 1;
+}
+
+message DeleteTeamResponse {
+  // empty
+}
+
+service TeamsService {
+  option (gorm.server).autogen = true;
+
+  rpc ReadTeam(ReadTeamRequest) returns (ReadTeamResponse) {
+    option (google.api.http) = {get: "/v1/teams/{id}"};
+  }
+
+  rpc ListTeams(ListTeamsRequest) returns (ListTeamsResponse) {
+    option (google.api.http) = {get: "/v1/teams"};
+  }
+
+  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {
+    option (google.api.http) = {
+      post: "/v1/teams"
+      body: "*"
+    };
+  }
+
+  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {
+    option (google.api.http) = {
+      put: "/v1/teams"
+      body: "*"
+    };
+  }
+
+  rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse) {
+    option (gorm.method).object_type = "Team";
+    option (google.api.http) = {delete: "/v1/teams/{id}"};
+  }
+}

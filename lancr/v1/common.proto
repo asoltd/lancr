@@ -4,6 +4,11 @@ package lancr.v1;
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
+message Name {
+  string first = 1;
+  string last = 2;
+}
+
 message Hour {
   int32 hour = 1;
   int32 minute = 2;
