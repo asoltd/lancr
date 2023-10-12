@@ -66,8 +66,11 @@ func TestUpdateHero(t *testing.T) {
 
 	_, err := h.UpdateHero(context.Background(), &lancrv1.UpdateHeroRequest{
 		Payload: &lancrv1.Hero{
-			Id:   "test-stub",
-			Name: "guy",
+			Id: "test-stub",
+			Name: &lancrv1.Name{
+				First: "test",
+				Last:  "stub",
+			},
 		},
 	})
 	if err != nil {

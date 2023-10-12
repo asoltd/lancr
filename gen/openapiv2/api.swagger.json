@@ -19,6 +19,9 @@
     },
     {
       "name": "QuestService"
+    },
+    {
+      "name": "TeamsService"
     }
   ],
   "consumes": [
@@ -569,6 +572,162 @@
           "QuestService"
         ]
       }
+    },
+    "/v1/teams": {
+      "get": {
+        "operationId": "TeamsService_ListTeams",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListTeamsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "TeamsService"
+        ]
+      },
+      "post": {
+        "operationId": "TeamsService_CreateTeam",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateTeamResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateTeamRequest"
+            }
+          }
+        ],
+        "tags": [
+          "TeamsService"
+        ]
+      },
+      "put": {
+        "operationId": "TeamsService_UpdateTeam",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateTeamResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateTeamRequest"
+            }
+          }
+        ],
+        "tags": [
+          "TeamsService"
+        ]
+      }
+    },
+    "/v1/teams/{id}": {
+      "get": {
+        "operationId": "TeamsService_ReadTeam",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReadTeamResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TeamsService"
+        ]
+      },
+      "delete": {
+        "operationId": "TeamsService_DeleteTeam",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteTeamResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TeamsService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -679,6 +838,67 @@
         "id"
       ]
     },
+    "v1Bid": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "bidderId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rate": {
+          "type": "number",
+          "format": "float"
+        },
+        "amount": {
+          "type": "number",
+          "format": "float"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "timeRequired": {
+          "type": "string"
+        },
+        "workingTime": {
+          "type": "string"
+        },
+        "questId": {
+          "type": "string"
+        },
+        "apprentice": {
+          "$ref": "#/definitions/v1Apprentice"
+        },
+        "apprenticeRate": {
+          "type": "number",
+          "format": "float"
+        },
+        "apprenticeCut": {
+          "type": "number",
+          "format": "float"
+        },
+        "totalEarnings": {
+          "type": "number",
+          "format": "float"
+        },
+        "status": {
+          "type": "string"
+        },
+        "totalBidValue": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
     "v1CreateApprenticeRequest": {
       "type": "object",
       "properties": {
@@ -727,6 +947,22 @@
         }
       }
     },
+    "v1CreateTeamRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Team"
+        }
+      }
+    },
+    "v1CreateTeamResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Team"
+        }
+      }
+    },
     "v1DeleteApprenticeResponse": {
       "type": "object",
       "title": "empty"
@@ -738,6 +974,10 @@
     "v1DeleteQuestResponse": {
       "type": "object",
       "title": "empty response, code 200"
+    },
+    "v1DeleteTeamResponse": {
+      "type": "object",
+      "title": "empty"
     },
     "v1Experience": {
       "type": "object",
@@ -801,7 +1041,7 @@
           "title": "internal"
         },
         "name": {
-          "type": "string"
+          "$ref": "#/definitions/v1Name"
         },
         "visibility": {
           "type": "string"
@@ -900,6 +1140,18 @@
         }
       }
     },
+    "v1Industry": {
+      "type": "string",
+      "enum": [
+        "INDUSTRY_UNSPECIFIED",
+        "INDUSTRY_FINTECH",
+        "INDUSTRY_TECHNOLOGY",
+        "INDUSTRY_ACCOUNTING",
+        "INDUSTRY_CONSTRUCTION"
+      ],
+      "default": "INDUSTRY_UNSPECIFIED",
+      "title": "same in case of RoleCategory"
+    },
     "v1ListApprenticesResponse": {
       "type": "object",
       "properties": {
@@ -960,6 +1212,26 @@
         }
       }
     },
+    "v1ListTeamsResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Team"
+          }
+        },
+        "nextPageToken": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "v1Mentor": {
       "type": "object",
       "properties": {
@@ -987,6 +1259,17 @@
       "required": [
         "id"
       ]
+    },
+    "v1Name": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string"
+        }
+      }
     },
     "v1Quest": {
       "type": "object",
@@ -1102,6 +1385,73 @@
         }
       }
     },
+    "v1ReadTeamResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Team"
+        }
+      }
+    },
+    "v1RoleCategory": {
+      "type": "string",
+      "enum": [
+        "ROLE_CATEGORY_UNSPECIFIED",
+        "ROLE_CATEGORY_DESIGNER",
+        "ROLE_CATEGORY_PRODUCT_DESIGNER",
+        "ROLE_CATEGORY_SOFTWARE_DEVELOPMENT",
+        "ROLE_CATEGORY_PRESENTOR",
+        "ROLE_CATEGORY_MANAGER",
+        "ROLE_CATEGORY_ENGINEER"
+      ],
+      "default": "ROLE_CATEGORY_UNSPECIFIED",
+      "title": "the categories are not exhaustive, but are meant to be a starting point"
+    },
+    "v1Team": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "highlight": {
+          "type": "string"
+        },
+        "industry": {
+          "$ref": "#/definitions/v1Industry"
+        },
+        "image": {
+          "$ref": "#/definitions/v1Image"
+        },
+        "timeEstimate": {
+          "type": "string"
+        },
+        "bidders": {
+          "$ref": "#/definitions/v1Bid"
+        },
+        "members": {
+          "$ref": "#/definitions/v1Hero"
+        },
+        "roleCategories": {
+          "$ref": "#/definitions/v1RoleCategory"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
     "v1UpdateApprenticeRequest": {
       "type": "object",
       "properties": {
@@ -1147,6 +1497,22 @@
       "properties": {
         "result": {
           "$ref": "#/definitions/v1Quest"
+        }
+      }
+    },
+    "v1UpdateTeamRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/v1Team"
+        }
+      }
+    },
+    "v1UpdateTeamResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/v1Team"
         }
       }
     },

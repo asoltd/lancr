@@ -3,7 +3,7 @@ syntax = "proto3";
 package lancr.v1;
 
 import "google/api/annotations.proto";
-import "lancr/v1/apprentice.proto";
+import "lancr/v1/team.proto";
 import "proto/options/gorm.proto";
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";

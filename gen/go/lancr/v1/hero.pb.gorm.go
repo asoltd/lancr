@@ -98,12 +98,12 @@ type HeroORM struct {
 	Language       string
 	Level          uint32
 	Linkedin       string
-	Name           string
 	PhoneNumber    string
 	ProfilePicture string
 	Rating         float32
 	Region         string
 	SubWorkType    string
+	TeamId         *string
 	Twitter        string
 	UserName       string
 	Visibility     string
@@ -129,7 +129,6 @@ func (m *Hero) ToORM(ctx context.Context) (HeroORM, error) {
 	}
 	to.Id = m.Id
 	to.FirebaseId = m.FirebaseId
-	to.Name = m.Name
 	to.Visibility = m.Visibility
 	to.ProfilePicture = m.ProfilePicture
 	to.Email = m.Email
@@ -175,7 +174,6 @@ func (m *HeroORM) ToPB(ctx context.Context) (Hero, error) {
 	}
 	to.Id = m.Id
 	to.FirebaseId = m.FirebaseId
-	to.Name = m.Name
 	to.Visibility = m.Visibility
 	to.ProfilePicture = m.ProfilePicture
 	to.Email = m.Email
@@ -870,6 +868,7 @@ func DefaultApplyFieldMaskHero(ctx context.Context, patchee *Hero, patcher *Hero
 		return nil, errors.NilArgumentError
 	}
 	var err error
+	var updatedName bool
 	var updatedLocation bool
 	for i, f := range updateMask.Paths {
 		if f == prefix+"Id" {
@@ -880,7 +879,26 @@ func DefaultApplyFieldMaskHero(ctx context.Context, patchee *Hero, patcher *Hero
 			patchee.FirebaseId = patcher.FirebaseId
 			continue
 		}
+		if !updatedName && strings.HasPrefix(f, prefix+"Name.") {
+			if patcher.Name == nil {
+				patchee.Name = nil
+				continue
+			}
+			if patchee.Name == nil {
+				patchee.Name = &Name{}
+			}
+			childMask := &field_mask.FieldMask{}
+			for j := i; j < len(updateMask.Paths); j++ {
+				if trimPath := strings.TrimPrefix(updateMask.Paths[j], prefix+"Name."); trimPath != updateMask.Paths[j] {
+					childMask.Paths = append(childMask.Paths, trimPath)
+				}
+			}
+			if err := gorm1.MergeWithMask(patcher.Name, patchee.Name, childMask); err != nil {
+				return nil, nil
+			}
+		}
 		if f == prefix+"Name" {
+			updatedName = true
 			patchee.Name = patcher.Name
 			continue
 		}
