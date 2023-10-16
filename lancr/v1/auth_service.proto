@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package lancr.v1;
+
+import "google/protobuf/any.proto";
+
+option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
+
+// All of the services can use the ID token to obtain the User
+// if Hero is to be created, the HeroService will send a Authenticate request
+// and use the Firebase ID to bind the Hero to the User
+
+// User returned from the Firebase Auth Admin SDK
+// TODO fill with the data from the *UserEntry struct
+message User {
+  string id = 1;
+
+  bool email_verified = 25;
+  bool two_factor_auth = 26;
+  bool disabled = 5;
+  int64 tokens_valid_after_millis = 6;
+  string tenant_id = 7;
+
+  // TODO support linking accounts
+  // repeated LinkedAccount linked_accounts = 4;
+
+  // TODO NotificationPreferences will probably be a separate service when it is
+  // required
+  // NotificationPreferences notification_preferences = 28;
+}
+
+message Token {
+  int64 auth_time = 1;
+  string issuer = 2;
+  string audience = 3;
+  int64 expires = 4;
+  int64 issued_at = 5;
+  string subject = 6;
+
+  // UID is the Firebase User ID
+  string uid = 7;
+  FirebaseInfo firebase_info = 8;
+
+  // TODO ammend the google.protobuf.Any if it turns out to be a string
+  map<string, google.protobuf.Any> claims = 9;
+}
+
+message FirebaseInfo {
+  string sign_in_provider = 1;
+  string tenant = 2;
+}
+
+message AuthenticateRequest {
+  // firebase ID token
+  string id_token = 1;
+}
+
+message AuthenticateResponse {
+  Token token = 2;
+}
+
+service AuthService {
+  rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse) {}
+}

@@ -21,7 +21,7 @@ nil pointer ref , using my patch under `github.com/piotrostr/protoc-gen-gorm`
 Also, in order to generate GORM models from the protobuf definition, the
 `github.com/infobloxopen/protoc-gen-gorm` package is used with the dependency
 protobufs hosted on `buf.build/piotrostr/protoc-gen-gorm`, so use `go install
-github.com/piotrostr/protoc-gen-go@latest`
+github.com/piotrostr/protoc-gen-gorm@latest`
 
 There was another issue with github.com/infobloxopen/atlas-app-toolki using the
 same deprecated gorm v1, following this workaround seems to work just fine:

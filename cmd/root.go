@@ -42,6 +42,11 @@ func init() {
 	rootCmd.PersistentFlags().String(
 		"grpc-server-addr",
 		"0.0.0.0:4201",
+		"Address of the main gRPC server",
+	)
+	rootCmd.PersistentFlags().String(
+		"addr",
+		"0.0.0.0:42069",
 		"Address of the gRPC server",
 	)
 	rootCmd.PersistentFlags().Bool(

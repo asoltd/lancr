@@ -18,6 +18,7 @@ type TeamORM struct {
 	Description    string
 	Highlight      string
 	Id             string
+	Image          string
 	Industry       string
 	Members        *HeroORM `gorm:"foreignKey:TeamId;references:Id"`
 	RoleCategories string
@@ -46,6 +47,7 @@ func (m *Team) ToORM(ctx context.Context) (TeamORM, error) {
 	to.Description = m.Description
 	to.Highlight = m.Highlight
 	to.Industry = Industry_name[int32(m.Industry)]
+	to.Image = m.Image
 	to.TimeEstimate = m.TimeEstimate
 	if m.Members != nil {
 		tempMembers, err := m.Members.ToORM(ctx)
@@ -81,6 +83,7 @@ func (m *TeamORM) ToPB(ctx context.Context) (Team, error) {
 	to.Description = m.Description
 	to.Highlight = m.Highlight
 	to.Industry = Industry(Industry_value[m.Industry])
+	to.Image = m.Image
 	to.TimeEstimate = m.TimeEstimate
 	if m.Members != nil {
 		tempMembers, err := m.Members.ToPB(ctx)
@@ -407,7 +410,6 @@ func DefaultApplyFieldMaskTeam(ctx context.Context, patchee *Team, patcher *Team
 		return nil, errors.NilArgumentError
 	}
 	var err error
-	var updatedImage bool
 	var updatedBidders bool
 	var updatedMembers bool
 	var updatedCreatedAt bool
@@ -436,26 +438,7 @@ func DefaultApplyFieldMaskTeam(ctx context.Context, patchee *Team, patcher *Team
 			patchee.Industry = patcher.Industry
 			continue
 		}
-		if !updatedImage && strings.HasPrefix(f, prefix+"Image.") {
-			if patcher.Image == nil {
-				patchee.Image = nil
-				continue
-			}
-			if patchee.Image == nil {
-				patchee.Image = &Image{}
-			}
-			childMask := &field_mask.FieldMask{}
-			for j := i; j < len(updateMask.Paths); j++ {
-				if trimPath := strings.TrimPrefix(updateMask.Paths[j], prefix+"Image."); trimPath != updateMask.Paths[j] {
-					childMask.Paths = append(childMask.Paths, trimPath)
-				}
-			}
-			if err := gorm1.MergeWithMask(patcher.Image, patchee.Image, childMask); err != nil {
-				return nil, nil
-			}
-		}
 		if f == prefix+"Image" {
-			updatedImage = true
 			patchee.Image = patcher.Image
 			continue
 		}
