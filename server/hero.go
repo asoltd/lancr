@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"log"
 
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"gorm.io/gorm"
@@ -31,12 +30,10 @@ func (h *HeroServiceServer) ReadHero(ctx context.Context, req *lancrv1.ReadHeroR
 	if err != nil {
 		return nil, err
 	}
-	res, err := h.Auth.Authenticate(ctx, &lancrv1.AuthenticateRequest{IdToken: *idtoken})
+	_, err = h.Auth.Authenticate(ctx, &lancrv1.AuthenticateRequest{IdToken: *idtoken})
 	if err != nil {
-		log.Println(res)
 		return nil, err
 	}
-	log.Println(res.String())
 	return h.HeroServiceDefaultServer.ReadHero(ctx, req)
 }
 
