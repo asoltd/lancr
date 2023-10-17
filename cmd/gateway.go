@@ -9,7 +9,9 @@ import (
 	"os"
 
 	"github.com/asoltd/lancr/gateway"
+	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
 )
 
@@ -28,8 +30,22 @@ var gatewayCmd = &cobra.Command{
 
 		dialAddress := cmd.Flags().Lookup("grpc-server-addr").Value.String()
 		gatewayAddr := cmd.Flags().Lookup("gateway-addr").Value.String()
+		authServiceAddr := cmd.Flags().Lookup("auth-service-addr").Value.String()
 		log.Infof("Serving gRPC-Gateway and OpenAPI Documentation on https://%s", gatewayAddr)
-		gw, err := gateway.New(ctx)
+
+		conn, err := grpc.DialContext(
+			ctx,
+			authServiceAddr,
+			grpc.WithInsecure(),
+			grpc.WithBlock(),
+		)
+		if err != nil {
+			log.Fatalf("failed to connect to AuthService %w", err)
+		}
+
+		auth := lancrv1.NewAuthServiceClient(conn)
+
+		gw, err := gateway.New(auth)
 		if err != nil {
 			log.Fatalf("Failed to create gateway: %v", err)
 		}

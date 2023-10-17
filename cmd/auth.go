@@ -24,9 +24,9 @@ var authCmd = &cobra.Command{
 		log := grpclog.NewLoggerV2(os.Stdout, io.Discard, io.Discard)
 		grpclog.SetLoggerV2(log)
 
-		grpcServerAddr := cmd.Flags().Lookup("addr").Value.String()
+		authServiceAddr := cmd.Flags().Lookup("auth-service-addr").Value.String()
 
-		lis, err := net.Listen("tcp", grpcServerAddr)
+		lis, err := net.Listen("tcp", authServiceAddr)
 		if err != nil {
 			log.Fatalf("failed to listen %w", err)
 		}
@@ -42,7 +42,7 @@ var authCmd = &cobra.Command{
 
 		reflection.Register(s)
 
-		log.Infof("Serving gRPC on https://%s", grpcServerAddr)
+		log.Infof("Serving gRPC on https://%s", authServiceAddr)
 		err = s.Serve(lis)
 		if err != nil {
 			log.Fatal(err)

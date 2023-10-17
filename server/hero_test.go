@@ -16,7 +16,8 @@ import (
 func TestCreateHero(t *testing.T) {
 	db := server.SetupTestDB(t)
 
-	h := server.NewHeroServiceServer(db)
+	auth := &server.MockAuthServiceClient{}
+	h := server.NewHeroServiceServer(db, auth)
 
 	req := &lancrv1.CreateHeroRequest{
 		Payload: &lancrv1.Hero{
@@ -32,7 +33,8 @@ func TestCreateHero(t *testing.T) {
 func TestListHeroes(t *testing.T) {
 	db := server.SetupTestDB(t)
 
-	h := server.NewHeroServiceServer(db)
+	auth := &server.MockAuthServiceClient{}
+	h := server.NewHeroServiceServer(db, auth)
 
 	req := &lancrv1.ListHeroesRequest{
 		PageSize: 10,
@@ -47,12 +49,14 @@ func TestListHeroes(t *testing.T) {
 func TestReadHero(t *testing.T) {
 	db := server.SetupTestDB(t)
 
-	h := server.NewHeroServiceServer(db)
+	auth := &server.MockAuthServiceClient{}
+	h := server.NewHeroServiceServer(db, auth)
 
+	ctx := server.MockContextWithAuthorizationMetadata("fake-token")
 	req := &lancrv1.ReadHeroRequest{
 		Id: "test-stub",
 	}
-	_, err := h.ReadHero(context.Background(), req)
+	_, err := h.ReadHero(ctx, req)
 	if err != nil {
 		t.Error(err)
 	}
@@ -62,9 +66,11 @@ func TestReadHero(t *testing.T) {
 func TestUpdateHero(t *testing.T) {
 	db := server.SetupTestDB(t)
 
-	h := server.NewHeroServiceServer(db)
+	auth := &server.MockAuthServiceClient{}
+	h := server.NewHeroServiceServer(db, auth)
 
-	_, err := h.UpdateHero(context.Background(), &lancrv1.UpdateHeroRequest{
+	ctx := context.Background()
+	_, err := h.UpdateHero(ctx, &lancrv1.UpdateHeroRequest{
 		Payload: &lancrv1.Hero{
 			Id: "test-stub",
 			Name: &lancrv1.Name{
@@ -81,7 +87,8 @@ func TestUpdateHero(t *testing.T) {
 func TestDeleteHero(t *testing.T) {
 	db := server.SetupTestDB(t)
 
-	h := server.NewHeroServiceServer(db)
+	auth := &server.MockAuthServiceClient{}
+	h := server.NewHeroServiceServer(db, auth)
 
 	_, err := h.DeleteHero(context.Background(), &lancrv1.DeleteHeroRequest{
 		Id: "test-stub",

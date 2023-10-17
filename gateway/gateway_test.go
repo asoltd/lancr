@@ -13,12 +13,13 @@ import (
 	"testing"
 
 	"github.com/asoltd/lancr/gateway"
+	"github.com/asoltd/lancr/server"
 )
 
 func TestNew(t *testing.T) {
 	t.Parallel()
-	ctx := context.Background()
-	_, err := gateway.New(ctx)
+	auth := &server.MockAuthServiceClient{}
+	_, err := gateway.New(auth)
 	if err != nil {
 		t.Fatalf("Failed to create gateway: %v", err)
 	}
@@ -27,7 +28,8 @@ func TestNew(t *testing.T) {
 func TestSetupHandler(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
-	gw, err := gateway.New(ctx)
+	auth := &server.MockAuthServiceClient{}
+	gw, err := gateway.New(auth)
 	if err != nil {
 		t.Fatalf("Failed to create gateway: %v", err)
 	}
@@ -40,7 +42,8 @@ func TestSetupHandler(t *testing.T) {
 func TestSwaggerUI(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
-	gw, err := gateway.New(ctx)
+	auth := &server.MockAuthServiceClient{}
+	gw, err := gateway.New(auth)
 	if err != nil {
 		t.Fatalf("Failed to create gateway: %v", err)
 	}
@@ -67,7 +70,8 @@ func TestSwaggerUI(t *testing.T) {
 func TestRequiresFirebaseIDToken(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
-	gw, err := gateway.New(ctx)
+	auth := &server.MockAuthServiceClient{}
+	gw, err := gateway.New(auth)
 	if err != nil {
 		t.Fatalf("Failed to create gateway: %v", err)
 	}
@@ -94,7 +98,8 @@ func TestRequiresFirebaseIDToken(t *testing.T) {
 func TestOnlyAllowsAllowedMethods(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
-	gw, err := gateway.New(ctx)
+	auth := &server.MockAuthServiceClient{}
+	gw, err := gateway.New(auth)
 	if err != nil {
 		t.Fatalf("Failed to create gateway: %v", err)
 	}

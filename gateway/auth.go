@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+
+	v1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 )
 
 func (gw *Gateway) AuthMiddleware(ctx context.Context, r *http.Request) error {
@@ -20,14 +22,12 @@ func (gw *Gateway) AuthMiddleware(ctx context.Context, r *http.Request) error {
 	// split bearer token
 	idtoken := authheader[7:]
 
-	/*token*/
-	_, err := gw.authclient.VerifyIDToken(ctx, idtoken)
+	// TODO this token can be used here for some stuff, not relevant atm
+	_, err := gw.auth.Authenticate(ctx, &v1.AuthenticateRequest{
+		IdToken: idtoken,
+	})
 	if err != nil {
-		// TODO this is a firebase error, this might not be good to return,
-		// at the moment this is written in the 403 not authorized
-		// i would like to provide a nice response, in form
-		// { 403, { error: "not authorized, principal is missing ${scope}" }
-		return fmt.Errorf("failed to verify ID token")
+		return fmt.Errorf("failed to verify ID token: %w", err)
 	}
 
 	switch r.Method {

@@ -45,7 +45,7 @@ func init() {
 		"Address of the main gRPC server",
 	)
 	rootCmd.PersistentFlags().String(
-		"addr",
+		"auth-service-addr",
 		"0.0.0.0:42069",
 		"Address of the gRPC server",
 	)

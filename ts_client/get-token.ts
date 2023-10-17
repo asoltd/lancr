@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 // get those from Firebase Project settings
 const app = initializeApp({
@@ -15,9 +15,7 @@ const app = initializeApp({
 
 const auth = getAuth(app);
 
-const email = "populate@gmail.com";
-const password = "populate123";
-const credentials = await signInWithEmailAndPassword(auth, email, password);
+const credentials = await signInAnonymously(auth);
 const idToken = await credentials.user.getIdToken(true);
 
 console.log(idToken);

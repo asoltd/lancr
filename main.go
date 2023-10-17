@@ -54,6 +54,7 @@ import "github.com/asoltd/lancr/cmd"
 // - [ ] set up custom create so that there are say no quests that have the same
 // name
 // - [ ] the client has to re-generate automatically, same as buf generate
+// - [ ] implement automatic retries
 
 func main() {
 	cmd.Execute()

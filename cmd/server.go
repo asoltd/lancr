@@ -8,7 +8,6 @@ import (
 	"net"
 	"os"
 
-	"github.com/asoltd/lancr/db"
 	"github.com/asoltd/lancr/server"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -28,6 +27,7 @@ var serverCmd = &cobra.Command{
 		grpclog.SetLoggerV2(log)
 
 		grpcServerAddr := cmd.Flags().Lookup("grpc-server-addr").Value.String()
+		authServiceAddr := cmd.Flags().Lookup("auth-service-addr").Value.String()
 
 		lis, err := net.Listen("tcp", grpcServerAddr)
 		if err != nil {
@@ -36,12 +36,24 @@ var serverCmd = &cobra.Command{
 
 		s := grpc.NewServer()
 
-		db, err := db.Connect()
+		db, err := server.ConnectTestDB()
 		if err != nil {
-			log.Fatalf("failed to connect to database %w", err)
+			log.Fatalf("failed to connect to TiDB %w", err)
 		}
 
-		h := server.NewHeroServiceServer(db)
+		conn, err := grpc.DialContext(
+			cmd.Context(),
+			authServiceAddr,
+			grpc.WithInsecure(),
+			grpc.WithBlock(),
+		)
+		if err != nil {
+			log.Fatalf("failed to connect to AuthService %w", err)
+		}
+
+		auth := lancrv1.NewAuthServiceClient(conn)
+
+		h := server.NewHeroServiceServer(db, auth)
 		a := server.NewApprenticeServiceServer(db)
 		q := server.NewQuestServiceServer(db)
 		t := server.NewTeamsServiceServer(db)

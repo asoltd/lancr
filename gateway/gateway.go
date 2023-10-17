@@ -8,8 +8,6 @@ import (
 	"net/http"
 	"strings"
 
-	firebase "firebase.google.com/go"
-	"firebase.google.com/go/auth"
 	"github.com/asoltd/lancr/gen"
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -18,10 +16,9 @@ import (
 
 type Gateway struct {
 	Handler            http.Handler
-	authclient         *auth.Client
 	gwmux              *runtime.ServeMux
-	client             lancrv1.HeroServiceClient
 	connectedToBackend bool
+	auth               lancrv1.AuthServiceClient
 }
 
 // LICENSE: MIT
@@ -41,17 +38,7 @@ func getOpenAPIHandler() (http.Handler, error) {
 }
 
 // verify that the gateway is running with the right service account
-func New(ctx context.Context) (*Gateway, error) {
-	app, err := firebase.NewApp(ctx, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	authclient, err := app.Auth(ctx)
-	if err != nil {
-		return nil, err
-	}
-
+func New(auth lancrv1.AuthServiceClient) (*Gateway, error) {
 	gwmux := runtime.NewServeMux(
 		runtime.WithIncomingHeaderMatcher(func(key string) (string, bool) {
 			switch key {
@@ -64,9 +51,9 @@ func New(ctx context.Context) (*Gateway, error) {
 	)
 
 	return &Gateway{
-		authclient:         authclient,
 		gwmux:              gwmux,
 		connectedToBackend: false,
+		auth:               auth,
 	}, nil
 }
 
@@ -103,11 +90,6 @@ func (gw *Gateway) ConnectToBackend(ctx context.Context, dialAddr string) error 
 	if err != nil {
 		return err
 	}
-
-	gw.client = lancrv1.NewHeroServiceClient(conn)
-	gw.connectedToBackend = true
-	// TODO add a client here? I am thinking of a better way to see if someone can
-	// do POST/PUT/DELETEs on their own data
 
 	return nil
 }
@@ -153,20 +135,7 @@ func (gw *Gateway) SetupHandler(ctx context.Context) error {
 			return
 		}
 
-		// this is important for separating the dependency of the gateway on the server
-		// in testing, in prod ConnectBackend is always called before SetupHandler
-		//
-		// in production this is not needed, because the gateway is always going to be
-		// connected to the backend
-		if gw.connectedToBackend {
-			gw.gwmux.ServeHTTP(w, r)
-		} else {
-			w.WriteHeader(http.StatusMovedPermanently)
-			_, err = w.Write([]byte("Backend is not connected"))
-			if err != nil {
-				log.Printf("Failed to write repsonse: %s", err.Error())
-			}
-		}
+		gw.gwmux.ServeHTTP(w, r)
 	})
 
 	return nil
