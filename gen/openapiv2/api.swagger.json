@@ -1339,8 +1339,8 @@
         },
         "createdAt": {
           "type": "string",
-          "format": "date-time",
-          "title": "TODO this has to be implemented at the backend level"
+          "format": "int64",
+          "title": "unix timestamp"
         },
         "summary": {
           "type": "string"
