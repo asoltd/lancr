@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"log"
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
@@ -46,6 +47,8 @@ func (a *AuthService) Authenticate(ctx context.Context, req *lancrv1.Authenticat
 	// user also has some other fields that might be useful
 	// log.Printf("user: %+v", user.UserMetadata)
 	// log.Printf("user: %+v", user.ProviderUserInfo)
+
+	log.Println("authenticated user:", token.UID)
 
 	return &lancrv1.AuthenticateResponse{
 		Token: &lancrv1.Token{

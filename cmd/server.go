@@ -14,6 +14,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/reflection"
+	"gorm.io/gorm"
 
 	lancrv1 "github.com/asoltd/lancr/gen/go/lancr/v1"
 )
@@ -29,6 +30,7 @@ var serverCmd = &cobra.Command{
 
 		grpcServerAddr := cmd.Flags().Lookup("grpc-server-addr").Value.String()
 		authServiceAddr := cmd.Flags().Lookup("auth-service-addr").Value.String()
+		local := cmd.Flags().Lookup("local").Value.String()
 
 		lis, err := net.Listen("tcp", grpcServerAddr)
 		if err != nil {
@@ -37,9 +39,17 @@ var serverCmd = &cobra.Command{
 
 		s := grpc.NewServer()
 
-		db, err := db.Connect()
-		if err != nil {
-			log.Fatalf("failed to connect to TiDB %w", err)
+		var gormDB *gorm.DB
+		if local == "true" {
+			gormDB, err = server.ConnectTestDB()
+			if err != nil {
+				log.Fatalf("failed to connect to local DB %w", err)
+			}
+		} else {
+			gormDB, err = db.Connect()
+			if err != nil {
+				log.Fatalf("failed to connect to TiDB %w", err)
+			}
 		}
 
 		conn, err := grpc.DialContext(
@@ -54,10 +64,10 @@ var serverCmd = &cobra.Command{
 
 		auth := lancrv1.NewAuthServiceClient(conn)
 
-		h := server.NewHeroServiceServer(db, auth)
-		a := server.NewApprenticeServiceServer(db)
-		q := server.NewQuestServiceServer(db)
-		t := server.NewTeamsServiceServer(db)
+		h := server.NewHeroServiceServer(gormDB, auth)
+		a := server.NewApprenticeServiceServer(gormDB)
+		q := server.NewQuestServiceServer(gormDB)
+		t := server.NewTeamsServiceServer(gormDB)
 
 		lancrv1.RegisterHeroServiceServer(s, h)
 		lancrv1.RegisterApprenticeServiceServer(s, a)
