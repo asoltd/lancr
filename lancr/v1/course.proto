@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package lancr.v1;
 
-import "google/protobuf/timestamp.proto";
 import "lancr/v1/common.proto";
 import "proto/options/gorm.proto";
 
@@ -20,7 +19,7 @@ message Course {
   string provider = 7;
   string creator_id = 8;
   int32 rating = 9;
-  google.protobuf.Timestamp created_at = 10;
+  int64 created_at = 10;
 
   // IDs of enrolled heroes
   repeated string enrolled_users = 11;

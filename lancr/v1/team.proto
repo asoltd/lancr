@@ -3,7 +3,6 @@ syntax = "proto3";
 package lancr.v1;
 
 import "google/api/field_behavior.proto";
-import "google/protobuf/timestamp.proto";
 import "lancr/v1/bid.proto";
 import "lancr/v1/common.proto";
 import "lancr/v1/hero.proto";
@@ -45,7 +44,7 @@ message Team {
   Bid bidders = 9;
   Hero members = 10;
   RoleCategory role_categories = 11;
-  google.protobuf.Timestamp created_at = 12;
+  int64 created_at = 12;
 }
 
 message Role {
@@ -53,7 +52,7 @@ message Role {
   string title = 2;
   string description = 3;
   string status = 4;
-  google.protobuf.Timestamp created_at = 5;
+  int64 created_at = 5;
   Image image = 6;
   string member_id = 7;
 }

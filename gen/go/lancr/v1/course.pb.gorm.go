@@ -6,14 +6,12 @@ import (
 	gorm1 "github.com/infobloxopen/atlas-app-toolkit/gorm"
 	errors "github.com/infobloxopen/protoc-gen-gorm/errors"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	gorm "gorm.io/gorm"
 	strings "strings"
-	time "time"
 )
 
 type CourseORM struct {
-	CreatedAt   *time.Time
+	CreatedAt   int64
 	CreatorId   string
 	Description *string
 	Id          string
@@ -48,10 +46,7 @@ func (m *Course) ToORM(ctx context.Context) (CourseORM, error) {
 	to.Provider = m.Provider
 	to.CreatorId = m.CreatorId
 	to.Rating = m.Rating
-	if m.CreatedAt != nil {
-		t := m.CreatedAt.AsTime()
-		to.CreatedAt = &t
-	}
+	to.CreatedAt = m.CreatedAt
 	// Repeated type string is not an ORMable message type
 	to.Url = m.Url
 	// Repeated type string is not an ORMable message type
@@ -79,9 +74,7 @@ func (m *CourseORM) ToPB(ctx context.Context) (Course, error) {
 	to.Provider = m.Provider
 	to.CreatorId = m.CreatorId
 	to.Rating = m.Rating
-	if m.CreatedAt != nil {
-		to.CreatedAt = timestamppb.New(*m.CreatedAt)
-	}
+	to.CreatedAt = m.CreatedAt
 	// Repeated type string is not an ORMable message type
 	to.Url = m.Url
 	// Repeated type string is not an ORMable message type
@@ -391,7 +384,6 @@ func DefaultApplyFieldMaskCourse(ctx context.Context, patchee *Course, patcher *
 	}
 	var err error
 	var updatedImage bool
-	var updatedCreatedAt bool
 	for i, f := range updateMask.Paths {
 		if f == prefix+"Id" {
 			patchee.Id = patcher.Id
@@ -448,26 +440,7 @@ func DefaultApplyFieldMaskCourse(ctx context.Context, patchee *Course, patcher *
 			patchee.Rating = patcher.Rating
 			continue
 		}
-		if !updatedCreatedAt && strings.HasPrefix(f, prefix+"CreatedAt.") {
-			if patcher.CreatedAt == nil {
-				patchee.CreatedAt = nil
-				continue
-			}
-			if patchee.CreatedAt == nil {
-				patchee.CreatedAt = &timestamppb.Timestamp{}
-			}
-			childMask := &field_mask.FieldMask{}
-			for j := i; j < len(updateMask.Paths); j++ {
-				if trimPath := strings.TrimPrefix(updateMask.Paths[j], prefix+"CreatedAt."); trimPath != updateMask.Paths[j] {
-					childMask.Paths = append(childMask.Paths, trimPath)
-				}
-			}
-			if err := gorm1.MergeWithMask(patcher.CreatedAt, patchee.CreatedAt, childMask); err != nil {
-				return nil, nil
-			}
-		}
 		if f == prefix+"CreatedAt" {
-			updatedCreatedAt = true
 			patchee.CreatedAt = patcher.CreatedAt
 			continue
 		}

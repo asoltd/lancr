@@ -26,8 +26,8 @@ message Rating {
   string customer_id = 2;
   string hero_id = 3;
   string comment = 5;
-  string created_at = 7;
-  string updated_at = 8;
+  int64 created_at = 7;
+  int64 updated_at = 8;
 
   // rating denominated as from 1 to 5
   int32 rating = 9;

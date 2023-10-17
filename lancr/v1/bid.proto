@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package lancr.v1;
 
-import "google/protobuf/timestamp.proto";
 import "lancr/v1/apprentice.proto";
 
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
@@ -10,8 +9,8 @@ option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 message Bid {
   string id = 1;
   string bidder_id = 2;
-  google.protobuf.Timestamp created_at = 3;
-  google.protobuf.Timestamp updated_at = 4;
+  int64 created_at = 3;
+  int64 updated_at = 4;
   float rate = 5;
   float amount = 6;
   string currency = 7;

@@ -862,11 +862,11 @@
         },
         "createdAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "int64"
         },
         "updatedAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "int64"
         },
         "rate": {
           "type": "number",
@@ -1370,10 +1370,12 @@
           "type": "string"
         },
         "createdAt": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "updatedAt": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "rating": {
           "type": "integer",
@@ -1470,7 +1472,7 @@
         },
         "createdAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "int64"
         }
       },
       "required": [
