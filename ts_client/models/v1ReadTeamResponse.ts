@@ -3,9 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type lancrv1Location = {
-    city?: string;
-    country?: string;
-    countryCode?: string;
+import type { v1Team } from './v1Team';
+
+export type v1ReadTeamResponse = {
+    result?: v1Team;
 };
 

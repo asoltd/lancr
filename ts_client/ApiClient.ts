@@ -9,6 +9,7 @@ import { FetchHttpRequest } from './core/FetchHttpRequest';
 import { ApprenticeServiceService } from './services/ApprenticeServiceService';
 import { HeroServiceService } from './services/HeroServiceService';
 import { QuestServiceService } from './services/QuestServiceService';
+import { TeamsServiceService } from './services/TeamsServiceService';
 
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 
@@ -17,6 +18,7 @@ export class ApiClient {
     public readonly apprenticeService: ApprenticeServiceService;
     public readonly heroService: HeroServiceService;
     public readonly questService: QuestServiceService;
+    public readonly teamsService: TeamsServiceService;
 
     public readonly request: BaseHttpRequest;
 
@@ -36,6 +38,7 @@ export class ApiClient {
         this.apprenticeService = new ApprenticeServiceService(this.request);
         this.heroService = new HeroServiceService(this.request);
         this.questService = new QuestServiceService(this.request);
+        this.teamsService = new TeamsServiceService(this.request);
     }
 }
 

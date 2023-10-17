@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package lancr.v1;
 
-import "google/api/field_behavior.proto";
-
 option go_package = "github.com/asoltd/lancr/gen/go/lancr/v1";
 
 message NotificationPreferences {

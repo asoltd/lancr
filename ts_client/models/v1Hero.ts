@@ -3,16 +3,16 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { HeroExperience } from './HeroExperience';
 import type { lancrv1Location } from './lancrv1Location';
-import type { v1Image } from './v1Image';
+import type { v1Experience } from './v1Experience';
+import type { v1Name } from './v1Name';
 
 export type v1Hero = {
     id: string;
     firebaseId?: string;
-    name?: string;
+    name?: v1Name;
     visibility?: string;
-    profilePicture?: v1Image;
+    profilePicture?: string;
     email?: string;
     phoneNumber?: string;
     location?: lancrv1Location;
@@ -23,7 +23,7 @@ export type v1Hero = {
     twitter?: string;
     linkedin?: string;
     website?: string;
-    experiences?: Array<HeroExperience>;
+    experience?: Array<v1Experience>;
     rating?: number;
     xp?: string;
     region?: string;

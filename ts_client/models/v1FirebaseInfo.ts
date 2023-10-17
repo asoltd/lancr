@@ -3,9 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type lancrv1Location = {
-    city?: string;
-    country?: string;
-    countryCode?: string;
+export type v1FirebaseInfo = {
+    signInProvider?: string;
+    tenant?: string;
 };
 

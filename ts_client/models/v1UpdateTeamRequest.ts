@@ -3,10 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type HeroExperience = {
-    position?: string;
-    company?: string;
-    startDate?: string;
-    endDate?: string;
+import type { v1Team } from './v1Team';
+
+export type v1UpdateTeamRequest = {
+    payload?: v1Team;
 };
 

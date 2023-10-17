@@ -3,9 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type lancrv1Location = {
-    city?: string;
-    country?: string;
-    countryCode?: string;
+import type { v1Token } from './v1Token';
+
+export type v1AuthenticateResponse = {
+    token?: v1Token;
 };
 

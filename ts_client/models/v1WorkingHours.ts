@@ -3,9 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { v1Hour } from './v1Hour';
+
 export type v1WorkingHours = {
-    start?: number;
-    end?: number;
+    start?: v1Hour;
+    end?: v1Hour;
     timezone?: string;
 };
 
