@@ -159,7 +159,7 @@ spec:
       nodeSelector:
         iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
-        - name: server
+        - name: auth
           image: gcr.io/asoltd-guilds/lancr:latest
           command: ["./lancr", "auth"]
           ports:
