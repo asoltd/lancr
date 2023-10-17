@@ -45,6 +45,8 @@ spec:
               "gateway",
               "--grpc-server-addr",
               "server-service.default.svc.cluster.local:4201",
+              "--auth-service-addr",
+              "auth-service.default.svc.cluster.local:42069"
             ]
           ports:
             - containerPort: 4200
@@ -101,7 +103,12 @@ spec:
           envFrom:
             - secretRef:
                 name: tidb-secret
-          command: ["./lancr", "server"]
+          command: [
+            "./lancr",
+            "server", 
+            "--auth-service-addr",
+            "auth-service.default.svc.cluster.local:42069",
+          ]
           ports:
             - containerPort: 4201
           resources:
@@ -111,3 +118,56 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
+
+---
+# Auth Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: default
+  labels:
+    app.kubernetes.io/name: auth-service
+spec:
+  selector:
+    app.kubernetes.io/name: auth
+  ports:
+    - protocol: TCP
+      port: 42069
+      targetPort: 42069
+
+---
+# Auth Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: default
+  labels:
+    app.kubernetes.io/name: auth
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: auth
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: auth
+    spec:
+      serviceAccountName: heroes-sa
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
+      containers:
+        - name: server
+          image: gcr.io/asoltd-guilds/lancr:latest
+          command: ["./lancr", "auth"]
+          ports:
+            - containerPort: 4201
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
