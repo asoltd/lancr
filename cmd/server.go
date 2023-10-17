@@ -8,6 +8,7 @@ import (
 	"net"
 	"os"
 
+	"github.com/asoltd/lancr/db"
 	"github.com/asoltd/lancr/server"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -36,7 +37,7 @@ var serverCmd = &cobra.Command{
 
 		s := grpc.NewServer()
 
-		db, err := server.ConnectTestDB()
+		db, err := db.Connect()
 		if err != nil {
 			log.Fatalf("failed to connect to TiDB %w", err)
 		}
