@@ -6,6 +6,7 @@ import (
 	"log"
 	"mime"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/asoltd/lancr/gen"
@@ -97,12 +98,13 @@ func (gw *Gateway) ConnectToBackend(ctx context.Context, dialAddr string) error 
 // SetupHandler sets up the gateway handler, in prod always requires calling ConnectToBackend prior
 // Otherwise, all of the calls to the backend server will fail
 func (gw *Gateway) SetupHandler(ctx context.Context) error {
+	// nginx rewrites the request so gateway doesn't work :(
 	oa, err := getOpenAPIHandler()
 	if err != nil {
 		return err
 	}
 	gw.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if !strings.HasPrefix(r.URL.Path, "/v1") {
+		if !strings.HasPrefix(r.URL.Path, "/v1") && os.Getenv("RUN_OPENAPI") == "true" {
 			oa.ServeHTTP(w, r)
 			return
 		}

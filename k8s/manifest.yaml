@@ -50,6 +50,9 @@ spec:
             ]
           ports:
             - containerPort: 4200
+          env:
+            - name: RUN_OPENAPI
+              value: "true"
           resources:
             requests:
               memory: "512Mi"
