@@ -30,6 +30,14 @@ spec:
                 port:
                   number: 4200
 
+          - path: /v1/search
+            pathType: Exact
+            backend:
+              service:
+                name: typesense-service
+                port:
+                  number: 8108
+
 ---
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
@@ -40,8 +48,6 @@ spec:
     - lancr.co.uk
     - www.lancr.co.uk
     - api.lancr.co.uk
-  
-
 ---
 apiVersion: networking.gke.io/v1beta1
 kind: FrontendConfig

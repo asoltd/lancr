@@ -1,0 +1,64 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: typesense-service
+  namespace: default
+  labels:
+    app.kubernetes.io/name: typesense-service
+spec:
+  selector:
+    app.kubernetes.io/name: typesense
+  ports:
+    - protocol: TCP
+      port: 8108
+      targetPort: 8108
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: typesense
+  namespace: default
+  labels:
+    app.kubernetes.io: typesense
+spec:
+  serviceName: typesense-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: typesense
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: typesense
+    spec:
+      containers:
+        - name: typesense
+          image: typesense/typesense:0.25.1
+          ports:
+            - containerPort: 8108
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+          volumeMounts:
+          - name: typesense-data
+            mountPath: /data
+          env:
+            - name: TYPESENSE_API_KEY
+              value: xyz
+            - name: TYPESENSE_DATA_DIR
+              value: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: typesense-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: standard
+        resources:
+          requests:
+            # this might need to be increased later
+            storage: 4Gi
