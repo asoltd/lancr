@@ -50,6 +50,10 @@ spec:
             ]
           ports:
             - containerPort: 4200
+          env:
+            # set this to false for local deployments
+            - name: RUN_OPENAPI
+              value: "false"
           resources:
             requests:
               memory: "256Mi"
@@ -155,9 +159,12 @@ spec:
       labels:
         app.kubernetes.io/name: auth
     spec:
-      serviceAccountName: heroes-sa
-      nodeSelector:
-        iam.gke.io/gke-metadata-server-enabled: "true"
+      # below is required at GKE to use the service account
+      # for minikube the service key can be mounted for all of the services
+      # (debug mode)
+      # serviceAccountName: heroes-sa
+      # nodeSelector:
+      #   iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
         - name: auth
           image: piotrostr/lancr:latest

@@ -8,13 +8,22 @@ spec:
   rules:
     - http:
         paths:
-          - path: /*
+          - path: /interface
+            pathType: Exact
+            backend:
+              service:
+                name: interface-service
+                port:
+                  number: 3000
+
+          - path: /v1/*
             pathType: ImplementationSpecific
             backend:
               service:
                 name: gateway-service
                 port:
                   number: 4200
+
           - path: /v1/search
             pathType: Exact
             backend:
@@ -22,3 +31,4 @@ spec:
                 name: typesense-service
                 port:
                   number: 8108
+ 
