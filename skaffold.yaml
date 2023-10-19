@@ -18,3 +18,18 @@ manifests:
 deploy:
   kubectl:
     defaultNamespace: default
+profiles:
+  - name: dev
+    build:
+      artifacts:
+        - image: piotrostr/asoltd-guilds/lancr
+      local:
+        useDockerCLI: true
+        useBuildkit: true
+    manifests:
+      rawYaml:
+        - k8s/local_manifest.yaml
+        - k8s/local_ingress.yaml
+        - k8s/typesense.yaml
+        - k8s/secrets.yaml
+
