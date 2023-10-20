@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: local-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
     - http:
@@ -16,7 +16,7 @@ spec:
                 port:
                   number: 3000
 
-          - path: /v1/*
+          - path: /*
             pathType: ImplementationSpecific
             backend:
               service:
@@ -24,8 +24,8 @@ spec:
                 port:
                   number: 4200
 
-          - path: /v1/search
-            pathType: Exact
+          - path: /v1/search/*
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: typesense-service
