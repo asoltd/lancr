@@ -51,9 +51,8 @@ spec:
           ports:
             - containerPort: 4200
           env:
-            # set this to false for local deployments
             - name: RUN_OPENAPI
-              value: "false"
+              value: "true"
           resources:
             requests:
               memory: "256Mi"

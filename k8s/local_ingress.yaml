@@ -24,7 +24,9 @@ spec:
                 port:
                   number: 4200
 
-          - path: /v1/search/*
+          # route any of /{collections, search} to typesense service
+          # the path allows to use regex
+          - path: /(collections|search)(.*)/*
             pathType: ImplementationSpecific
             backend:
               service:
