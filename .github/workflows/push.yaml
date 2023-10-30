@@ -1,10 +1,11 @@
 name: Push
 
-on:
-  workflow_run:
-    workflows: ["Test"]
-    types:
-      - completed
+# prevent the workload from deploying, we are not using GKE anymore
+# on:
+#   workflow_run:
+#     workflows: ["Test"]
+#     types:
+#       - completed
 
 jobs:
   push:
