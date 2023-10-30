@@ -1,0 +1,35 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+metadata:
+  name: lancr
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: gcr.io/asoltd-guilds/lancr
+  googleCloudBuild:
+    dockerImage: gcr.io/cloud-builders/docker
+    projectId: asoltd-guilds
+manifests:
+  rawYaml:
+    - k8s/manifest.yaml
+    - k8s/ingress.yaml
+    - k8s/sa.yaml
+deploy:
+  kubectl:
+    defaultNamespace: default
+profiles:
+  - name: dev
+    build:
+      artifacts:
+        - image: piotrostr/asoltd-guilds/lancr
+      local:
+        useDockerCLI: true
+        useBuildkit: true
+    manifests:
+      rawYaml:
+        - k8s/local_manifest.yaml
+        - k8s/local_ingress.yaml
+        - k8s/typesense.yaml
+        - k8s/secrets.yaml
+

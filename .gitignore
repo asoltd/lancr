@@ -1,5 +1,6 @@
 .cache
 *-service-account.json
+*-sa.json
 /coverage
 /build
 .DS_Store

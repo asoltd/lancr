@@ -1,0 +1,66 @@
+# Auth Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: default
+  labels:
+    app.kubernetes.io/name: auth-service
+spec:
+  selector:
+    app.kubernetes.io/name: auth
+  ports:
+    - protocol: TCP
+      port: 42069
+      targetPort: 42069
+
+---
+# Auth Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: default
+  labels:
+    app.kubernetes.io/name: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: auth
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: auth
+    spec:
+      # below is required at GKE to use the service account
+      # for minikube the service key can be mounted for all of the services
+      # (debug mode)
+      # serviceAccountName: heroes-sa
+      # nodeSelector:
+      #   iam.gke.io/gke-metadata-server-enabled: "true"
+      containers:
+        - name: auth
+          image: piotrostr/lancr:latest
+          command: ["./lancr", "auth"]
+          env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            # the name of the file comes from the kubectl secret create command
+            # it is auth-service-sa.json in this case
+            value: /var/run/secret/cloud.google.com/auth-service-sa.json
+          volumeMounts:
+            - name: service-account
+              mountPath: /var/run/secret/cloud.google.com
+          ports:
+            - containerPort: 4201
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+      volumes:
+        - name: service-account
+          secret: 
+            secretName: auth-service-sa

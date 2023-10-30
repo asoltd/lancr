@@ -1,27 +1,21 @@
-# Google Cloud Load Balancer ingress
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
-  namespace: default
-  labels:
-    app.kubernetes.io/name: ingress
   annotations:
-    kubernetes.io/ingress.class: "gce"
-    # below global-static-ip-name is claimed from ./hack/claim-ip-address.sh 
-    # see https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs
-    kubernetes.io/ingress.global-static-ip-name: lancr-lb-ip
-
-    # use a mangaged certificate
-    networking.gke.io/managed-certificates: managed-lancr-cert
-
-    # always redirect http to https 
-    networking.gke.io/v1beta1.FrontendConfig: http-to-https
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
-    - host: api.lancr.co.uk
-      http:
+    - http:
         paths:
+          - path: /website
+            pathType: Exact
+            backend:
+              service:
+                name: website-service
+                port:
+                  number: 3000
+
           - path: /*
             pathType: ImplementationSpecific
             backend:
@@ -30,30 +24,13 @@ spec:
                 port:
                   number: 4200
 
-          - path: /v1/search
-            pathType: Exact
+          # route any of /{collections, search} to typesense service
+          # the path allows to use regex
+          - path: /(collections|search)(.*)/*
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: typesense-service
                 port:
                   number: 8108
-
----
-apiVersion: networking.gke.io/v1
-kind: ManagedCertificate
-metadata:
-  name: managed-lancr-cert
-spec:
-  domains:
-    - lancr.co.uk
-    - www.lancr.co.uk
-    - api.lancr.co.uk
----
-apiVersion: networking.gke.io/v1beta1
-kind: FrontendConfig
-metadata:
-  name: http-to-https
-spec:
-  redirectToHttps:
-    enabled: true
-    responseCodeName: MOVED_PERMANENTLY_DEFAULT
+ 

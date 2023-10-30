@@ -62,3 +62,19 @@ spec:
           requests:
             # this might need to be increased later
             storage: 4Gi
+---
+# volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: typesense-data
+spec:
+  capacity:
+    storage: 16Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: standard
+  hostPath:
+    path: /tmp/typesense-data
